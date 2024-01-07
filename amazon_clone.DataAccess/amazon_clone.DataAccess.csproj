@@ -23,6 +23,7 @@
 	  </PackageReference>
     <ProjectReference Include="..\amazon_clone.Models\amazon_clone.Models.csproj" />
     <ProjectReference Include="..\amazon_clone.Shared_Packages\amazon_clone.Shared_Packages.csproj" />
+    <ProjectReference Include="..\amazon_clone.Utility\amazon_clone.Utility.csproj" />
   </ItemGroup>
 
 </Project>

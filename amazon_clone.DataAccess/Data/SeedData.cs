@@ -78,7 +78,7 @@ namespace amazon_clone.DataAccess.Data
                     Price=64.0m,
                     Quantity=10,
                     ImageUrl=@"C:\Users\ADNAN MUHAISEN\Pictures\e1.jpg",
-                    CategoryID=4
+                    CategoryID=1
                 },
                 new CustomerProduct()
                 {
@@ -87,7 +87,7 @@ namespace amazon_clone.DataAccess.Data
                     Price=999.9m,
                     Quantity=7,
                     ImageUrl=@"C:\Users\ADNAN MUHAISEN\Pictures\e2.jpg",
-                    CategoryID=4
+                    CategoryID=1
                 },
                 new CustomerProduct()
                 {
@@ -96,7 +96,7 @@ namespace amazon_clone.DataAccess.Data
                     Price=695.0m,
                     Quantity=3,
                     ImageUrl=@"C:\Users\ADNAN MUHAISEN\Pictures\j1.jpg",
-                    CategoryID=5
+                    CategoryID=2
                 },
                 new CustomerProduct()
                 {
@@ -105,7 +105,7 @@ namespace amazon_clone.DataAccess.Data
                     Price=9.99m,
                     Quantity=5,
                     ImageUrl=@"C:\Users\ADNAN MUHAISEN\Pictures\j2.jpg",
-                    CategoryID=5
+                    CategoryID=2
                 }
             };
 
@@ -119,8 +119,8 @@ namespace amazon_clone.DataAccess.Data
                     Price=22.3m,
                     Quantity=100,
                     ImageUrl=@"C:\Users\ADNAN MUHAISEN\Pictures\cm1.jpg",
-                    CategoryID=6,
-                    TargetGenderID=7,
+                    CategoryID=3,
+                    TargetGenderID=1,
                 },
                 new ClothesProduct()
                 {
@@ -129,8 +129,8 @@ namespace amazon_clone.DataAccess.Data
                     Price=55.9m,
                     Quantity=100,
                     ImageUrl=@"C:\Users\ADNAN MUHAISEN\Pictures\cm2.jpg",
-                    CategoryID=6,
-                    TargetGenderID=7
+                    CategoryID=3,
+                    TargetGenderID=1
                 },
                 new ClothesProduct()
                 {
@@ -139,8 +139,8 @@ namespace amazon_clone.DataAccess.Data
                     Price=56.9m,
                     Quantity=34,
                     ImageUrl=@"C:\Users\ADNAN MUHAISEN\Pictures\cw1.jpg",
-                    CategoryID=7,
-                    TargetGenderID=8
+                    CategoryID=4,
+                    TargetGenderID=2
                 },
                 new ClothesProduct()
                 {
@@ -149,11 +149,48 @@ namespace amazon_clone.DataAccess.Data
                     Price=39.99m,
                     Quantity=34,
                     ImageUrl=@"C:\Users\ADNAN MUHAISEN\Pictures\cw2.jpg",
-                    CategoryID=7,
-                    TargetGenderID=8
+                    CategoryID=4,
+                    TargetGenderID=2
                 }
             };
 
+        public static List<OrderStatus> LoadOrderStatuses() =>
+            new List<OrderStatus>()
+            {
+                //processing, shipped, delivered
+                new OrderStatus()
+                {
+                    Status="PROCESSING"
+                },
+                new OrderStatus()
+                {
+                    Status="SHIPPED"
+                },
+                new OrderStatus()
+                {
+                    Status="DELIVERED"
+                }
+            };
 
+        public static List<PromoCode> LoadPromoCodes() =>
+            new List<PromoCode>()
+            {
+                new PromoCode()
+                {
+                    Code="SHUBHO20",
+                    ForQuantity=2,
+                },
+                new PromoCode()
+                {
+                    Code="SHUBHO30",
+                    ForQuantity=3,
+                },
+                new PromoCode()
+                {
+                    // This promo code is for the quantity of the number 4 and more than 4
+                    Code="SHUBHO40",
+                    ForQuantity=4,
+                }
+            };
     }
 }

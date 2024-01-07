@@ -6,12 +6,6 @@ namespace CA_AddSeedData
     {
         static void Main(string[] args)
         {
-            using (var context = new AppDbContext())
-            {
-
-            }
-
-
 
 
             Console.ReadKey();

@@ -1,5 +1,7 @@
-﻿using amazon_clone.Models.Models;
+﻿using amazon_clone.DataAccess.Interceptors;
+using amazon_clone.Models.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 
 namespace amazon_clone.DataAccess.Data
@@ -14,7 +16,12 @@ namespace amazon_clone.DataAccess.Data
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<WishList> WishLists { get; set; }
         public DbSet<WishListProduct> WishListsProducts { get; set; }
-
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
+        public DbSet<PromoCode> PromoCodes { get; set; }
+        public DbSet<ShippingDetail> ShippingDetails { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<ShoppingCartProduct> ShoppingCartsProducts { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -29,7 +36,11 @@ namespace amazon_clone.DataAccess.Data
 
             var ConnectionString = content.GetSection("ConnectionString").Value;
             optionsBuilder
-                .UseSqlServer(ConnectionString);
+                .UseSqlServer(ConnectionString)
+                .AddInterceptors(new List<SaveChangesInterceptor>
+                {
+                    new SoftDeleteInterceptor()
+                });
 
             #endregion
         }

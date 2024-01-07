@@ -1,6 +1,6 @@
 ﻿namespace amazon_clone.Models.Models
 {
-    internal interface ISoftDeletable
+    public interface ISoftDeletable
     {
         public bool IsDeleted { get; set; }
         public DateOnly? DeleteDate { get; set; }

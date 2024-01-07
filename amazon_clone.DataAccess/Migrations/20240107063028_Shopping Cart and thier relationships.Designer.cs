@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using amazon_clone.DataAccess.Data;
 
@@ -11,9 +12,11 @@ using amazon_clone.DataAccess.Data;
 namespace amazon_clone.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240107063028_Shopping Cart and thier relationships")]
+    partial class ShoppingCartandthierrelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,53 +53,6 @@ namespace amazon_clone.DataAccess.Migrations
                     b.HasIndex("ClothesSizeID");
 
                     b.ToTable("ClothesSizes");
-                });
-
-            modelBuilder.Entity("amazon_clone.Models.Models.Order", b =>
-                {
-                    b.Property<int>("OrderID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
-
-                    b.Property<DateTime>("OrderDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("OrderStatusStatusID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShippingDetailsID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StatusID")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderID");
-
-                    b.HasIndex("OrderStatusStatusID");
-
-                    b.HasIndex("ShippingDetailsID")
-                        .IsUnique();
-
-                    b.ToTable("tbl_Orders", (string)null);
-                });
-
-            modelBuilder.Entity("amazon_clone.Models.Models.OrderStatus", b =>
-                {
-                    b.Property<int>("StatusID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusID"));
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("StatusID");
-
-                    b.ToTable("tbl_OrderStatuses", (string)null);
                 });
 
             modelBuilder.Entity("amazon_clone.Models.Models.PersonGender", b =>
@@ -197,44 +153,6 @@ namespace amazon_clone.DataAccess.Migrations
                     b.HasKey("CodeID");
 
                     b.ToTable("tbl_PromoCodes", (string)null);
-                });
-
-            modelBuilder.Entity("amazon_clone.Models.Models.ShippingDetails", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<string>("ContactNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("EmailAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HomeAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("PinCode")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("tbl_ShippingDetails", (string)null);
                 });
 
             modelBuilder.Entity("amazon_clone.Models.Models.ShoppingCart", b =>
@@ -384,72 +302,6 @@ namespace amazon_clone.DataAccess.Migrations
                     b.Navigation("ClothesSize");
                 });
 
-            modelBuilder.Entity("amazon_clone.Models.Models.Order", b =>
-                {
-                    b.HasOne("amazon_clone.Models.Models.OrderStatus", "OrderStatus")
-                        .WithMany("Orders")
-                        .HasForeignKey("OrderStatusStatusID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("amazon_clone.Models.Models.ShippingDetails", "ShippingDetails")
-                        .WithOne("Order")
-                        .HasForeignKey("amazon_clone.Models.Models.Order", "ShippingDetailsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.OwnsOne("amazon_clone.Models.Models.CreationDetails", "CreationDetails", b1 =>
-                        {
-                            b1.Property<int>("OrderID")
-                                .HasColumnType("int");
-
-                            b1.Property<DateTime>("CreatedAt")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<DateTime>("UpdatedAt")
-                                .HasColumnType("datetime2");
-
-                            b1.HasKey("OrderID");
-
-                            b1.ToTable("tbl_Orders");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OrderID");
-                        });
-
-                    b.Navigation("CreationDetails")
-                        .IsRequired();
-
-                    b.Navigation("OrderStatus");
-
-                    b.Navigation("ShippingDetails");
-                });
-
-            modelBuilder.Entity("amazon_clone.Models.Models.OrderStatus", b =>
-                {
-                    b.OwnsOne("amazon_clone.Models.Models.CreationDetails", "CreationDetails", b1 =>
-                        {
-                            b1.Property<int>("OrderStatusStatusID")
-                                .HasColumnType("int");
-
-                            b1.Property<DateTime>("CreatedAt")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<DateTime>("UpdatedAt")
-                                .HasColumnType("datetime2");
-
-                            b1.HasKey("OrderStatusStatusID");
-
-                            b1.ToTable("tbl_OrderStatuses");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OrderStatusStatusID");
-                        });
-
-                    b.Navigation("CreationDetails")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("amazon_clone.Models.Models.Product", b =>
                 {
                     b.HasOne("amazon_clone.Models.Models.ProductCategory", "Category")
@@ -506,85 +358,13 @@ namespace amazon_clone.DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("amazon_clone.Models.Models.PromoCode", b =>
-                {
-                    b.OwnsOne("amazon_clone.Models.Models.CreationDetails", "CreationDetails", b1 =>
-                        {
-                            b1.Property<int>("PromoCodeCodeID")
-                                .HasColumnType("int");
-
-                            b1.Property<DateTime>("CreatedAt")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<DateTime>("UpdatedAt")
-                                .HasColumnType("datetime2");
-
-                            b1.HasKey("PromoCodeCodeID");
-
-                            b1.ToTable("tbl_PromoCodes");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PromoCodeCodeID");
-                        });
-
-                    b.Navigation("CreationDetails")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("amazon_clone.Models.Models.ShippingDetails", b =>
-                {
-                    b.OwnsOne("amazon_clone.Models.Models.CreationDetails", "CreationDetails", b1 =>
-                        {
-                            b1.Property<int>("ShippingDetailsID")
-                                .HasColumnType("int");
-
-                            b1.Property<DateTime>("CreatedAt")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<DateTime>("UpdatedAt")
-                                .HasColumnType("datetime2");
-
-                            b1.HasKey("ShippingDetailsID");
-
-                            b1.ToTable("tbl_ShippingDetails");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ShippingDetailsID");
-                        });
-
-                    b.Navigation("CreationDetails")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("amazon_clone.Models.Models.ShoppingCart", b =>
                 {
                     b.HasOne("amazon_clone.Models.Models.PromoCode", "CartPromoCode")
                         .WithMany("ShoppingCarts")
                         .HasForeignKey("PromoCodeID");
 
-                    b.OwnsOne("amazon_clone.Models.Models.CreationDetails", "CreationDetails", b1 =>
-                        {
-                            b1.Property<int>("ShoppingCartID")
-                                .HasColumnType("int");
-
-                            b1.Property<DateTime>("CreatedAt")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<DateTime>("UpdatedAt")
-                                .HasColumnType("datetime2");
-
-                            b1.HasKey("ShoppingCartID");
-
-                            b1.ToTable("tbl_ShoppingCarts");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ShoppingCartID");
-                        });
-
                     b.Navigation("CartPromoCode");
-
-                    b.Navigation("CreationDetails")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("amazon_clone.Models.Models.ShoppingCartProduct", b =>
@@ -679,11 +459,6 @@ namespace amazon_clone.DataAccess.Migrations
                     b.Navigation("ClothesSizes");
                 });
 
-            modelBuilder.Entity("amazon_clone.Models.Models.OrderStatus", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
             modelBuilder.Entity("amazon_clone.Models.Models.PersonGender", b =>
                 {
                     b.Navigation("ClothesProducts");
@@ -697,12 +472,6 @@ namespace amazon_clone.DataAccess.Migrations
             modelBuilder.Entity("amazon_clone.Models.Models.PromoCode", b =>
                 {
                     b.Navigation("ShoppingCarts");
-                });
-
-            modelBuilder.Entity("amazon_clone.Models.Models.ShippingDetails", b =>
-                {
-                    b.Navigation("Order")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("amazon_clone.Models.Models.ShoppingCart", b =>
