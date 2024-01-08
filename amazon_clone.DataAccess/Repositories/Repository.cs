@@ -51,19 +51,6 @@ namespace amazon_clone.DataAccess.Repositories
             return _dbSet;
         }
 
-        public IEnumerable<T> GetAllAsNoTracking(string IncludeProperties = null!)
-        {
-            IQueryable<T> _dbSet = dbSet;
-            if (IncludeProperties is not null)
-            {
-                foreach (var type in IncludeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
-                {
-                    _dbSet.Include(type);
-                }
-            }
-            return _dbSet.AsNoTracking();
-        }
-
         public T? GetAsNoTracking(Expression<Func<T, bool>> filter, string IncludeProperties = null!)
         {
             IQueryable<T> _dbSet = dbSet;

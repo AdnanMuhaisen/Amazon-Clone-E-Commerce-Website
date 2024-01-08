@@ -2,6 +2,6 @@
 {
     public class Administrator : Person
     {
-        public int AdministratorID { get; set; }
+        //public int AdministratorID { get; set; }
     }
 }

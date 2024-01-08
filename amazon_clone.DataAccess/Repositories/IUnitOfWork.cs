@@ -16,6 +16,8 @@
         public IShippingDetailRepository ShippingDetailRepository { get; set; }
         public IShoppingCartRepository ShoppingCartRepository { get; set; }
         public IShoppingCartProductRepository ShoppingCartProductRepository { get; set; }
+        public IDbSettingsRepository DbSettingsRepository { get; set; }
+
 
         void Save();
     }

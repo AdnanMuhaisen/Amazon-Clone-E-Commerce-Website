@@ -1,7 +1,10 @@
-﻿namespace amazon_clone.Models.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+
+namespace amazon_clone.Models.Models
 {
     public class Customer : Person
     {
-        public int CustomerID { get; set; }
+        public int? CustomerID { get; set; }
     }
 }

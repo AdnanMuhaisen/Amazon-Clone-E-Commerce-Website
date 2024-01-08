@@ -1,13 +1,18 @@
 ﻿using amazon_clone.DataAccess.Interceptors;
 using amazon_clone.Models.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 
 namespace amazon_clone.DataAccess.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext
     {
+        public AppDbContext() { }
+        
+        public AppDbContext(DbContextOptions options):base(options) { }
+        
         public DbSet<Product> Products { get; set; }
         public DbSet<CustomerProduct> CustomerProducts { get; set; }
         public DbSet<ClothesProduct> ClothesProducts { get; set; }
@@ -22,6 +27,9 @@ namespace amazon_clone.DataAccess.Data
         public DbSet<ShippingDetail> ShippingDetails { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<ShoppingCartProduct> ShoppingCartsProducts { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Administrator> Administrators { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -31,7 +39,7 @@ namespace amazon_clone.DataAccess.Data
             // this should be removed
             #region ForMigrations
             var content = new ConfigurationBuilder()
-                .AddJsonFile(@"Data\appsettings.json")
+                .AddJsonFile(@"Data\dataaccess_appsettings.json")
                 .Build();
 
             var ConnectionString = content.GetSection("ConnectionString").Value;

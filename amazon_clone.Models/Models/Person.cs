@@ -1,16 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace amazon_clone.Models.Models
 {
-    public abstract class Person
-    {
-        public int PersonID { get; set; }
-        public string FirstName { get; set; } = null!;
-        public string LastName { get; set; } = null!;
-        [EmailAddress]
-        public string Email { get; set; } = null!;
-
+    public abstract class Person : IdentityUser
+    { 
         public CreationDetails CreationDetails { get; set; } = new CreationDetails();
     }
 }

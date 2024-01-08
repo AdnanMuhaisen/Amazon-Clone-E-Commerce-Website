@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\amazon_clone.DataAccess\amazon_clone.DataAccess.csproj" />
     <ProjectReference Include="..\amazon_clone.Models\amazon_clone.Models.csproj" />
     <ProjectReference Include="..\amazon_clone.Shared_Packages\amazon_clone.Shared_Packages.csproj" />
