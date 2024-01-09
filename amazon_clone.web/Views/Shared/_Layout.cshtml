@@ -7,28 +7,50 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/amazon_clone.web.styles.css" asp-append-version="true" />
+    <!--bootstrap icons-->
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">amazon_clone.web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
+            <div class="m-3">
+                <a asp-controller="Home" asp-action="Index">
+                <img id='logo' class="navbar-brand" src="http://www.userlogos.org/files/logos/ArkAngel06/Amazon.png" style="height:70px;width:100px;" />
+                </a>
             </div>
+            <div class="container-fluid">
+                <form method="post">
+                    <div class="input-group mb-2 w-100">
+                        <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2" style="background-color:darkorange">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="container-fluid" style="width:170px">
+                <a asp-controller="" asp-action="">
+                    <i class="bi bi-heart text-white"></i>
+                </a>
+                <a asp-controller="" asp-action="">
+                    <i class="bi bi-cart text-white"></i>
+                </a>
+                <a asp-controller="" asp-action="">
+                    <i class="bi bi-bag text-white"></i>
+                </a>
+            </div>
+            <partial name="_LoginPartial" />
         </nav>
+        <style>
+            nav {
+                height: 80px;
+                background-color: #1c2228;
+            }
+            body{
+                background-color: #f6f5f5;
+            }
+        </style>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -37,8 +59,9 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - amazon_clone.web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container text-center">
+            <img src="~/images/UI/icons8-amazon-50.png" style="height:30px;width:60px;" />
+            &copy; 2024 | Developed By Adnan Muhaisen
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

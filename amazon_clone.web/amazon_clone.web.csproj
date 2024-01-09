@@ -26,4 +26,8 @@
     <ProjectReference Include="..\amazon_clone.Utility\amazon_clone.Utility.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\UI\" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_LayoutEmpty";
+}
+
+<div class="row">
+    <div class="col">
+        <img src="~/images/UI/welcome_image.png" class="align-conten"/>
+    </div>
+    <div class="col">
+        <a class="btn btn-primary w-75"style="margin-bottom:10px;" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        <a class="btn btn-primary w-75" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </div>       
+</div>

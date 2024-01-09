@@ -1,11 +1,84 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<section class="section-image">
+    <div class="w-auto p-3">
+        <div class="" style="display:inline-block">
+            <h2 class="mb-4">Free Delivery!</h2>
+            <p class="section-image-paragraph">Don't miss it out! Only today, get free <span><b>Next Day</b></span> delivery<br /> on all your orders.</p>
+            <input type="button" href="#Hot_Deals_Section"class="btn" value="Browse Products" style="background-color:white;color:darkorange;border-radius:10px;" />
+        </div>
+        <img class="rounded float-end" src="~/images/UI/—Pngtree—super fast delivery man fly_5370144.png" style="width:200px;height:150px;margin-left:200px; margin-left:50px;"/>
+    </div>
+</section>
 
+<section class="popular-categories">
+    <p class="text-center fs-4 mt-5">
+        <b>Popular Categories</b> <i class="bi bi-stars"></i>
+    </p>
+    <div class="container text-center">
+        <div class="col">
+            <a asp-controller="" asp-action="">
+                <img src="~/images/UI/laptop.png"/>
+            </a>
+        </div>
+        <div class="col">
+            <a asp-controller="" asp-action="">
+                <img src="~/images/UI/jewelry-50.png"/>
+            </a>
+        </div>
+        <div class="col">
+            <a asp-controller="" asp-action="">
+                <img src="~/images/UI/man t-shirt.png"/>
+            </a>
+        </div>
+        <div class="col">
+            <a asp-controller="" asp-action="">
+                <img src="~/images/UI/woman-clothes image.png"/>
+            </a>
+        </div>
+        
+    </div>
+</section>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <a asp-area="Identity" asp-page="/Account/Register">Register</a>
-    <a asp-area="Identity" asp-page="/Account/Login">Login</a>
-</div>
+<section class="hot-deals" id="Hot_Deals_Section">
+    <p class="text-center mt-5">
+        <b>Hot Deals</b> <img src="~/images/UI/fire (1).png" style="height:20px; width:20px;"/>
+     </p>
+     <section class="hor-deal-products">
+
+     </section>
+
+</section>
+
+<style>
+
+    .section-image{
+        display:block;
+        width:100%;
+        height:200px;
+        background-color:darkorange;
+        color:azure;
+        border-radius:10px;
+        font-size:medium;
+        margin-top:40px;
+    }
+
+    .popular-categories div{
+        height:90px;
+        width:fit-content;
+        text-align:center;
+        align-content:center;
+    }
+
+    .popular-categories div div{
+        height:50px;
+        display:inline-block;
+        margin:5px;
+    }
+
+    .popular-categories div div img{
+        height:90px;
+        width:100px;
+        border: 1px solid #E0E0E0;
+        padding:5px;
+        border-radius:10px;
+    }
+</style>

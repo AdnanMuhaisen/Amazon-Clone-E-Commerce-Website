@@ -50,7 +50,7 @@ app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=LoginAndRegister}/{action=Index}/{id?}");
 
 //customer1@gmail.com
 //asdfA1!
