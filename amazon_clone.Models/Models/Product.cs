@@ -1,7 +1,7 @@
 ﻿
 namespace amazon_clone.Models.Models
 {
-    public abstract class Product : ISoftDeletable
+    public class Product : ISoftDeletable
     {
         public int ProductID { get; set; }
         public string Name { get; set; } = null!;
@@ -18,6 +18,32 @@ namespace amazon_clone.Models.Models
         public int CategoryID { get; set; }
         public ProductCategory Category { get; set; } = null!;
 
+        public override bool Equals(object? obj)
+        {
+            ArgumentNullException.ThrowIfNull(nameof(obj));
+            if (obj is not Product) return false;
+            if (ReferenceEquals(this, obj)) return true;
 
+            var targetProduct = obj as Product;
+            return this.ProductID   == targetProduct!.ProductID
+                && this.Name        == targetProduct.Name
+                && this.Description == targetProduct.Description
+                && this.Price       == targetProduct.Price
+                && this.Quantity    == targetProduct.Quantity
+                && this.ImageUrl    == targetProduct.ImageUrl;
+        }
+
+        public override int GetHashCode()
+        {
+            var hash = 7;
+            //hash*=7+
+            hash *= 23 + this.ProductID.GetHashCode();
+            hash *= 23 + this.Name.GetHashCode();
+            hash *= 23 + this.Description.GetHashCode();
+            hash *= 23 + this.Price.GetHashCode();
+            hash *= 23 + this.Quantity.GetHashCode();
+            hash *= 23 + this.ImageUrl!.GetHashCode();
+            return hash;
+        }
     }
 }

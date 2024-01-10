@@ -1,9 +1,14 @@
-﻿<section class="section-image">
+﻿@model HomeViewModel
+
+
+<section class="section-image">
     <div class="w-auto p-3">
         <div class="" style="display:inline-block">
             <h2 class="mb-4">Free Delivery!</h2>
             <p class="section-image-paragraph">Don't miss it out! Only today, get free <span><b>Next Day</b></span> delivery<br /> on all your orders.</p>
-            <input type="button" href="#Hot_Deals_Section"class="btn" value="Browse Products" style="background-color:white;color:darkorange;border-radius:10px;" />
+            <a href=#Hot-Deals-Section class="btn" style="background-color:white;color:darkorange;border-radius:10px;">
+                Browse Products
+             </a>
         </div>
         <img class="rounded float-end" src="~/images/UI/—Pngtree—super fast delivery man fly_5370144.png" style="width:200px;height:150px;margin-left:200px; margin-left:50px;"/>
     </div>
@@ -11,7 +16,7 @@
 
 <section class="popular-categories">
     <p class="text-center fs-4 mt-5">
-        <b>Popular Categories</b> <i class="bi bi-stars"></i>
+        <b>Popular Categories</b> <i  class="bi bi-stars"></i>
     </p>
     <div class="container text-center">
         <div class="col">
@@ -38,17 +43,62 @@
     </div>
 </section>
 
-<section class="hot-deals" id="Hot_Deals_Section">
+<section class="hot-deals" id="Hot-Deals-Section">
     <p class="text-center mt-5">
         <b>Hot Deals</b> <img src="~/images/UI/fire (1).png" style="height:20px; width:20px;"/>
      </p>
-     <section class="hor-deal-products">
+    <section class="hot-deal-products row-cols-3">
+        @foreach(var product in Model.allProducts)
+        {
+              <div class="card">
+                    <div class="w-100">
+                        <img src="@product.ImageUrl" />
+                    </div>
 
+             @*        <div class="product-info"style="width:190px;"> *@
+                    <p class="product-name"><b>@product.Name</b></p>
+                    <p class="product-category">@product.Category.CategoryName</p>
+                    <p class="price-info">
+                        <span class="price"><b>@((@product.Price - (@product.Price * 0.06m)).ToString("C2"))</b></span>
+                        <span style="color:red;"><del>@((@product.Price).ToString("C2"))</del></span>
+                        <span style="color:brown;margin-left:5px;"><b>(60% OFF)</b></span>
+                    </p>
+                    <a class="btn">
+                        View Product
+                    </a>
+                    </div>
+       @*        </div> *@
+        }
      </section>
 
 </section>
 
-<style>
+<style> 
+   
+    .hot-deal-products{
+        text-align:center;
+        margin-bottom:100px;
+    }
+
+    .hot-deal-products .card div img{
+        padding-top:5px;
+        width:190px;
+        height:100px;
+        margin-bottom:10px;
+    }
+
+    .hot-deal-products .card{
+        height:275px;
+        width:250px;
+        margin-bottom:20px;
+        border: 1px solid #E0E0E0;
+        margin-right:15px;
+        padding:5px;
+    }
+
+
+
+
 
     .section-image{
         display:block;
@@ -62,14 +112,14 @@
     }
 
     .popular-categories div{
-        height:90px;
+        height:80px;
         width:fit-content;
         text-align:center;
         align-content:center;
     }
 
     .popular-categories div div{
-        height:50px;
+        height:40px;
         display:inline-block;
         margin:5px;
     }
@@ -81,4 +131,54 @@
         padding:5px;
         border-radius:10px;
     }
+
+    .hot-deal-products div{
+        display:inline-block;
+    }
+
+    .hot-deal-products div .product-info{
+        width:200px;
+        height:300px;
+        margin:10px;
+        margin-bottom:10px;
+        border-radius:10px;
+        display:inline-block;
+    }
+    .hot-deal-products div .product-name {
+        font-size: 13px;
+        font-family:Noto Sans,sans-serif;
+        padding-top:3px;
+        padding-right:3px;
+        padding-left: 3px;
+        display:inline-block;
+    }
+
+    .product-category{
+        font-size: 12px;
+        font-family: Noto Sans,sans-serif;
+        color:dimgrey;
+        padding: 4px;
+        height:10px;
+    }
+
+    .price-info{
+        font-size: 13px;
+        font-family: Noto Sans,sans-serif;
+        padding: 4px;
+    }
+
+    .hot-deal-products div a{
+        color:white;
+        background-color:darkorange;
+        align-content:center;
+        width:230px;
+    }
+
+    .hot-deal-products div div p{
+        max-height: 30px;
+        max-width:190px;
+    }   
+    
+    
+
 </style>

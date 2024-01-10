@@ -32,7 +32,7 @@ namespace amazon_clone.DataAccess.Repositories
             {
                 foreach (var type in IncludeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
                 {
-                    _dbSet.Include(type);
+                    _dbSet = _dbSet.Include(type.Trim());
                 }
             }
             return _dbSet.FirstOrDefault(filter);
@@ -45,7 +45,7 @@ namespace amazon_clone.DataAccess.Repositories
             {
                 foreach (var type in IncludeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
                 {
-                    _dbSet.Include(type);
+                    _dbSet = _dbSet.Include(type.Trim());
                 }
             }
             return _dbSet;
@@ -58,7 +58,7 @@ namespace amazon_clone.DataAccess.Repositories
             {
                 foreach (var type in IncludeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
                 {
-                    _dbSet.Include(type);
+                    _dbSet = _dbSet.Include(type.Trim());
                 }
             }
             return _dbSet.AsNoTracking().FirstOrDefault(filter);
@@ -71,7 +71,7 @@ namespace amazon_clone.DataAccess.Repositories
             {
                 foreach (var type in IncludeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
                 {
-                    _dbSet.Include(type);
+                    _dbSet = _dbSet.Include(type.Trim());
                 }
             }
             return _dbSet.FirstOrDefault();
@@ -84,7 +84,7 @@ namespace amazon_clone.DataAccess.Repositories
             {
                 foreach (var type in IncludeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
                 {
-                    _dbSet.Include(type);
+                    _dbSet = _dbSet.Include(type.Trim());
                 }
             }
             if (filter is null)
@@ -100,7 +100,7 @@ namespace amazon_clone.DataAccess.Repositories
             {
                 foreach (var type in IncludeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
                 {
-                    _dbSet.Include(type);
+                    _dbSet = _dbSet.Include(type.Trim());
                 }
             }
 
@@ -117,7 +117,7 @@ namespace amazon_clone.DataAccess.Repositories
             {
                 foreach (var type in IncludeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
                 {
-                    _dbSet.Include(type);
+                    _dbSet = _dbSet.Include(type.Trim());
                 }
             }
             return _dbSet.AsNoTracking().FirstOrDefault();
