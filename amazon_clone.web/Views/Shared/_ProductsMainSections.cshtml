@@ -1,0 +1,144 @@
+﻿<section class="section-image">
+    <div class="w-auto p-3">
+        <div class="" style="display:inline-block">
+            <h2 class="mb-4">Free Delivery!</h2>
+            <p class="section-image-paragraph">Don't miss it out! Only today, get free <span><b>Next Day</b></span> delivery<br /> on all your orders.</p>
+            <a href=#Hot-Deals-Section class="btn" style="background-color:white;color:darkorange;border-radius:10px;">
+                Browse Products
+            </a>
+        </div>
+        <img class="rounded float-end" src="~/images/UI/—Pngtree—super fast delivery man fly_5370144.png" style="width:200px;height:150px;margin-left:200px; margin-left:50px;" />
+    </div>
+</section>
+
+<section class="popular-categories">
+    <p class="text-center fs-4 mt-5">
+        <b>Popular Categories</b> <i class="bi bi-stars"></i>
+    </p>
+    <div class="container text-center">
+        <div class="col">
+            <a asp-controller="ElectronicProduct" asp-action="Index">
+                <img src="~/images/UI/laptop.png" />
+            </a>
+        </div>
+        <div class="col">
+            <a asp-controller="JewelryProduct" asp-action="Index">
+                <img src="~/images/UI/jewelry-50.png" />
+            </a>
+        </div>
+        <div class="col">
+            <a asp-controller="MenClothing" asp-action="Index">
+                <img src="~/images/UI/man t-shirt.png" />
+            </a>
+        </div>
+        <div class="col">
+            <a asp-controller="WomenClothing" asp-action="Index">
+                <img src="~/images/UI/woman-clothes image.png" />
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<style>
+    .hot-deal-products {
+        text-align: center;
+        margin-bottom: 100px;
+    }
+
+    .hot-deal-products .card div img {
+        padding-top: 5px;
+        width: 190px;
+        height: 100px;
+        margin-bottom: 10px;
+    }
+
+    .hot-deal-products .card {
+        height: 275px;
+        width: 250px;
+        margin-bottom: 20px;
+        border: 1px solid #E0E0E0;
+        margin-right: 15px;
+        padding: 5px;
+    }
+
+    .section-image {
+        display: block;
+        width: 100%;
+        height: 200px;
+        background-color: darkorange;
+        color: azure;
+        border-radius: 10px;
+        font-size: medium;
+        margin-top: 40px;
+    }
+
+    .popular-categories div {
+        height: 80px;
+        width: fit-content;
+        text-align: center;
+        align-content: center;
+    }
+
+    .popular-categories div div {
+        height: 40px;
+        display: inline-block;
+        margin: 5px;
+    }
+
+    .popular-categories div div img {
+        height: 90px;
+        width: 100px;
+        border: 1px solid #E0E0E0;
+        padding: 5px;
+        border-radius: 10px;
+    }
+
+    .hot-deal-products div {
+        display: inline-block;
+    }
+
+    .hot-deal-products div .product-info {
+        width: 200px;
+        height: 300px;
+        margin: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        display: inline-block;
+    }
+
+    .hot-deal-products div .product-name {
+        font-size: 13px;
+        font-family: Noto Sans,sans-serif;
+        padding-top: 3px;
+        padding-right: 3px;
+        padding-left: 3px;
+        display: inline-block;
+    }
+
+    .product-category {
+        font-size: 12px;
+        font-family: Noto Sans,sans-serif;
+        color: dimgrey;
+        padding: 4px;
+        height: 10px;
+    }
+
+    .price-info {
+        font-size: 13px;
+        font-family: Noto Sans,sans-serif;
+        padding: 4px;
+    }
+
+    .hot-deal-products div a {
+        color: white;
+        background-color: darkorange;
+        align-content: center;
+        width: 230px;
+    }
+
+    .hot-deal-products div div p {
+        max-height: 30px;
+        max-width: 190px;
+    }
+</style>

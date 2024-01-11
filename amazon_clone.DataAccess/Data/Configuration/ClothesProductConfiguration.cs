@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace amazon_clone.DataAccess.Data.Configuration
 {
-    public class ClothesProductConfiguration : IEntityTypeConfiguration<ClothesProduct>
+    public class ClothesProductConfiguration : IEntityTypeConfiguration<ClothingProduct>
     {
-        public void Configure(EntityTypeBuilder<ClothesProduct> builder)
+        public void Configure(EntityTypeBuilder<ClothingProduct> builder)
         {
             builder.ToTable("tbl_ClothesProducts");//.HasKey(x => x.ClothesProductID);
 
-            builder.Property(c => c.ClothesProductID)
+            builder.Property(c => c.ClothingProductID)
                 .ValueGeneratedOnAdd();
 
             builder.HasOne(c => c.TargetGender)

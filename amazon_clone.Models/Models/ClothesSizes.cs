@@ -7,7 +7,7 @@ namespace amazon_clone.Models.Models
         public int ClothesProductID { get; set; }
         public int ClothesSizeID { get; set; }
 
-        public ClothesProduct ClothesProduct { get; set; } = null!;
+        public ClothingProduct ClothesProduct { get; set; } = null!;
         public ClothSize ClothesSize { get; set; } = null!;
     }
 }

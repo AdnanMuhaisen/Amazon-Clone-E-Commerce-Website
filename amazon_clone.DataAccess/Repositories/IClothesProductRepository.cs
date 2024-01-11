@@ -2,8 +2,8 @@
 
 namespace amazon_clone.DataAccess.Repositories
 {
-    public interface IClothesProductRepository : IRepository<ClothesProduct>
+    public interface IClothesProductRepository : IRepository<ClothingProduct>
     {
-        void Update(ClothesProduct entity);
+        void Update(ClothingProduct entity);
     }
 }

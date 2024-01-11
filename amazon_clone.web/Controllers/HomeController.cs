@@ -46,7 +46,7 @@ namespace amazon_clone.web.Controllers
                 return View(new HomeViewModel
                 {
                     allProducts = Enumerable.Empty<CustomerProduct>(),
-                    clothesProducts = Enumerable.Empty<ClothesProduct>()
+                    clothesProducts = Enumerable.Empty<ClothingProduct>()
                 });
             }
 
@@ -66,7 +66,7 @@ namespace amazon_clone.web.Controllers
                 return View(new HomeViewModel
                 {
                     allProducts = Enumerable.Empty<CustomerProduct>(),
-                    clothesProducts = Enumerable.Empty<ClothesProduct>()
+                    clothesProducts = Enumerable.Empty<ClothingProduct>()
                 });
             }
 
@@ -92,7 +92,7 @@ namespace amazon_clone.web.Controllers
                 .GetAllAsNoTracking(IncludeProperties: "TargetGender")?
                 .Select(x => new
                 {
-                    ClothesProductID = x.ClothesProductID,
+                    ClothesProductID = x.ClothingProductID,
                     CustomerProductID = x.CustomerProductID,
                     TargetGenderID = x.TargetGenderID
                 });
@@ -104,7 +104,7 @@ namespace amazon_clone.web.Controllers
                 return View(new HomeViewModel
                 {
                     allProducts = customerProducts,
-                    clothesProducts = Enumerable.Empty<ClothesProduct>()
+                    clothesProducts = Enumerable.Empty<ClothingProduct>()
                 });
             }
 
@@ -112,7 +112,7 @@ namespace amazon_clone.web.Controllers
                 .Join(clothesProductsData!,
                 o => o.CustomerProductID,
                i => i.CustomerProductID,
-               (o, i) => new ClothesProduct
+               (o, i) => new ClothingProduct
                {
                    ProductID = o.ProductID,
                    Name = o.Name,
@@ -121,7 +121,7 @@ namespace amazon_clone.web.Controllers
                    Quantity = o.Quantity,
                    ImageUrl = o.ImageUrl,
                    CustomerProductID = o.CustomerProductID,
-                   ClothesProductID = i.ClothesProductID,
+                   ClothingProductID = i.ClothesProductID,
                    TargetGenderID = i.TargetGenderID,
                    Category = o.Category,
                });

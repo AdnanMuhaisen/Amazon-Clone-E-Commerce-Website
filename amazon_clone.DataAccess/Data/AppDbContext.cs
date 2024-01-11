@@ -15,7 +15,7 @@ namespace amazon_clone.DataAccess.Data
         
         public DbSet<Product> Products { get; set; }
         public DbSet<CustomerProduct> CustomerProducts { get; set; }
-        public DbSet<ClothesProduct> ClothesProducts { get; set; }
+        public DbSet<ClothingProduct> ClothesProducts { get; set; }
         public DbSet<PersonGender> Genders { get; set; }
         public DbSet<ClothSize> ClothesSizes { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }

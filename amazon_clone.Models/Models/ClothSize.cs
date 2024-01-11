@@ -7,7 +7,7 @@
         public string Size { get; set; } = null!;
 
         public CreationDetails SizeCreationDetails { get; set; } = new CreationDetails();
-        public ICollection<ClothesProduct> ClothesProducts { get; set; } = new List<ClothesProduct>();
+        public ICollection<ClothingProduct> ClothesProducts { get; set; } = new List<ClothingProduct>();
         public ICollection<ClothesSizes> ClothesSizes { get; set; } = new List<ClothesSizes>();
     }
 }

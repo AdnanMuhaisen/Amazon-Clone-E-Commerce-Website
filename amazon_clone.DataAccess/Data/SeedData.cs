@@ -109,10 +109,10 @@ namespace amazon_clone.DataAccess.Data
                 }
             };
 
-        public static List<ClothesProduct> LoadClothesProducts() =>
-            new List<ClothesProduct>()
+        public static List<ClothingProduct> LoadClothesProducts() =>
+            new List<ClothingProduct>()
             {
-                 new ClothesProduct()
+                 new ClothingProduct()
                 {
                     Name="Mens Casual Premium Slim Fit T-Shirts",
                     Description="Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
@@ -122,7 +122,7 @@ namespace amazon_clone.DataAccess.Data
                     CategoryID=3,
                     TargetGenderID=1,
                 },
-                new ClothesProduct()
+                new ClothingProduct()
                 {
                     Name="Mens Cotton Jacket",
                     Description="great outerwear jackets for Spring/Autumn/Winter, suitable for many occasions, such as working, hiking, camping, mountain/rock climbing, cycling, traveling or other outdoors. Good gift choice for you or your family member. A warm hearted love to Father, husband or son in this thanksgiving or Christmas Day.",
@@ -132,7 +132,7 @@ namespace amazon_clone.DataAccess.Data
                     CategoryID=3,
                     TargetGenderID=1
                 },
-                new ClothesProduct()
+                new ClothingProduct()
                 {
                     Name="BIYLACLESEN Women's 3-in-1 Snowboard Jacket Winter Coats",
                     Description="Note:The Jackets is US standard size, Please choose size as your usual wear Material: 100% Polyester; Detachable Liner Fabric: Warm Fleece. Detachable Functional Liner: Skin Friendly, Lightweigt and Warm.Stand Collar Liner jacket, keep you warm in cold weather. Zippered Pockets: 2 Zippered Hand Pockets, 2 Zippered Pockets on Chest (enough to keep cards or keys)and 1 Hidden Pocket Inside.Zippered Hand Pockets and Hidden Pocket keep your things secure. Humanized Design: Adjustable and Detachable Hood and Adjustable cuff to prevent the wind and water,for a comfortable fit. 3 in 1 Detachable Design provide more convenience, you can separate the coat and inner as needed, or wear it together. It is suitable for different season and help you adapt to different climates",
@@ -142,7 +142,7 @@ namespace amazon_clone.DataAccess.Data
                     CategoryID=4,
                     TargetGenderID=2
                 },
-                new ClothesProduct()
+                new ClothingProduct()
                 {
                     Name="Rain Jacket Women Windbreaker Striped Climbing Raincoats",
                     Description="Lightweight perfet for trip or casual wear---Long sleeve with hooded, adjustable drawstring waist design. Button and zipper front closure raincoat, fully stripes Lined and The Raincoat has 2 side pockets are a good size to hold all kinds of things, it covers the hips, and the hood is generous but doesn't overdo it.Attached Cotton Lined Hood with Adjustable Drawstrings give it a real styled look.",

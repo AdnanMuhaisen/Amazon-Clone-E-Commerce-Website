@@ -1,47 +1,7 @@
 ﻿@model HomeViewModel
 
 
-<section class="section-image">
-    <div class="w-auto p-3">
-        <div class="" style="display:inline-block">
-            <h2 class="mb-4">Free Delivery!</h2>
-            <p class="section-image-paragraph">Don't miss it out! Only today, get free <span><b>Next Day</b></span> delivery<br /> on all your orders.</p>
-            <a href=#Hot-Deals-Section class="btn" style="background-color:white;color:darkorange;border-radius:10px;">
-                Browse Products
-             </a>
-        </div>
-        <img class="rounded float-end" src="~/images/UI/—Pngtree—super fast delivery man fly_5370144.png" style="width:200px;height:150px;margin-left:200px; margin-left:50px;"/>
-    </div>
-</section>
-
-<section class="popular-categories">
-    <p class="text-center fs-4 mt-5">
-        <b>Popular Categories</b> <i  class="bi bi-stars"></i>
-    </p>
-    <div class="container text-center">
-        <div class="col">
-            <a asp-controller="" asp-action="">
-                <img src="~/images/UI/laptop.png"/>
-            </a>
-        </div>
-        <div class="col">
-            <a asp-controller="" asp-action="">
-                <img src="~/images/UI/jewelry-50.png"/>
-            </a>
-        </div>
-        <div class="col">
-            <a asp-controller="" asp-action="">
-                <img src="~/images/UI/man t-shirt.png"/>
-            </a>
-        </div>
-        <div class="col">
-            <a asp-controller="" asp-action="">
-                <img src="~/images/UI/woman-clothes image.png"/>
-            </a>
-        </div>
-        
-    </div>
-</section>
+<partial name="_ProductsMainSections" />
 
 <section class="hot-deals" id="Hot-Deals-Section">
     <p class="text-center mt-5">
@@ -63,7 +23,7 @@
                         <span style="color:red;"><del>@((@product.Price).ToString("C2"))</del></span>
                         <span style="color:brown;margin-left:5px;"><b>(60% OFF)</b></span>
                     </p>
-                    <a class="btn">
+                    <a class="btn" asp-controller="Product" asp-action="Index" asp-route-ProductID="@product.ProductID">
                         View Product
                     </a>
                     </div>
@@ -94,42 +54,6 @@
         border: 1px solid #E0E0E0;
         margin-right:15px;
         padding:5px;
-    }
-
-
-
-
-
-    .section-image{
-        display:block;
-        width:100%;
-        height:200px;
-        background-color:darkorange;
-        color:azure;
-        border-radius:10px;
-        font-size:medium;
-        margin-top:40px;
-    }
-
-    .popular-categories div{
-        height:80px;
-        width:fit-content;
-        text-align:center;
-        align-content:center;
-    }
-
-    .popular-categories div div{
-        height:40px;
-        display:inline-block;
-        margin:5px;
-    }
-
-    .popular-categories div div img{
-        height:90px;
-        width:100px;
-        border: 1px solid #E0E0E0;
-        padding:5px;
-        border-radius:10px;
     }
 
     .hot-deal-products div{
@@ -178,7 +102,4 @@
         max-height: 30px;
         max-width:190px;
     }   
-    
-    
-
 </style>

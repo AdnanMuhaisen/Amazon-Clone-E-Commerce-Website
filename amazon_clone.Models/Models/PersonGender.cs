@@ -5,6 +5,6 @@
         public int GenderID { get; set; }
         public string Gender { get; set; } = null!;
 
-        public ICollection<ClothesProduct> ClothesProducts { get; set; } = new List<ClothesProduct>();
+        public ICollection<ClothingProduct> ClothesProducts { get; set; } = new List<ClothingProduct>();
     }
 }

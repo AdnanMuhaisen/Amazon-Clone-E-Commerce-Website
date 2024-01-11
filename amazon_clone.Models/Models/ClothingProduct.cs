@@ -1,10 +1,8 @@
 ﻿namespace amazon_clone.Models.Models
 {
-    public class ClothesProduct : CustomerProduct
+    public class ClothingProduct : CustomerProduct
     {
-        public int ClothesProductID { get; set; }
-
-
+        public int ClothingProductID { get; set; }
         public int TargetGenderID { get; set; }
         public PersonGender TargetGender { get; set; } = null!;
 
@@ -15,19 +13,19 @@
         public override bool Equals(object? obj)
         {
             ArgumentNullException.ThrowIfNull(nameof(obj));
-            if (obj is not ClothesProduct) return false;
+            if (obj is not ClothingProduct) return false;
             if (ReferenceEquals(this, obj)) return true;
 
-            var targetObj = obj as ClothesProduct;
+            var targetObj = obj as ClothingProduct;
             return base.Equals(obj)
-                && this.ClothesProductID == targetObj!.ClothesProductID
+                && this.ClothingProductID == targetObj!.ClothingProductID
                 && this.TargetGenderID == targetObj.TargetGenderID;
         }
 
         public override int GetHashCode()
         {
             var hash = base.GetHashCode();
-            hash *= 7 + this.ClothesProductID.GetHashCode();
+            hash *= 7 + this.ClothingProductID.GetHashCode();
             hash *= 7 + this.TargetGenderID.GetHashCode();
             return hash;
         }

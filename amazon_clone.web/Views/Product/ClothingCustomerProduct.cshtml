@@ -1,0 +1,65 @@
+﻿@model ClothingCustomerProductViewModel
+
+<section class="row align-content-center mt-5 mb-5">
+    <div class="col" style="margin-right:30px;">
+        <img src="@Model.ClothingProduct.ImageUrl" />
+    </div>
+
+    <div class="col">
+        <p class="product-name" style="font-size:25px">
+            <b>@Model.ClothingProduct.Name</b>
+        </p>
+        <p class="product-description" style="font-size:13px">@Model.ClothingProduct.Description</p>
+        <div class="mt-5">
+            <img src="~/images/UI/star.png" />
+            <img src="~/images/UI/star.png" />
+            <img src="~/images/UI/star.png" />
+            <img src="~/images/UI/star.png" />
+            <img src="~/images/UI/star.png" />
+            <span class="m-lg-3"><b>(94)</b></span>
+        </div>
+
+        <hr />
+        <form method="post">
+            <div>
+    
+                <p>
+                    <b>Choose Size</b>
+                </p>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Open this select menu</option>
+                    @foreach (var sizeObj in Model.ClothingProduct.Sizes)
+                    {
+                        <option value="">@sizeObj.Size</option>
+                    }
+                </select>
+            </div>
+            <hr />
+            <div>
+                <b>
+                    <span class="price">Price: @((@Model.ClothingProduct.Price - (@Model.ClothingProduct.Price * 0.06m)).ToString("C2"))</span>
+                    <span style="color:brown"><del>@Model.ClothingProduct.Price.ToString("C2")</del></span>
+                </b>
+            </div>
+            <div class="mt-5">
+                <a class="btn" asp-controller="" asp-action="" style="width:100px;height:40px; background-color:darkorange; color:white; margin-right:15px;">Buy Now</a>
+                <a class="btn" asp-controller="" asp-action="" style="width:100px;height:40px; background-color:#1c2228; color:white;"><i class="bi bi-cart-plus"></i> Add</a>
+            </div>
+        </form>
+    </div>
+</section>
+
+<style>
+    section div img {
+        height: 450px;
+        width: 500px;
+        border: 2px solid #E0E0E0;
+        border-radius: 10px;
+    }
+
+    section div div img {
+        width: 25px;
+        height: 25px;
+    }
+
+</style>
