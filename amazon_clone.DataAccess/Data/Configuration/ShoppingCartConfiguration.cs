@@ -26,6 +26,11 @@ namespace amazon_clone.DataAccess.Data.Configuration
 
             builder.OwnsOne(x => x.CreationDetails);
 
+            builder.HasOne(x => x.Customer)
+                .WithOne(x => x.ShoppingCart)
+                .HasForeignKey<CustomerApplicationUser>(x => x.ShoppingCartID)
+                .IsRequired(false);
+
         }
     }
 }

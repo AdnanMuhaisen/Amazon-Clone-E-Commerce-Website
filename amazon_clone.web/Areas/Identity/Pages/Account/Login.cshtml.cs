@@ -2,27 +2,22 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using amazon_clone.Models.Models;
+using amazon_clone.Models.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 
 namespace amazon_clone.web.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<CustomerApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<CustomerApplicationUser> signInManager, ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;
@@ -115,6 +110,21 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
+                    //set the values of the current user
+                    var currentUser = _signInManager
+                        .UserManager
+                        .FindByEmailAsync(Input.Email)
+                        .GetAwaiter()
+                        .GetResult();
+
+                    ArgumentNullException.ThrowIfNull(nameof(currentUser));
+
+                    CurrentCustomer.SetValues(currentUser.Id,
+                        currentUser.UserName.Substring(0, currentUser.UserName.IndexOf('@')),
+                        currentUser.Email,
+                        currentUser.PhoneNumber);
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

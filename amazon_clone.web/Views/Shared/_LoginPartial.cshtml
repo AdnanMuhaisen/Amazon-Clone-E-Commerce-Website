@@ -1,11 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Identity
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<CustomerApplicationUser> SignInManager
+@inject UserManager<CustomerApplicationUser> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+
     <li class="nav-item">
         <a id="manage" class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
                 Hello @UserManager.GetUserName(User)?.Substring(0, UserManager.GetUserName(User)!.IndexOf('@'))
@@ -16,6 +17,7 @@
                 <button id="logout" type="submit" class="nav-link btn btn-link text-white border-0">Logout</button>
         </form>
     </li>
+    
 }
 else
 {

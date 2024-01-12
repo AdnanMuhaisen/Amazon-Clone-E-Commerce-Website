@@ -6,6 +6,7 @@
 
         public DateTime OrderDateTime { get; set; }
 
+        //relationships
         public int ShippingDetailsID { get; set; }
         public ShippingDetail ShippingDetails { get; set; } = null!;
 
@@ -13,5 +14,9 @@
         public OrderStatus OrderStatus { get; set; } = null!;
 
         public CreationDetails CreationDetails { get; set; } = new CreationDetails();
+
+        public string CustomerID { get; set; } = null!;
+
+        public CustomerApplicationUser Customer { get; set; } = null!;
     }
 }

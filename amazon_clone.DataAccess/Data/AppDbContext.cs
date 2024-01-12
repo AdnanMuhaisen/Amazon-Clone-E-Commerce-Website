@@ -1,5 +1,6 @@
 ﻿using amazon_clone.DataAccess.Interceptors;
 using amazon_clone.Models.Models;
+using amazon_clone.Models.Users.Roles;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -7,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace amazon_clone.DataAccess.Data
 {
-    public class AppDbContext : IdentityDbContext
+    public class AppDbContext : IdentityDbContext<CustomerApplicationUser>
     {
         public AppDbContext() { }
         
@@ -27,9 +28,8 @@ namespace amazon_clone.DataAccess.Data
         public DbSet<ShippingDetail> ShippingDetails { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<ShoppingCartProduct> ShoppingCartsProducts { get; set; }
-        public DbSet<Person> Persons { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Administrator> Administrators { get; set; }
+        public DbSet<CustomerApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<CustomerRole> ApplicationUserRoles { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

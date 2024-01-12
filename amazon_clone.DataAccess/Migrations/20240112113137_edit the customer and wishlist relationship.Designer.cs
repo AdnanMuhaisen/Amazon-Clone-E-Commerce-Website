@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using amazon_clone.DataAccess.Data;
 
@@ -11,9 +12,11 @@ using amazon_clone.DataAccess.Data;
 namespace amazon_clone.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240112113137_edit the customer and wishlist relationship")]
+    partial class editthecustomerandwishlistrelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -480,7 +483,7 @@ namespace amazon_clone.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShoppingCartID"));
 
-                    b.Property<int?>("PromoCodeID")
+                    b.Property<int>("PromoCodeID")
                         .HasColumnType("int");
 
                     b.HasKey("ShoppingCartID");

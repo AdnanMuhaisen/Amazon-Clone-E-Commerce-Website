@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using amazon_clone.DataAccess.Data;
 
@@ -11,9 +12,11 @@ using amazon_clone.DataAccess.Data;
 namespace amazon_clone.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240112104103_Update the identity 1")]
+    partial class Updatetheidentity1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,10 +229,6 @@ namespace amazon_clone.DataAccess.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -256,9 +255,6 @@ namespace amazon_clone.DataAccess.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ShoppingCartID")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -276,9 +272,6 @@ namespace amazon_clone.DataAccess.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("ShoppingCartID")
-                        .IsUnique();
-
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
@@ -289,9 +282,6 @@ namespace amazon_clone.DataAccess.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
-
-                    b.Property<string>("CustomerID")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("OrderDateTime")
                         .HasColumnType("datetime2");
@@ -306,8 +296,6 @@ namespace amazon_clone.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OrderID");
-
-                    b.HasIndex("CustomerID");
 
                     b.HasIndex("OrderStatusStatusID");
 
@@ -480,7 +468,7 @@ namespace amazon_clone.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShoppingCartID"));
 
-                    b.Property<int?>("PromoCodeID")
+                    b.Property<int>("PromoCodeID")
                         .HasColumnType("int");
 
                     b.HasKey("ShoppingCartID");
@@ -516,14 +504,7 @@ namespace amazon_clone.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WishListID"));
 
-                    b.Property<string>("CustomerID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("WishListID");
-
-                    b.HasIndex("CustomerID")
-                        .IsUnique();
 
                     b.ToTable("tbl_WishLists", (string)null);
                 });
@@ -709,10 +690,6 @@ namespace amazon_clone.DataAccess.Migrations
 
             modelBuilder.Entity("amazon_clone.Models.Models.CustomerApplicationUser", b =>
                 {
-                    b.HasOne("amazon_clone.Models.Models.ShoppingCart", "ShoppingCart")
-                        .WithOne("Customer")
-                        .HasForeignKey("amazon_clone.Models.Models.CustomerApplicationUser", "ShoppingCartID");
-
                     b.OwnsOne("amazon_clone.Models.Models.CreationDetails", "CreationDetails", b1 =>
                         {
                             b1.Property<string>("CustomerApplicationUserId")
@@ -734,16 +711,10 @@ namespace amazon_clone.DataAccess.Migrations
 
                     b.Navigation("CreationDetails")
                         .IsRequired();
-
-                    b.Navigation("ShoppingCart");
                 });
 
             modelBuilder.Entity("amazon_clone.Models.Models.Order", b =>
                 {
-                    b.HasOne("amazon_clone.Models.Models.CustomerApplicationUser", "Customer")
-                        .WithMany("Orders")
-                        .HasForeignKey("CustomerID");
-
                     b.HasOne("amazon_clone.Models.Models.OrderStatus", "OrderStatus")
                         .WithMany("Orders")
                         .HasForeignKey("OrderStatusStatusID")
@@ -777,8 +748,6 @@ namespace amazon_clone.DataAccess.Migrations
 
                     b.Navigation("CreationDetails")
                         .IsRequired();
-
-                    b.Navigation("Customer");
 
                     b.Navigation("OrderStatus");
 
@@ -968,12 +937,6 @@ namespace amazon_clone.DataAccess.Migrations
 
             modelBuilder.Entity("amazon_clone.Models.Models.WishList", b =>
                 {
-                    b.HasOne("amazon_clone.Models.Models.CustomerApplicationUser", "Customer")
-                        .WithOne("WishList")
-                        .HasForeignKey("amazon_clone.Models.Models.WishList", "CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.OwnsOne("amazon_clone.Models.Models.CreationDetails", "CreationDetails", b1 =>
                         {
                             b1.Property<int>("WishListID")
@@ -995,8 +958,6 @@ namespace amazon_clone.DataAccess.Migrations
 
                     b.Navigation("CreationDetails")
                         .IsRequired();
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("amazon_clone.Models.Models.WishListProduct", b =>
@@ -1047,14 +1008,6 @@ namespace amazon_clone.DataAccess.Migrations
                     b.Navigation("ClothesSizes");
                 });
 
-            modelBuilder.Entity("amazon_clone.Models.Models.CustomerApplicationUser", b =>
-                {
-                    b.Navigation("Orders");
-
-                    b.Navigation("WishList")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("amazon_clone.Models.Models.OrderStatus", b =>
                 {
                     b.Navigation("Orders");
@@ -1083,9 +1036,6 @@ namespace amazon_clone.DataAccess.Migrations
 
             modelBuilder.Entity("amazon_clone.Models.Models.ShoppingCart", b =>
                 {
-                    b.Navigation("Customer")
-                        .IsRequired();
-
                     b.Navigation("ShoppingCartsProducts");
                 });
 

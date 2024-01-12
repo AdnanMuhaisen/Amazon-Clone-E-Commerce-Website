@@ -4,6 +4,7 @@
 
 using amazon_clone.DataAccess.Repositories;
 using amazon_clone.Models.Models;
+using amazon_clone.Models.Users.Roles;
 using amazon_clone.Utility.App_Details;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -19,23 +20,23 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly IUserStore<IdentityUser> _userStore;
-        private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly SignInManager<CustomerApplicationUser> _signInManager;
+        private readonly UserManager<CustomerApplicationUser> _userManager;
+        private readonly IUserStore<CustomerApplicationUser> _userStore;
+        private readonly IUserEmailStore<CustomerApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<CustomerRole> _roleManager;
         private readonly IUnitOfWork _unitOfWork;
 
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<CustomerApplicationUser> userManager,
+            IUserStore<CustomerApplicationUser> userStore,
+            SignInManager<CustomerApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager,
+            RoleManager<CustomerRole> roleManager,
             IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
@@ -111,31 +112,53 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            //create the customer role
+            if (!_roleManager.RoleExistsAsync(StaticDetails.ROLE_CUSTOMER).GetAwaiter().GetResult())
+            {
+                _roleManager.CreateAsync(new CustomerRole(StaticDetails.ROLE_CUSTOMER)).GetAwaiter().GetResult();
+            }
+
+
+
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
 
-
-
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 //set the values of the custom properties
-                //test this
-                var lastCustomerID = _unitOfWork
-                    .DbSettingsRepository
-                    .GetFirst()?
-                    .InsertionHelper
-                    .LastInsertedCustomerID;
+                user.ImageUrl = "default.png";
 
-                user.CustomerID = ++lastCustomerID; 
+                //configure the required data for the registered customer:
+                var wishList = new WishList
+                {
+                    CustomerID = user.Id,
+                    Products = new List<CustomerProduct>(),
+                    CreationDetails = new CreationDetails()
+                    {
+                        CreatedAt = DateTime.Now,
+                        UpdatedAt = DateTime.Now
+                    }
+                };
+
+                var shoppingCart = new ShoppingCart
+                {
+                    CartProducts = new List<CustomerProduct>()
+                };
+                user.ShoppingCart = shoppingCart;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                await _userManager.AddToRoleAsync(user, StaticDetails.ROLE_CUSTOMER);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    _unitOfWork.Save();
+
+                    // all registered users are customers
+                    await _userManager.AddToRoleAsync(user, StaticDetails.ROLE_CUSTOMER);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -148,8 +171,6 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    _unitOfWork.Save();
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -171,11 +192,11 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private Customer CreateUser()
+        private CustomerApplicationUser CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<Customer>();
+                return Activator.CreateInstance<CustomerApplicationUser>();
             }
             catch
             {
@@ -185,13 +206,13 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
             }
         }
 
-        private IUserEmailStore<IdentityUser> GetEmailStore()
+        private IUserEmailStore<CustomerApplicationUser> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<IdentityUser>)_userStore;
+            return (IUserEmailStore<CustomerApplicationUser>)_userStore;
         }
     }
 }

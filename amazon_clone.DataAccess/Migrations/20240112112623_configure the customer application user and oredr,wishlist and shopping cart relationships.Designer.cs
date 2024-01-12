@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using amazon_clone.DataAccess.Data;
 
@@ -11,9 +12,11 @@ using amazon_clone.DataAccess.Data;
 namespace amazon_clone.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240112112623_configure the customer application user and oredr,wishlist and shopping cart relationships")]
+    partial class configurethecustomerapplicationuserandoredrwishlistandshoppingcartrelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -480,7 +483,7 @@ namespace amazon_clone.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShoppingCartID"));
 
-                    b.Property<int?>("PromoCodeID")
+                    b.Property<int>("PromoCodeID")
                         .HasColumnType("int");
 
                     b.HasKey("ShoppingCartID");
@@ -517,13 +520,13 @@ namespace amazon_clone.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WishListID"));
 
                     b.Property<string>("CustomerID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("WishListID");
 
                     b.HasIndex("CustomerID")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[CustomerID] IS NOT NULL");
 
                     b.ToTable("tbl_WishLists", (string)null);
                 });
@@ -970,9 +973,7 @@ namespace amazon_clone.DataAccess.Migrations
                 {
                     b.HasOne("amazon_clone.Models.Models.CustomerApplicationUser", "Customer")
                         .WithOne("WishList")
-                        .HasForeignKey("amazon_clone.Models.Models.WishList", "CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("amazon_clone.Models.Models.WishList", "CustomerID");
 
                     b.OwnsOne("amazon_clone.Models.Models.CreationDetails", "CreationDetails", b1 =>
                         {

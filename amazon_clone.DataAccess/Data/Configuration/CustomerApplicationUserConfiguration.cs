@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace amazon_clone.DataAccess.Data.Configuration
 {
-    public class PersonConfiguration : IEntityTypeConfiguration<Person>
+    public class CustomerApplicationUserConfiguration : IEntityTypeConfiguration<CustomerApplicationUser>
     {
-        public void Configure(EntityTypeBuilder<Person> builder)
+        public void Configure(EntityTypeBuilder<CustomerApplicationUser> builder)
         {
             builder.OwnsOne(x => x.CreationDetails);
         }

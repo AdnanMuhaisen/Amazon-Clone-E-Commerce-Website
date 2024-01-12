@@ -1,5 +1,6 @@
 ﻿using amazon_clone.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace amazon_clone.DataAccess.Repositories
@@ -90,7 +91,7 @@ namespace amazon_clone.DataAccess.Repositories
             if (filter is null)
                 return _dbSet.ToList();
 
-            return _dbSet.Where(filter).ToList();
+            return _dbSet.Where(filter);
         }
 
         public IEnumerable<T>? GetAllAsNoTracking(Expression<Func<T, bool>> filter = null!, string IncludeProperties = null!)
@@ -107,7 +108,7 @@ namespace amazon_clone.DataAccess.Repositories
             if (filter is null)
                 return _dbSet.AsNoTracking().ToList();
 
-            return _dbSet.Where(filter).AsNoTracking().ToList();
+            return _dbSet.Where(filter).AsNoTracking();
         }
 
         public T? GetFirstAsNoTracking(string IncludeProperties = null!)
@@ -121,6 +122,77 @@ namespace amazon_clone.DataAccess.Repositories
                 }
             }
             return _dbSet.AsNoTracking().FirstOrDefault();
+        }
+
+
+
+        // for then include properties
+        public T? Get(Func<IQueryable<T>,IIncludableQueryable<T,object>> include, Expression<Func<T, bool>> filter = null!)
+        {
+            IQueryable<T> _dbSet = dbSet;
+            
+            if(include is not null)
+            {
+                _dbSet = include(_dbSet);
+            }
+
+            if(filter is not null)
+            {
+                _dbSet = _dbSet.Where(filter);
+            }
+
+            return _dbSet.FirstOrDefault();
+        }
+
+        public IEnumerable<T>? GetAll(Func<IQueryable<T>, IIncludableQueryable<T, object>> include, Expression<Func<T, bool>> filter = null!)
+        {
+            IQueryable<T> _dbSet = dbSet;
+
+            if (include is not null)
+            {
+                _dbSet = include(_dbSet);
+            }
+
+            if (filter is not null)
+            {
+                _dbSet = _dbSet.Where(filter);
+            }
+
+            return _dbSet;
+        }
+
+        public T? GetAsNoTracking(Func<IQueryable<T>, IIncludableQueryable<T, object>> include, Expression<Func<T, bool>> filter = null!)
+        {
+            IQueryable<T> _dbSet = dbSet;
+
+            if (include is not null)
+            {
+                _dbSet = include(_dbSet);
+            }
+
+            if (filter is not null)
+            {
+                _dbSet = _dbSet.Where(filter);
+            }
+
+            return _dbSet.AsNoTracking().FirstOrDefault();
+        }
+
+        public IEnumerable<T>? GetAllAsNoTracking(Func<IQueryable<T>, IIncludableQueryable<T, object>> include, Expression<Func<T, bool>> filter = null!)
+        {
+            IQueryable<T> _dbSet = dbSet;
+
+            if (include is not null)
+            {
+                _dbSet = include(_dbSet);
+            }
+
+            if (filter is not null)
+            {
+                _dbSet = _dbSet.Where(filter);
+            }
+
+            return _dbSet.AsNoTracking();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using amazon_clone.Models.Users
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -30,7 +31,7 @@
                 </form>
             </div>
             <div class="container-fluid" style="width:170px">
-                <a asp-controller="" asp-action="">
+                <a asp-controller="WishList" asp-action="Index" asp-route-UserID="@CurrentCustomer.UserID">
                     <i class="bi bi-heart text-white"></i>
                 </a>
                 <a asp-controller="" asp-action="">

@@ -14,6 +14,10 @@ namespace amazon_clone.DataAccess.Data.Configuration
 
             builder.OwnsOne(x => x.CreationDetails);
 
+            builder.HasOne(x => x.Customer)
+                .WithMany(x => x.Orders)
+                .HasForeignKey(x => x.CustomerID)
+                .IsRequired(false);
         }
     }
 }

@@ -1,10 +1,12 @@
 using amazon_clone.DataAccess.Data;
 using amazon_clone.DataAccess.Interceptors;
 using amazon_clone.DataAccess.Repositories;
-using Microsoft.EntityFrameworkCore;
+using amazon_clone.Models.Models;
+using amazon_clone.Models.Users.Roles;
+using amazon_clone.Utility.Notifiers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using amazon_clone.Utility.Notifiers;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +20,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         new UpdateCreationDetailsInterceptor());
 });
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<CustomerApplicationUser, CustomerRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
@@ -27,6 +29,7 @@ builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddRazorPages();
+
 
 var app = builder.Build();
 

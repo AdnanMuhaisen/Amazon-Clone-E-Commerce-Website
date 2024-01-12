@@ -1,4 +1,3 @@
-
 using amazon_clone.DataAccess.Repositories;
 using amazon_clone.Models.Models;
 using amazon_clone.Models.View_Models;
@@ -10,14 +9,12 @@ namespace amazon_clone.web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IUnitOfWork _unitOfWork;
-
+        private readonly IUnitOfWork _unitOfWork;        
 
         public HomeController(ILogger<HomeController> logger,IUnitOfWork unitOfWork)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
-
         }
 
         public IActionResult Index()
