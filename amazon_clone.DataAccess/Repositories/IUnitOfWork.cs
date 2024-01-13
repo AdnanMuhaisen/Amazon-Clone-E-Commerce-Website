@@ -17,7 +17,7 @@
         public IShoppingCartRepository ShoppingCartRepository { get; set; }
         public IShoppingCartProductRepository ShoppingCartProductRepository { get; set; }
         public IDbSettingsRepository DbSettingsRepository { get; set; }
-
+        public IUsersRepository UsersRepository { get; set; }
 
         void Save();
     }

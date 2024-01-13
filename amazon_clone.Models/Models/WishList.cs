@@ -9,8 +9,20 @@
         public ICollection<CustomerProduct>? Products { get; set; } = new List<CustomerProduct>();
         public ICollection<WishListProduct>? WishListsProducts { get; set; } = new List<WishListProduct>();
 
-
-        public string CustomerID { get; set; } = null!;
         public CustomerApplicationUser Customer { get; set; } = null!;
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is null) return false;
+            if (obj is not WishList) return false;
+            if (ReferenceEquals(this, obj)) return true;
+
+            return this.WishListID == ((WishList)obj).WishListID;
+        }
+
+        public override int GetHashCode()
+        {
+            return 7 * 23 + WishListID.GetHashCode();
+        }
     }
 }

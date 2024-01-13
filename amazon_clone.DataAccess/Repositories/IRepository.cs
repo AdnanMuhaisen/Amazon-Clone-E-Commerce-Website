@@ -6,7 +6,7 @@ namespace amazon_clone.DataAccess.Repositories
     public interface IRepository<T> where T : class
     {
         void Add(T entity);
-        void Delete(T entity);
+        void Remove(T entity);
         T? GetFirst(string IncludeProperties = null!);
         T? GetFirstAsNoTracking(string IncludeProperties = null!);
         T? Get(Expression<Func<T, bool>> filter, string IncludeProperties = null!);

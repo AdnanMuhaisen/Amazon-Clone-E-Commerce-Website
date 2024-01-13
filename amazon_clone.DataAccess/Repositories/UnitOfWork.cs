@@ -22,6 +22,7 @@ namespace amazon_clone.DataAccess.Repositories
         public IShoppingCartRepository ShoppingCartRepository { get; set; } = new ShoppingCartRepository(_context);
         public IShoppingCartProductRepository ShoppingCartProductRepository { get; set; } = new ShoppingCartProductRepository(_context);
         public IDbSettingsRepository DbSettingsRepository { get; set; } = new DbSettingsRepository(_context);
+        public IUsersRepository UsersRepository { get; set; } = new UsersRepository(_context);
 
         public void Save()
         {

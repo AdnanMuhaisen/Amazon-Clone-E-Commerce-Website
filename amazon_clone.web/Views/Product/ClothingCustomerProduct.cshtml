@@ -1,4 +1,5 @@
-﻿@model ClothingCustomerProductViewModel
+﻿@using amazon_clone.Utility.App_Details
+@model ClothingCustomerProductViewModel
 
 <section class="row align-content-center mt-5 mb-5">
     <div class="col" style="margin-right:30px;">
@@ -43,7 +44,7 @@
             </div>
             <div class="mt-5">
                 <a class="btn" asp-controller="" asp-action="" style="width:100px;height:40px; background-color:darkorange; color:white; margin-right:15px;">Buy Now</a>
-                <a class="btn" asp-controller="" asp-action="" style="width:100px;height:40px; background-color:#1c2228; color:white;"><i class="bi bi-cart-plus"></i> Add</a>
+                <a class="btn" asp-controller="Wishlist" asp-action="AddProductToWishlist" asp-route-ProductID="@Model.ClothingProduct.ProductID" style="width:100px;height:40px; background-color:#1c2228; color:white;"><i class="bi bi-cart-plus"></i> @(ViewData["Wishlist-Product-Status"]?.ToString())</a>
             </div>
         </form>
     </div>

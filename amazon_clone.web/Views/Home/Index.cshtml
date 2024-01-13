@@ -8,26 +8,34 @@
         <b>Hot Deals</b> <img src="~/images/UI/fire (1).png" style="height:20px; width:20px;"/>
      </p>
     <section class="hot-deal-products row-cols-3">
-        @foreach(var product in Model.allProducts)
+        @if (!(Model.allProducts.Any()))
         {
-              <div class="card">
-                    <div class="w-100">
-                        <img src="@product.ImageUrl" />
-                    </div>
+            <p class="text-center">
+                <b>There is no products</b>
+            </p>
+        }
+        else{
+            @foreach(var product in Model.allProducts)
+            {
+                  <div class="card">
+                        <div class="w-100">
+                            <img src="@product.ImageUrl" />
+                        </div>
 
-             @*        <div class="product-info"style="width:190px;"> *@
-                    <p class="product-name"><b>@product.Name</b></p>
-                    <p class="product-category">@product.Category.CategoryName</p>
-                    <p class="price-info">
-                        <span class="price"><b>@((@product.Price - (@product.Price * 0.06m)).ToString("C2"))</b></span>
-                        <span style="color:red;"><del>@((@product.Price).ToString("C2"))</del></span>
-                        <span style="color:brown;margin-left:5px;"><b>(60% OFF)</b></span>
-                    </p>
-                    <a class="btn" asp-controller="Product" asp-action="Index" asp-route-ProductID="@product.ProductID">
-                        View Product
-                    </a>
-                    </div>
-       @*        </div> *@
+                 @*        <div class="product-info"style="width:190px;"> *@
+                        <p class="product-name"><b>@product.Name</b></p>
+                        <p class="product-category">@product.Category.CategoryName</p>
+                        <p class="price-info">
+                            <span class="price"><b>@((@product.Price - (@product.Price * 0.06m)).ToString("C2"))</b></span>
+                            <span style="color:red;"><del>@((@product.Price).ToString("C2"))</del></span>
+                            <span style="color:brown;margin-left:5px;"><b>(60% OFF)</b></span>
+                        </p>
+                        <a class="btn" asp-controller="Product" asp-action="Index" asp-route-ProductID="@product.ProductID">
+                            View Product
+                        </a>
+                        </div>
+           @*        </div> *@
+            }
         }
      </section>
 

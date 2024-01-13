@@ -22,9 +22,8 @@ namespace amazon_clone.DataAccess.Data.Configuration
 
             builder.HasOne(x => x.Customer)
                 .WithOne(x => x.WishList)
-                .HasForeignKey<WishList>(x => x.CustomerID)
-                .IsRequired(true);
-
+                .HasForeignKey<CustomerApplicationUser>(x => x.WishListID)
+                .IsRequired(false);
         }
     }
 }

@@ -7,5 +7,5 @@
         Jewelery = 2,
         Mens_Clothing = 3,
         Womens_Clothing = 4,
-    }
+    }   
 }

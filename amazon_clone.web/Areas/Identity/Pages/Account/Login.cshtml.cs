@@ -123,7 +123,8 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
                     CurrentCustomer.SetValues(currentUser.Id,
                         currentUser.UserName.Substring(0, currentUser.UserName.IndexOf('@')),
                         currentUser.Email,
-                        currentUser.PhoneNumber);
+                        currentUser.PhoneNumber,
+                        currentUser.WishListID);
 
                     return LocalRedirect(returnUrl);
                 }

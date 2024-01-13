@@ -11,6 +11,7 @@ namespace amazon_clone.Models.Models
         public CreationDetails CreationDetails { get; set; } = new CreationDetails();
 
         //relationships
+        public int? WishListID { get; set; }
         public WishList WishList { get; set; } = null!;
 
         public int ShoppingCartID { get; set; }

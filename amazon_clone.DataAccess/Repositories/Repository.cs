@@ -21,7 +21,7 @@ namespace amazon_clone.DataAccess.Repositories
             dbSet.Add(entity);
         }
 
-        public void Delete(T entity)
+        public void Remove(T entity)
         {
             dbSet.Remove(entity);
         }

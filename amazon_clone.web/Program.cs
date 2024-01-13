@@ -16,8 +16,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-    options.AddInterceptors(new SoftDeleteInterceptor(),
-        new UpdateCreationDetailsInterceptor());
+    //options.AddInterceptors(new SoftDeleteInterceptor(),
+    //    new UpdateCreationDetailsInterceptor());
+    options.LogTo(l =>
+    {
+        File.WriteAllText(@"C:\amazon_clone\amazon_clone.DataAccess\Data\Logged-Queries.txt", l);
+    }, LogLevel.Information);
 });
 
 builder.Services.AddIdentity<CustomerApplicationUser, CustomerRole>()

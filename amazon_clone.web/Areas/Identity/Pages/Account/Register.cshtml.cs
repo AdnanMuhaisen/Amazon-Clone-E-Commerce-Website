@@ -132,16 +132,16 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
                 user.ImageUrl = "default.png";
 
                 //configure the required data for the registered customer:
-                var wishList = new WishList
-                {
-                    CustomerID = user.Id,
-                    Products = new List<CustomerProduct>(),
-                    CreationDetails = new CreationDetails()
-                    {
-                        CreatedAt = DateTime.Now,
-                        UpdatedAt = DateTime.Now
-                    }
-                };
+                //var wishList = new WishList
+                //{
+                //    CustomerID = user.Id,
+                //    Products = new List<CustomerProduct>(),
+                //    CreationDetails = new CreationDetails()
+                //    {
+                //        CreatedAt = DateTime.Now,
+                //        UpdatedAt = DateTime.Now
+                //    }
+                //};
 
                 var shoppingCart = new ShoppingCart
                 {

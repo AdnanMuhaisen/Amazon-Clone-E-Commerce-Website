@@ -1,0 +1,8 @@
+info: 1/13/2024 17:16:21.369 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [t].[ProductID], [t].[CategoryID], [t].[DeleteDate], [t].[Description], [t].[ImageUrl], [t].[IsDeleted], [t].[Name], [t].[Price], [t].[Quantity], [t0].[CustomerProductID], [t1].[ClothingProductID], [t1].[TargetGenderID], CASE
+          WHEN [t1].[ProductID] IS NOT NULL THEN N'ClothingProduct'
+      END AS [Discriminator], [t].[ProductCreationDetails_CreatedAt], [t].[ProductCreationDetails_UpdatedAt]
+      FROM [tbl_Products] AS [t]
+      INNER JOIN [tbl_CustomerProducts] AS [t0] ON [t].[ProductID] = [t0].[ProductID]
+      LEFT JOIN [tbl_ClothesProducts] AS [t1] ON [t].[ProductID] = [t1].[ProductID]

@@ -1,9 +1,12 @@
-﻿using amazon_clone.DataAccess.Repositories;
+﻿using amazon_clone.DataAccess.Enums;
+using amazon_clone.DataAccess.Repositories;
 using amazon_clone.Models.Models;
+using amazon_clone.Models.Users;
 using amazon_clone.Models.View_Models;
 using amazon_clone.Utility.App_Details;
 using amazon_clone.Utility.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using System.Web.WebPages.Html;
 
 namespace amazon_clone.web.Controllers
@@ -65,6 +68,26 @@ namespace amazon_clone.web.Controllers
             }
         }
 
+        public void FillTheProductWishlistStatus(int ProductID)
+        {
+            // check if the product in the customer Wishlist
+
+            var customerWishlist = _unitOfWork
+                .WishListRepository
+                .GetAsNoTracking(x => x.WishListID == CurrentCustomer.WishlistID, IncludeProperties: "Products");
+
+            ArgumentNullException.ThrowIfNull(nameof(customerWishlist));
+
+            if (customerWishlist!.Products!.Any(x => x.ProductID == ProductID))
+            {
+                ViewData["Wishlist-Product-Status"] = "Added";
+            }
+            else
+            {
+                ViewData["Wishlist-Product-Status"] = "Add";
+            }
+        }
+
         public IActionResult CustomerProduct(CustomerProductDto customerProductInfo)
         {
             ArgumentNullException.ThrowIfNull(nameof(customerProductInfo));
@@ -78,12 +101,16 @@ namespace amazon_clone.web.Controllers
                 return NotFound();
             }
             customerProductData!.ImageUrl = @"/images/products/" + customerProductData.ImageUrl;
+
+            // check if the product in the customer Wishlist
+            FillTheProductWishlistStatus(customerProductData.ProductID);
+
             return View(customerProductData);
         }
 
         public IActionResult ClothingCustomerProduct(ClothingProductDto clothingProductInfo)
         {
-            var clothingProductData = _unitOfWork
+            var customerProductData = _unitOfWork
                 .ProductRepository
                 .GetAllAsNoTracking(x => x.ProductID == clothingProductInfo.ProductID)?
                 .Select(p => new
@@ -96,15 +123,26 @@ namespace amazon_clone.web.Controllers
                     // if there is no image for the product set the default product image. 
                     ImageUrl = @"/images/products/" + p.ImageUrl ?? StaticDetails.DEFAULT_PRODUCT_IMAGE,
                 })
-                .Join(_unitOfWork
-                .ClothesProductRepository
-                .GetAllAsNoTracking(x => x.ClothingProductID == clothingProductInfo.ClothingProductID, IncludeProperties: "Sizes")?
-                .Select(c => new
-                {
-                    CustomerProductID = c.CustomerProductID,
-                    ClothingProductID = c.ClothingProductID,
-                    Sizes = c.Sizes
-                })!,
+                .ToList();
+
+            ArgumentNullException.ThrowIfNull(nameof(customerProductData));
+
+            var clothingProductData = _unitOfWork
+            .ClothesProductRepository
+            .GetAllAsNoTracking(x => x.ClothingProductID == clothingProductInfo.ClothingProductID, IncludeProperties: "Sizes")?
+            .Select(c => new
+            {
+                CustomerProductID = c.CustomerProductID,
+                ClothingProductID = c.ClothingProductID,
+                Sizes = c.Sizes
+            })
+            .ToList();
+
+            ArgumentNullException.ThrowIfNull(nameof(clothingProductData));
+
+            var clothingProduct = customerProductData!
+                .Join(
+                clothingProductData!,
                 o => clothingProductInfo.CustomerProductID,
                 i => i.CustomerProductID,
                 (o, i) => new ClothingProduct
@@ -116,15 +154,15 @@ namespace amazon_clone.web.Controllers
                     Quantity = o.Quantity,
                     // if there is no image for the product set the default product image. 
                     ImageUrl = o.ImageUrl,
-                    CustomerProductID = clothingProductInfo.CustomerProductID,
-                    ClothingProductID = clothingProductInfo.ClothingProductID,
+                    CustomerProductID = i.CustomerProductID,
+                    ClothingProductID = i.ClothingProductID,
                     Sizes = i.Sizes
                 })
                 .FirstOrDefault();
 
-            ArgumentNullException.ThrowIfNull(nameof(clothingProductData));
+            ArgumentNullException.ThrowIfNull(nameof(clothingProduct));
 
-            var ProductSizes = clothingProductData!
+            var ProductSizes = clothingProduct!
                 .Sizes
                 .Select(x => new SelectListItem()
                 {
@@ -132,10 +170,11 @@ namespace amazon_clone.web.Controllers
                     Value = x.Size
                 });
 
-            var viewModel = new ClothingCustomerProductViewModel(clothingProductData, ProductSizes);
+            // check if the product in the customer Wishlist
+            FillTheProductWishlistStatus(clothingProductInfo.ProductID);
+
+            var viewModel = new ClothingCustomerProductViewModel(clothingProduct, ProductSizes);
             return View(viewModel);
         }
-
-
     }
 }

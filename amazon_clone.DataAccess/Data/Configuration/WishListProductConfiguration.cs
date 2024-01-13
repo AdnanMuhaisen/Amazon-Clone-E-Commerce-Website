@@ -10,6 +10,7 @@ namespace amazon_clone.DataAccess.Data.Configuration
         {
             builder.ToTable("tbl_WishListsProducts").HasKey(x => x.ID);
             builder.Property(x => x.ID).ValueGeneratedOnAdd();
+            
         }
     }
 }
