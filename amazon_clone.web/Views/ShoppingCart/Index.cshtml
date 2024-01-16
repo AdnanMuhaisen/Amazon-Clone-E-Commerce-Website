@@ -1,0 +1,93 @@
+﻿@model ShoppingCart
+
+@*
+    - check from the promo code of the cart in the view
+*@
+
+
+<p class="text-center text-black text-primary">
+    <b>Your Cart</b>
+</p>
+
+@if (Model.CartProducts.Any())
+{
+    <div class="row">
+        <div class="col" style="margin-left:25px;">
+            @foreach (var product in Model.CartProducts)
+            {
+               <div class="card row">
+                    <img src="~/images/products/@product.ImageUrl"/>
+                    <p class="product-name">@product.Name</p>
+                    <p class="product-price"><b>@((product.Price - (product.Price * 0.06m)).ToString("C2"))</b></p>
+                    <span>
+                        <input class="product-quantity" id="quantity" name="quantity" type="number" value="1" max="@product.Quantity" min="1" step="1"/>
+                        <a class="product-save" asp-controller="" asp-action=""><i class="bi bi-heart-fill"></i> Save</a>
+                        <a class="product-delete" asp-controller="" asp-action=""><i class="bi bi-trash"></i> Delete</a>
+                    </span>
+                </div>
+            }
+        </div>
+        <div class="" style="border:1px solid #E0E0E0; background-color:#fff; border-radius:5px; margin:10px;width:470px;margin-top:100px;margin-right:150px; height:350px;">
+            @if(Model.CartPromoCode is not null)
+            {
+                <div style="border:1px solid #E0E0E0; background-color:#A5D6A7; margin-top:10px;padding:10px;border-radius:10px;">
+                    <span>Congrats! You're eligible for Free Delivery.</span>
+                    <span><br/>Use code <b>@Model.CartPromoCode.Code</b> for @Model.CartPromoCode.ForQuantity.ToString()0% discount..</span>
+                </div>
+                <hr />
+                <div class="row m-3">
+                    <input type="text" class="form-control col-3" placeholder="Promo code" aria-label="Username" aria-describedby="basic-addon1" style="width:200px;margin-right:5px;">
+                    <a class="btn col" style="background-color:darkblue;color: white;width:50px;">Apply</a>
+                </div>
+                <hr />
+            }
+        </div>
+    </div>
+}
+else
+{
+    <p class="text-center text-black mt-5">
+        No Products In Your Cart
+    </p>
+}
+
+<style>
+    .card{
+        width:550px;
+        height:150px;
+        border: 1px solid #E0E0E0;
+        margin-top:15px;
+        border-radius:10px;
+    }
+    .card img{
+        height:inherit;
+        width:80px;
+        padding:7px;
+
+    }
+
+    .product-name{
+        margin-top:10px;
+        margin-left:3px;
+        max-height:30px;
+    }   
+    
+    .product-name{
+        margin-top:10px;
+        margin-left:3px;
+
+    }
+
+    .product-quantity{
+        width:120px;
+        border: 1px solid #E0E0E0;
+        border-radius:5px;
+        display:inline-block;
+    }
+
+    .product-save , .product-delete{
+        text-decoration:none;
+        color:black;
+        margin-left:10px;
+    }
+</style>

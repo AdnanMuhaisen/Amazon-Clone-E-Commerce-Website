@@ -143,12 +143,6 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
                 //    }
                 //};
 
-                var shoppingCart = new ShoppingCart
-                {
-                    CartProducts = new List<CustomerProduct>()
-                };
-                user.ShoppingCart = shoppingCart;
-
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

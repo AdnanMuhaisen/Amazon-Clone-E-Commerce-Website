@@ -4,7 +4,6 @@
     {
         public int ShoppingCartID { get; set; }
 
-
         public ICollection<CustomerProduct> CartProducts { get; set; } = new List<CustomerProduct>();
         public ICollection<ShoppingCartProduct> ShoppingCartsProducts { get; set; } = new List<ShoppingCartProduct>();
 
@@ -13,6 +12,6 @@
 
         public CreationDetails CreationDetails { get; set; } = new CreationDetails();
 
-        public CustomerApplicationUser Customer { get; set; } = null!;
+        public Order Order { get; set; } = null!;
     }
 }

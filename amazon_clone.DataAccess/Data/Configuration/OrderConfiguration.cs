@@ -18,6 +18,16 @@ namespace amazon_clone.DataAccess.Data.Configuration
                 .WithMany(x => x.Orders)
                 .HasForeignKey(x => x.CustomerID)
                 .IsRequired(false);
+
+            builder.HasOne(x => x.ShoppingCart)
+                .WithOne(x => x.Order)
+                .HasForeignKey<Order>(x => x.ShoppingCartID)
+                .IsRequired();
+
+            builder.HasOne(x => x.OrderStatus)
+                .WithMany(x => x.Orders)
+                .HasForeignKey(x => x.StatusID)
+                .IsRequired();
         }
     }
 }

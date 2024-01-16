@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using amazon_clone.DataAccess.Data;
 
@@ -11,9 +12,11 @@ using amazon_clone.DataAccess.Data;
 namespace amazon_clone.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240116143107_map the order - shopping cart relationship")]
+    partial class maptheordershoppingcartrelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,6 +259,9 @@ namespace amazon_clone.DataAccess.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ShoppingCartID")
+                        .HasColumnType("int");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -275,6 +281,9 @@ namespace amazon_clone.DataAccess.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("ShoppingCartID")
+                        .IsUnique();
 
                     b.HasIndex("WishListID")
                         .IsUnique()
@@ -297,6 +306,9 @@ namespace amazon_clone.DataAccess.Migrations
                     b.Property<DateTime>("OrderDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("OrderStatusStatusID")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ShippingDetailsID")
                         .HasColumnType("int");
 
@@ -310,14 +322,14 @@ namespace amazon_clone.DataAccess.Migrations
 
                     b.HasIndex("CustomerID");
 
+                    b.HasIndex("OrderStatusStatusID");
+
                     b.HasIndex("ShippingDetailsID")
                         .IsUnique()
                         .HasFilter("[ShippingDetailsID] IS NOT NULL");
 
                     b.HasIndex("ShoppingCartID")
                         .IsUnique();
-
-                    b.HasIndex("StatusID");
 
                     b.ToTable("tbl_Orders", (string)null);
                 });
@@ -707,6 +719,10 @@ namespace amazon_clone.DataAccess.Migrations
 
             modelBuilder.Entity("amazon_clone.Models.Models.CustomerApplicationUser", b =>
                 {
+                    b.HasOne("amazon_clone.Models.Models.ShoppingCart", "ShoppingCart")
+                        .WithOne("Customer")
+                        .HasForeignKey("amazon_clone.Models.Models.CustomerApplicationUser", "ShoppingCartID");
+
                     b.HasOne("amazon_clone.Models.Models.WishList", "WishList")
                         .WithOne("Customer")
                         .HasForeignKey("amazon_clone.Models.Models.CustomerApplicationUser", "WishListID");
@@ -733,6 +749,8 @@ namespace amazon_clone.DataAccess.Migrations
                     b.Navigation("CreationDetails")
                         .IsRequired();
 
+                    b.Navigation("ShoppingCart");
+
                     b.Navigation("WishList");
                 });
 
@@ -742,6 +760,12 @@ namespace amazon_clone.DataAccess.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("CustomerID");
 
+                    b.HasOne("amazon_clone.Models.Models.OrderStatus", "OrderStatus")
+                        .WithMany("Orders")
+                        .HasForeignKey("OrderStatusStatusID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("amazon_clone.Models.Models.ShippingDetail", "ShippingDetails")
                         .WithOne("Order")
                         .HasForeignKey("amazon_clone.Models.Models.Order", "ShippingDetailsID");
@@ -749,12 +773,6 @@ namespace amazon_clone.DataAccess.Migrations
                     b.HasOne("amazon_clone.Models.Models.ShoppingCart", "ShoppingCart")
                         .WithOne("Order")
                         .HasForeignKey("amazon_clone.Models.Models.Order", "ShoppingCartID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("amazon_clone.Models.Models.OrderStatus", "OrderStatus")
-                        .WithMany("Orders")
-                        .HasForeignKey("StatusID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1076,6 +1094,9 @@ namespace amazon_clone.DataAccess.Migrations
 
             modelBuilder.Entity("amazon_clone.Models.Models.ShoppingCart", b =>
                 {
+                    b.Navigation("Customer")
+                        .IsRequired();
+
                     b.Navigation("Order")
                         .IsRequired();
 
