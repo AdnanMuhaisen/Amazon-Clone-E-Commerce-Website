@@ -5,6 +5,8 @@ namespace amazon_clone.Models.View_Models
 {
     public class ClothingCustomerProductViewModel(ClothingProduct ClothingProduct,IEnumerable<SelectListItem> ProductSizes)
     {
+        //convert it to a record
+
         public ClothingProduct ClothingProduct { get; set; } = ClothingProduct;
         public IEnumerable<SelectListItem> ProductSizes { get; set; } = ProductSizes;
     }

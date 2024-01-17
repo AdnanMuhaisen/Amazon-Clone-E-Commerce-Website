@@ -7,6 +7,7 @@ using amazon_clone.Utility.App_Details;
 using amazon_clone.Utility.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using System.Web.WebPages.Html;
 
 namespace amazon_clone.web.Controllers
@@ -68,7 +69,7 @@ namespace amazon_clone.web.Controllers
             }
         }
 
-        public void FillTheProductWishlistStatus(int ProductID)
+        public void SetProductAdditionStatusForWishlistAndShoppingCart(int ProductID)
         {
             // check if the product in the customer Wishlist
 
@@ -86,7 +87,29 @@ namespace amazon_clone.web.Controllers
             {
                 ViewData["Wishlist-Product-Status"] = "Add";
             }
+
+            // check if the product in the customer shopping cart 
+            var targetOrderContainsTheCart = _unitOfWork
+                 .OrderRepository
+                 .Get(filter: x => x.CustomerID == CurrentCustomer.UserID && x.StatusID == (int)eOrderStatuses.PROCESSING,
+                 include: i => i
+                 .Include(x => x.ShoppingCart)
+                 .ThenInclude(x => x.CartProducts));
+
+            ArgumentNullException.ThrowIfNull(nameof(targetOrderContainsTheCart));
+
+            ArgumentNullException.ThrowIfNull(nameof(targetOrderContainsTheCart.ShoppingCart));
+
+            if (targetOrderContainsTheCart!.ShoppingCart.CartProducts.Any(x => x.ProductID == ProductID))
+            {
+                ViewData["ShoppingCart-Product-Status"] = "Added";
+            }
+            else
+            {
+                ViewData["ShoppingCart-Product-Status"] = "Add";
+            }
         }
+
 
         public IActionResult CustomerProduct(CustomerProductDto customerProductInfo)
         {
@@ -103,7 +126,7 @@ namespace amazon_clone.web.Controllers
             customerProductData!.ImageUrl = @"/images/products/" + customerProductData.ImageUrl;
 
             // check if the product in the customer Wishlist
-            FillTheProductWishlistStatus(customerProductData.ProductID);
+            SetProductAdditionStatusForWishlistAndShoppingCart(customerProductData.ProductID);
 
             return View(customerProductData);
         }
@@ -171,7 +194,7 @@ namespace amazon_clone.web.Controllers
                 });
 
             // check if the product in the customer Wishlist
-            FillTheProductWishlistStatus(clothingProductInfo.ProductID);
+            SetProductAdditionStatusForWishlistAndShoppingCart(clothingProductInfo.ProductID);
 
             var viewModel = new ClothingCustomerProductViewModel(clothingProduct, ProductSizes);
             return View(viewModel);

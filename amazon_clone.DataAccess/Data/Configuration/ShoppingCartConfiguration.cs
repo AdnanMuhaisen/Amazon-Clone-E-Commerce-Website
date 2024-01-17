@@ -12,6 +12,9 @@ namespace amazon_clone.DataAccess.Data.Configuration
 
             builder.Property(x => x.ShoppingCartID).ValueGeneratedOnAdd();
 
+            builder.Property(x => x.IsPromoCodeApplied)
+                .HasDefaultValue(false);
+
             builder.HasMany(x => x.CartProducts)
                 .WithMany(x => x.ShoppingCarts)
                 .UsingEntity<ShoppingCartProduct>(

@@ -1,0 +1,77 @@
+﻿@model ShippingDetailsViewModel
+
+
+<div class="card">
+    <p><b>Shipping Details</b></p>
+    <p>Order ID : @Model.OrderID</p>
+    
+    <div asp-validation-summary="All"></div>
+    <form method="post">
+        <div class="row mt-4">
+            <div class="col">
+                <p><b>Country: </b></p>
+                <input type="text" placeholder="country" asp-for="@Model.shippingDetail.Country" />
+            </div>    
+            <div class="col">
+                <p><b>Email Address: </b></p>
+                <input type="email" placeholder="email" asp-for="@Model.shippingDetail.EmailAddress" />
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col">
+                <p><b>Name: </b></p>
+                <input type="text" placeholder="name" asp-for="@Model.shippingDetail.Name" />
+            </div>    
+            <div class="col">
+                <p><b>Home Address: </b></p>
+                <input type="text" placeholder="home address" asp-for="@Model.shippingDetail.HomeAddress" />
+            </div>
+        </div>      
+        <div class="row mt-4">
+            <div class="col">
+                <p><b>Contact number: </b></p>
+                <input type="tel" placeholder="contact number" asp-for="@Model.shippingDetail.ContactNumber" />
+            </div>    
+            <div class="col">
+                <p><b>Pin code: </b></p>
+                <input type="text" placeholder="pin code" asp-for="@Model.shippingDetail.PinCode" />
+            </div>
+        </div>
+        <input class="btn btn-primary mt-5" type="submit" style="margin-left:20px;"/>
+    </form>
+</div>
+
+
+<style>
+    .card{
+        width:900px;
+        height:500px;
+        margin-left:150px;
+        margin-top:70px;
+        margin-bottom:50px;
+        padding:15px;
+        border-radius:10px;
+    }
+
+    .row{
+        margin-left:5px;
+        margin-top:15px;
+    }
+
+    .row .col input{
+        width:250px;
+        height:33px;
+        padding:3px;
+        border-radius:5px;
+        border: 1px solid #E0E0E0;
+    }
+
+</style>
+
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

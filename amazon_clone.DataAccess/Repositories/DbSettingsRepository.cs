@@ -12,7 +12,7 @@ namespace amazon_clone.DataAccess.Repositories
         {
             if(GetAllAsNoTracking()?.Count() > 1)
             {
-                throw new InvalidInsertOperation(nameof(dbSettings));
+                throw new InvalidInsertOperationException(nameof(dbSettings));
             }
             base.Add(dbSettings);
         }

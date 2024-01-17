@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using amazon_clone.DataAccess.Data;
 
@@ -11,9 +12,11 @@ using amazon_clone.DataAccess.Data;
 namespace amazon_clone.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240117043947_add total-subtotal-tax-delivery properties")]
+    partial class addtotalsubtotaltaxdeliveryproperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -471,8 +474,7 @@ namespace amazon_clone.DataAccess.Migrations
 
                     b.Property<string>("HomeAddress")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -495,21 +497,10 @@ namespace amazon_clone.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShoppingCartID"));
 
-                    b.Property<decimal>("ActualSubTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("IsPromoCodeApplied")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
                     b.Property<int?>("PromoCodeID")
                         .HasColumnType("int");
 
                     b.Property<decimal>("SubTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("SubTotalAfterApplyingPromoCode")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ShoppingCartID");

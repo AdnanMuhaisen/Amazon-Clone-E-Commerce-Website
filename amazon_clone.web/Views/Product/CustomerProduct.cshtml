@@ -22,13 +22,14 @@
         <hr />
         <div>
             <b>
-                <span class="price">Price: @((@Model.Price - (@Model.Price * 0.06m)).ToString("C2"))</span>
+                <span class="price">Price: @((@Model.Price - (@Model.Price * StaticDetails.PRODUCT_DICOUNT)).ToString("C2"))</span>
                 <span style="color:brown"><del>@Model.Price.ToString("C2")</del></span>
             </b>
         </div>
         <div class="mt-5">
             <a class="btn" asp-controller="" asp-action="" style="width:100px;height:40px; background-color:darkorange; color:white; margin-right:15px;">Buy Now</a>
-            <a class="btn" asp-controller="Wishlist" asp-action="AddProductToWishlist" asp-route-ProductID="@Model.ProductID" style="width:100px;height:40px; background-color:#1c2228; color:white;"><i class="bi bi-cart-plus"></i> @(ViewData["Wishlist-Product-Status"]!.ToString())</a>
+            <a class="btn" asp-controller="Wishlist" asp-action="AddProductToWishlist" asp-route-ProductID="@Model.ProductID" style="width:100px;height:40px; background-color:#1c2228; color:white;"><i class="bi bi-heart-fill"></i> @(ViewData["Wishlist-Product-Status"]!.ToString())</a>
+            <a class="btn" asp-controller="ShoppingCart" asp-action="AddProductToShoppingCart" asp-route-ProductID="@Model.ProductID" style="width:100px;height:40px; background-color:#1c2228; color:white;"><i class="bi bi-cart-plus-fill"></i> @(ViewData["ShoppingCart-Product-Status"]?.ToString())</a>
         </div>
     </div>
 </section>

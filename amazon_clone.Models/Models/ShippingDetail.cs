@@ -1,11 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace amazon_clone.Models.Models
 {
     public class ShippingDetail
     {
         public int ID { get; set; }
-        [Required]
+
+        [Required,MaxLength(100)]
         public string HomeAddress { get; set; } = null!;
 
         [EmailAddress]
@@ -22,9 +24,9 @@ namespace amazon_clone.Models.Models
         [Required]
         public int PinCode { get; set; }
 
+        [ValidateNever]
         public Order Order { get; set; } = null!;
 
         public CreationDetails CreationDetails { get; set; } = new CreationDetails();
-
     }
 }

@@ -7,6 +7,7 @@ using amazon_clone.Utility.Notifiers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     //    new UpdateCreationDetailsInterceptor());
     options.LogTo(l =>
     {
-        File.WriteAllText(@"C:\amazon_clone\amazon_clone.DataAccess\Data\Logged-Queries.txt", l);
+        System.IO.File.WriteAllText(@"C:\amazon_clone\amazon_clone.DataAccess\Data\Logged-Queries.txt", l);
     }, LogLevel.Information);
 });
 
@@ -33,6 +34,9 @@ builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddRazorPages();
+
+// stripe configuration - include api settings
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 
 
 var app = builder.Build();

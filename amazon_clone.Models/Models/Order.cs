@@ -4,6 +4,12 @@
     {
         public int OrderID { get; set; }
 
+        public decimal delivery { get; set; } = 0m;
+
+        public decimal Tax { get; set; } = 10.00m;
+
+        public decimal Total { get; set; }
+
         public DateTime OrderDateTime { get; set; }
 
         //relationships

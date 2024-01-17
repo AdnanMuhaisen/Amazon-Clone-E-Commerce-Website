@@ -75,18 +75,27 @@ namespace amazon_clone.web.Controllers
 
             var customerWishlist = _unitOfWork
                 .WishListRepository
-                .GetAsNoTracking(x => x.WishListID == CurrentCustomer.WishlistID);
+                .GetAsNoTracking(filter: x => x.WishListID == CurrentCustomer.WishlistID, "Products");
 
             ArgumentNullException.ThrowIfNull(customerWishlist);
 
-            _unitOfWork.WishListProductRepository.Add(new WishListProduct()
-            {
-                ProductID = ProductID,
-                ListID = customerWishlist.WishListID
-            });
-            _unitOfWork.Save();
+            ArgumentNullException.ThrowIfNull(customerWishlist.Products);
 
-            return RedirectToAction("Index", "Home");
+            if (customerWishlist.Products.Any(x => x.ProductID == ProductID))
+            {
+                // do nothing
+            }
+            else
+            {
+                _unitOfWork.WishListProductRepository.Add(new WishListProduct()
+                {
+                    ProductID = ProductID,
+                    ListID = customerWishlist.WishListID
+                });
+                _unitOfWork.Save();
+            }
+
+            return RedirectToAction("Index", routeValues: CurrentCustomer.UserID);
         }
 
         public IActionResult RemoveProductFromWishlist(int ProductID)

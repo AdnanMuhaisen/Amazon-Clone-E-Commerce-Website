@@ -1,4 +1,5 @@
-﻿@model HomeViewModel
+﻿@using amazon_clone.Utility.App_Details
+@model HomeViewModel
 
 
 <partial name="_ProductsMainSections" />
@@ -26,7 +27,7 @@
                         <p class="product-name"><b>@product.Name</b></p>
                         <p class="product-category">@product.Category.CategoryName</p>
                         <p class="price-info">
-                            <span class="price"><b>@((@product.Price - (@product.Price * 0.06m)).ToString("C2"))</b></span>
+                            <span class="price"><b>@((@product.Price - (@product.Price * StaticDetails.PRODUCT_DICOUNT)).ToString("C2"))</b></span>
                             <span style="color:red;"><del>@((@product.Price).ToString("C2"))</del></span>
                             <span style="color:brown;margin-left:5px;"><b>(60% OFF)</b></span>
                         </p>

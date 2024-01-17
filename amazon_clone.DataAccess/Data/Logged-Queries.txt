@@ -1,23 +1,7 @@
-info: 1/16/2024 20:11:40.623 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
-      Executed DbCommand (8ms) [Parameters=[@__UserID_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
-      SELECT [t2].[OrderID], [t2].[CustomerID], [t2].[OrderDateTime], [t2].[ShippingDetailsID], [t2].[ShoppingCartID], [t2].[StatusID], [t2].[CreationDetails_CreatedAt], [t2].[CreationDetails_UpdatedAt], [t2].[ShoppingCartID0], [t2].[PromoCodeID], [t2].[CreationDetails_CreatedAt0], [t2].[CreationDetails_UpdatedAt0], [t2].[CodeID], [t4].[ProductID], [t4].[CategoryID], [t4].[DeleteDate], [t4].[Description], [t4].[ImageUrl], [t4].[IsDeleted], [t4].[Name], [t4].[Price], [t4].[Quantity], [t4].[CustomerProductID], [t4].[ClothingProductID], [t4].[TargetGenderID], [t4].[Discriminator], [t4].[ProductCreationDetails_CreatedAt], [t4].[ProductCreationDetails_UpdatedAt], [t4].[CustomerProductID0], [t4].[ShoppingCartID], [t2].[Code], [t2].[ForQuantity], [t2].[CreationDetails_CreatedAt1], [t2].[CreationDetails_UpdatedAt1]
-      FROM (
-          SELECT TOP(1) [t].[OrderID], [t].[CustomerID], [t].[OrderDateTime], [t].[ShippingDetailsID], [t].[ShoppingCartID], [t].[StatusID], [t].[CreationDetails_CreatedAt], [t].[CreationDetails_UpdatedAt], [t0].[ShoppingCartID] AS [ShoppingCartID0], [t0].[PromoCodeID], [t0].[CreationDetails_CreatedAt] AS [CreationDetails_CreatedAt0], [t0].[CreationDetails_UpdatedAt] AS [CreationDetails_UpdatedAt0], [t1].[CodeID], [t1].[Code], [t1].[ForQuantity], [t1].[CreationDetails_CreatedAt] AS [CreationDetails_CreatedAt1], [t1].[CreationDetails_UpdatedAt] AS [CreationDetails_UpdatedAt1]
-          FROM [tbl_Orders] AS [t]
-          INNER JOIN [tbl_ShoppingCarts] AS [t0] ON [t].[ShoppingCartID] = [t0].[ShoppingCartID]
-          LEFT JOIN [tbl_PromoCodes] AS [t1] ON [t0].[PromoCodeID] = [t1].[CodeID]
-          WHERE [t].[CustomerID] = @__UserID_0 AND [t].[StatusID] = 1
-      ) AS [t2]
-      LEFT JOIN (
-          SELECT [t5].[ProductID], [t5].[CategoryID], [t5].[DeleteDate], [t5].[Description], [t5].[ImageUrl], [t5].[IsDeleted], [t5].[Name], [t5].[Price], [t5].[Quantity], [t5].[CustomerProductID], [t5].[ClothingProductID], [t5].[TargetGenderID], [t5].[Discriminator], [t5].[ProductCreationDetails_CreatedAt], [t5].[ProductCreationDetails_UpdatedAt], [t3].[CustomerProductID] AS [CustomerProductID0], [t3].[ShoppingCartID]
-          FROM [tbl_ShoppingCartProduct] AS [t3]
-          INNER JOIN (
-              SELECT [t6].[ProductID], [t6].[CategoryID], [t6].[DeleteDate], [t6].[Description], [t6].[ImageUrl], [t6].[IsDeleted], [t6].[Name], [t6].[Price], [t6].[Quantity], [t7].[CustomerProductID], [t8].[ClothingProductID], [t8].[TargetGenderID], CASE
-                  WHEN [t8].[ProductID] IS NOT NULL THEN N'ClothingProduct'
-              END AS [Discriminator], [t6].[ProductCreationDetails_CreatedAt], [t6].[ProductCreationDetails_UpdatedAt]
-              FROM [tbl_Products] AS [t6]
-              INNER JOIN [tbl_CustomerProducts] AS [t7] ON [t6].[ProductID] = [t7].[ProductID]
-              LEFT JOIN [tbl_ClothesProducts] AS [t8] ON [t6].[ProductID] = [t8].[ProductID]
-          ) AS [t5] ON [t3].[CustomerProductID] = [t5].[ProductID]
-      ) AS [t4] ON [t2].[ShoppingCartID0] = [t4].[ShoppingCartID]
-      ORDER BY [t2].[OrderID], [t2].[ShoppingCartID0], [t2].[CodeID], [t4].[CustomerProductID0], [t4].[ShoppingCartID]
+info: 1/17/2024 16:28:07.683 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [t].[ProductID], [t].[CategoryID], [t].[DeleteDate], [t].[Description], [t].[ImageUrl], [t].[IsDeleted], [t].[Name], [t].[Price], [t].[Quantity], [t0].[CustomerProductID], [t1].[ClothingProductID], [t1].[TargetGenderID], [t].[ProductCreationDetails_CreatedAt], [t].[ProductCreationDetails_UpdatedAt], [t2].[GenderID], [t2].[Gender]
+      FROM [tbl_Products] AS [t]
+      INNER JOIN [tbl_CustomerProducts] AS [t0] ON [t].[ProductID] = [t0].[ProductID]
+      INNER JOIN [tbl_ClothesProducts] AS [t1] ON [t].[ProductID] = [t1].[ProductID]
+      LEFT JOIN [tbl_Genders] AS [t2] ON [t1].[TargetGenderID] = [t2].[GenderID]
