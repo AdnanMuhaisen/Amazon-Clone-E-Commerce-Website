@@ -15,6 +15,8 @@ namespace amazon_clone.DataAccess.Data.Configuration
             builder.Property(x => x.ProductID)
                 .ValueGeneratedOnAdd();
 
+            builder.HasQueryFilter(x => x.IsDeleted == false);
+
             builder.OwnsOne(p => p.ProductCreationDetails);
 
             builder.Property(p => p.IsDeleted)

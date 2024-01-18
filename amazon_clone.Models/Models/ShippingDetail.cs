@@ -10,7 +10,7 @@ namespace amazon_clone.Models.Models
         [Required,MaxLength(100)]
         public string HomeAddress { get; set; } = null!;
 
-        [EmailAddress]
+        [EmailAddress,Required]
         public string EmailAddress { get; set; } = null!;
 
         [Phone]

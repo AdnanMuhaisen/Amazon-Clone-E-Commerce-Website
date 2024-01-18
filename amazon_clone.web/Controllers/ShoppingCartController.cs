@@ -25,7 +25,7 @@ namespace amazon_clone.web.Controllers
             var customerOrder = _unitOfWork
                 .OrderRepository
                 .GetAsNoTracking(filter: x => x.CustomerID == CurrentCustomer.UserID
-                && x.StatusID == (int)eOrderStatuses.PROCESSING,
+                && (x.StatusID == (int)eOrderStatuses.SHIPPED || x.StatusID == (int)eOrderStatuses.PROCESSING),
                 include: i => i
                 .Include(x => x.ShoppingCart)
                 .ThenInclude(x => x.CartProducts)
@@ -77,7 +77,7 @@ namespace amazon_clone.web.Controllers
         {
             var targetOrderContainsTheCart = _unitOfWork
                 .OrderRepository
-                .Get(filter: x => x.CustomerID == CurrentCustomer.UserID && x.StatusID == (int)eOrderStatuses.PROCESSING,
+                .Get(filter: x => x.CustomerID == CurrentCustomer.UserID && (x.StatusID == (int)eOrderStatuses.SHIPPED || x.StatusID == (int)eOrderStatuses.PROCESSING),
                 include: i => i
                 .Include(x => x.ShoppingCart)
                 .ThenInclude(x => x.CartProducts));
@@ -136,7 +136,7 @@ namespace amazon_clone.web.Controllers
         {
             var targetOrderContainsTheCart = _unitOfWork
                 .OrderRepository
-                .Get(filter: x => x.CustomerID == CurrentCustomer.UserID && x.StatusID == (int)eOrderStatuses.PROCESSING,
+                .Get(filter: x => x.CustomerID == CurrentCustomer.UserID && (x.StatusID == (int)eOrderStatuses.SHIPPED || x.StatusID == (int)eOrderStatuses.PROCESSING),
                 include: i => i
                 .Include(x => x.ShoppingCart)
                 .ThenInclude(x => x.CartProducts));
@@ -158,15 +158,14 @@ namespace amazon_clone.web.Controllers
             }
             else
             {
-                //var cartProduct = new ShoppingCartProduct
-                //{
-                //    ShoppingCartID = targetOrderContainsTheCart.ShoppingCartID,
-                //    CustomerProductID = ProductID,
-                //    Quantity = 1
-                //};
+                var cartProduct = new ShoppingCartProduct
+                {
+                    ShoppingCartID = targetOrderContainsTheCart.ShoppingCartID,
+                    CustomerProductID = ProductID,
+                    Quantity = 1
+                };
 
-                //_unitOfWork.ShoppingCartProductRepository.Add(cartProduct);
-                targetOrderContainsTheCart.ShoppingCart.CartProducts.Add(targetCustomerProductData!);
+                _unitOfWork.ShoppingCartProductRepository.Add(cartProduct);
 
                 decimal priceToAdd = targetCustomerProductData!.Price - (targetCustomerProductData.Price * StaticDetails.PRODUCT_DICOUNT);
                 targetOrderContainsTheCart.ShoppingCart.PromoCodeID = UpdateShoppingCartPromoCode(targetOrderContainsTheCart.ShoppingCart.CartProducts.Count());

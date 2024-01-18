@@ -2,9 +2,7 @@
 
 namespace amazon_clone.DataAccess.Repositories
 {
-    public class UnitOfWork(AppDbContext _context)
-
-        : IUnitOfWork
+    public class UnitOfWork(AppDbContext _context) : IUnitOfWork
     {
         public AppDbContext context { get; set; } = _context;
         public IProductRepository ProductRepository { get; set; } = new ProductRepository(_context);
@@ -23,6 +21,7 @@ namespace amazon_clone.DataAccess.Repositories
         public IShoppingCartProductRepository ShoppingCartProductRepository { get; set; } = new ShoppingCartProductRepository(_context);
         public IDbSettingsRepository DbSettingsRepository { get; set; } = new DbSettingsRepository(_context);
         public IUsersRepository UsersRepository { get; set; } = new UsersRepository(_context);
+        public IPaymentRepository PaymentRepository { get; set; } = new PaymentRepository(_context);
 
         public void Save()
         {

@@ -16,5 +16,6 @@ namespace amazon_clone.Models.Models
 
         public ICollection<Order> Orders { get; set; } = new List<Order>();
 
+        public ICollection<Payment> CustomerPayments { get; set; } = null!;
     }
 }

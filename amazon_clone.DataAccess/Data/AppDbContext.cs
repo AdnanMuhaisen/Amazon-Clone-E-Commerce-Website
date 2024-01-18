@@ -30,6 +30,7 @@ namespace amazon_clone.DataAccess.Data
         public DbSet<ShoppingCartProduct> ShoppingCartsProducts { get; set; }
         public DbSet<CustomerApplicationUser> ApplicationUsers { get; set; }
         public DbSet<CustomerRole> ApplicationUserRoles { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

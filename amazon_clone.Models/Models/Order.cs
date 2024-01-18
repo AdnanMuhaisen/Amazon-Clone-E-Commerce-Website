@@ -26,5 +26,7 @@
 
         public int ShoppingCartID { get; set; }
         public ShoppingCart ShoppingCart { get; set; } = null!;
+
+        public Payment? Payment { get; set; } = null!;
     }
 }

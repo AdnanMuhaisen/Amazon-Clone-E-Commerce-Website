@@ -91,7 +91,7 @@ namespace amazon_clone.web.Controllers
             // check if the product in the customer shopping cart 
             var targetOrderContainsTheCart = _unitOfWork
                  .OrderRepository
-                 .Get(filter: x => x.CustomerID == CurrentCustomer.UserID && x.StatusID == (int)eOrderStatuses.PROCESSING,
+                 .Get(filter: x => x.CustomerID == CurrentCustomer.UserID && (x.StatusID == (int)eOrderStatuses.SHIPPED || x.StatusID == (int)eOrderStatuses.PROCESSING),
                  include: i => i
                  .Include(x => x.ShoppingCart)
                  .ThenInclude(x => x.CartProducts));

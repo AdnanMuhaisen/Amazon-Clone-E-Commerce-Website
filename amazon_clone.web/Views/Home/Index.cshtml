@@ -1,5 +1,5 @@
 ﻿@using amazon_clone.Utility.App_Details
-@model HomeViewModel
+@model List<CustomerProduct>
 
 
 <partial name="_ProductsMainSections" />
@@ -9,14 +9,14 @@
         <b>Hot Deals</b> <img src="~/images/UI/fire (1).png" style="height:20px; width:20px;"/>
      </p>
     <section class="hot-deal-products row-cols-3">
-        @if (!(Model.allProducts.Any()))
+        @if (!(Model.Any()))
         {
             <p class="text-center">
                 <b>There is no products</b>
             </p>
         }
         else{
-            @foreach(var product in Model.allProducts)
+            @foreach(var product in Model)
             {
                   <div class="card">
                         <div class="w-100">

@@ -2,6 +2,7 @@ using amazon_clone.DataAccess.Data;
 using amazon_clone.DataAccess.Interceptors;
 using amazon_clone.DataAccess.Repositories;
 using amazon_clone.Models.Models;
+using amazon_clone.Models.Users.Managers;
 using amazon_clone.Models.Users.Roles;
 using amazon_clone.Utility.Notifiers;
 using Microsoft.AspNetCore.Identity;
@@ -28,6 +29,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<CustomerApplicationUser, CustomerRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+
 
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 

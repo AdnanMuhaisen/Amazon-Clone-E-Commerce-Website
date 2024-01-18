@@ -1,33 +1,38 @@
-﻿@model ShippingDetail
-
-
+﻿@using amazon_clone.DataAccess.Enums
+@model PaymentViewModel
 
 <div class="card text-center">
     <p style="padding-top:20px;">
         <b>Choose your payment method</b>
     </p>
 
-    <div class="payment-types">
-        <div class="row" style="margin-bottom:15px;">
-            <input class="col-1" type="radio" />
-            <label class="col-6">cash on delivery (COD)</label>
+    <form method="post" asp-controller="Payment" asp-action="Index">
+        <div class="payment-types">
+            <div class="row" style="margin-bottom:15px;">
+                <input asp-for="@Model.PaymentMethod" value="@ePaymentMethods.CASH_ON_DELIVERY.ToString()" checked class="col-1" type="radio" name="paymentMethod" />
+                <label class="col-6">cash on delivery (COD)</label>
+            </div>
+            <div class="row">
+                <input asp-for="@Model.PaymentMethod" value="@ePaymentMethods.CREDIT_OR_DEBIT_CARD.ToString()" class="col-1" type="radio" name="paymentMethod" />
+                <label class="col-6">Credit/Debit card</label>
+            </div>
         </div>
-        <div class="row">
-            <input class="col-1" type="radio" />
-            <label class="col-6">Credit/Debit card</label>
-        </div>
-
-    </div>
+        <p class="mt-5">
+            Total Amount: <b>@Model.OrderTotalFees.ToString("C2")</b>
+        </p>
+        <input class="btn" type="submit" value="Place Order" style="color:white; background-color:darkorange;" />
+    </form>
 </div>
-
 
 
 <style>
     .card{
         height:300px;
         width:400px;
-        margin-left:350px;
+        margin-left:450px;
         padding:10px;
+        margin-bottom:72px;
+        margin-top:60px;
     }
 
     .payment-types{

@@ -23,7 +23,7 @@
                     <p class="product-name">@product.Name</p>
                     <p class="product-price"><b>@((product.Price - (product.Price * StaticDetails.PRODUCT_DICOUNT)).ToString("C2"))</b></p>
                     <span>
-                        <input class="product-quantity" id="quantity" name="quantity" type="number" value="1" max="@product.Quantity" min="1" step="1"/>
+                        <input asp-for="@product.Quantity" class="product-quantity" id="quantity" name="quantity" type="number" value="1" max="@product.Quantity" min="1" step="1"/>
                         <a class="product-save" asp-controller="Wishlist" asp-action="AddProductToWishlist" asp-route-ProductID="@product.ProductID"><i class="bi bi-heart-fill"></i> Save</a>
                         <a class="product-delete" asp-controller="ShoppingCart" asp-action="RemoveProductFromShoppingCart" asp-route-CustomerProductID="@product.CustomerProductID"><i class="bi bi-trash"></i> Delete</a>
                     </span>

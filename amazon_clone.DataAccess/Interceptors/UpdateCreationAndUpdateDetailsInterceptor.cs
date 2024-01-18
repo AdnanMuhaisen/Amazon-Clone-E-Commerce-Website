@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace amazon_clone.DataAccess.Interceptors
 {
-    public class UpdateCreationDetailsInterceptor : SaveChangesInterceptor
+    public class UpdateCreationAndUpdateDetailsInterceptor : SaveChangesInterceptor
     {
         //test this method
         public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)

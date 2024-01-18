@@ -1,0 +1,33 @@
+﻿@model List<Order>
+
+<div class="orders">
+    @foreach (var order in Model)
+    {
+        <div class="row">
+            <div class="col">
+                <p><b>Order ID: @order.OrderID.ToString()</b></p>
+                <p>Order Date And Time: @order.OrderDateTime.ToShortDateString() - @order.OrderDateTime.ToShortTimeString()</p>
+                <p>Order Status: @order.OrderStatus.Status</p>
+            </div>
+            <div class="col">
+                <p style="visibility:hidden;">rrrrr</p>
+                <p>Number Of Products: @order.ShoppingCart.CartProducts.Count()</p>
+                <p>Total Amout: @order.Total.ToString("C2")</p>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .orders .row{
+        width:inherit;
+        height:130px;
+        border: 1px solid #E0E0E0;
+        padding:10px;
+        background-color:orange;
+        color:white;
+        border-radius:10px;
+        margin-top:30px;
+        margin-bottom:50px;
+    }
+</style>

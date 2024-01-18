@@ -2,9 +2,9 @@
 
 namespace amazon_clone.Models.View_Models
 {
-    public record ShippingDetailsViewModel(int OrderID,ShippingDetail shippingDetail)
+    public record ShippingDetailsViewModel(int OrderID, Models.ShippingDetail shippingDetail)
     {
         public int OrderID { get; set; } = OrderID;
-        public ShippingDetail ShippingDetail { get; set; } = shippingDetail;
+        public Models.ShippingDetail ShippingDetail { get; set; } = shippingDetail;
     }
 }
