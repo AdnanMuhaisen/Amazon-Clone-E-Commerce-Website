@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using amazon_clone.Models.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +17,14 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account.Manage
 {
     public class ExternalLoginsModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IUserStore<IdentityUser> _userStore;
+        private readonly UserManager<CustomerApplicationUser> _userManager;
+        private readonly SignInManager<CustomerApplicationUser> _signInManager;
+        private readonly IUserStore<CustomerApplicationUser> _userStore;
 
         public ExternalLoginsModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            IUserStore<IdentityUser> userStore)
+            UserManager<CustomerApplicationUser> userManager,
+            SignInManager<CustomerApplicationUser> signInManager,
+            IUserStore<CustomerApplicationUser> userStore)
         {
             _userManager = userManager;
             _signInManager = signInManager;

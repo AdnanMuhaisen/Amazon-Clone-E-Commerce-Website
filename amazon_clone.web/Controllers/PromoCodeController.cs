@@ -35,11 +35,11 @@ namespace amazon_clone.web.Controllers
                 .Include(x => x.ShoppingCart)
                 .ThenInclude(y => y.CartPromoCode)!);
 
-            ArgumentNullException.ThrowIfNull(nameof(targetOrderContainsTheCart));
+            ArgumentNullException.ThrowIfNull((targetOrderContainsTheCart));
 
-            ArgumentNullException.ThrowIfNull(nameof(targetOrderContainsTheCart.ShoppingCart));
+            ArgumentNullException.ThrowIfNull((targetOrderContainsTheCart.ShoppingCart));
                         
-            ArgumentNullException.ThrowIfNull(nameof(targetOrderContainsTheCart.ShoppingCart.CartPromoCode));
+            ArgumentNullException.ThrowIfNull((targetOrderContainsTheCart.ShoppingCart.CartPromoCode));
 
             if (targetOrderContainsTheCart?.ShoppingCart.CartPromoCode?.Code == PromoCodeToApply)
             {
@@ -65,9 +65,9 @@ namespace amazon_clone.web.Controllers
                 .Include(x => x.ShoppingCart)
                 .ThenInclude(x => x.ShoppingCartsProducts));
 
-            ArgumentNullException.ThrowIfNull(nameof(targetOrderContainsTheCart));
+            ArgumentNullException.ThrowIfNull((targetOrderContainsTheCart));
 
-            ArgumentNullException.ThrowIfNull(nameof(targetOrderContainsTheCart.ShoppingCart));
+            ArgumentNullException.ThrowIfNull((targetOrderContainsTheCart.ShoppingCart));
 
             CancelAnAppOfPromoCode(targetOrderContainsTheCart!.ShoppingCart);
 
@@ -78,7 +78,7 @@ namespace amazon_clone.web.Controllers
 
         private void CancelAnAppOfPromoCode(ShoppingCart shoppingCart)
         {
-            ArgumentNullException.ThrowIfNull(nameof(shoppingCart));
+            ArgumentNullException.ThrowIfNull((shoppingCart));
 
             shoppingCart.ActualSubTotal = shoppingCart.SubTotal;
             shoppingCart.IsPromoCodeApplied = false;
@@ -89,9 +89,9 @@ namespace amazon_clone.web.Controllers
 
         private void ApplyPromoCodeOnAShoppingCart(ShoppingCart shoppingCart)
         {
-            ArgumentNullException.ThrowIfNull(nameof(shoppingCart));
+            ArgumentNullException.ThrowIfNull((shoppingCart));
 
-            ArgumentNullException.ThrowIfNull(nameof(shoppingCart.PromoCodeID));
+            ArgumentNullException.ThrowIfNull((shoppingCart.PromoCodeID));
 
             shoppingCart.ActualSubTotal = (decimal)shoppingCart.SubTotalAfterApplyingPromoCode!;
             shoppingCart.IsPromoCodeApplied = true;
@@ -107,7 +107,7 @@ namespace amazon_clone.web.Controllers
                 .OrderRepository
                 .Get(x => x.CustomerID == CurrentCustomer.UserID && (x.StatusID == (int)eOrderStatuses.SHIPPED || x.StatusID == (int)eOrderStatuses.PROCESSING));
 
-            ArgumentNullException.ThrowIfNull(nameof(targetOrder));
+            ArgumentNullException.ThrowIfNull((targetOrder));
 
             targetOrder!.Total = updatedSubTotal + StaticDetails.ORDER_TAX + StaticDetails.ORDER_DELIVERY;
         }

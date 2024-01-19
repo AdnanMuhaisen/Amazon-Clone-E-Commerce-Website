@@ -1,11 +1,9 @@
 using amazon_clone.DataAccess.Repositories;
 using amazon_clone.Models.Models;
-using amazon_clone.Models.View_Models;
+using amazon_clone.Models.Users;
 using amazon_clone.Utility.App_Details;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
 
 namespace amazon_clone.web.Controllers
 {
@@ -21,8 +19,16 @@ namespace amazon_clone.web.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        
         public IActionResult Index()
         {
+            if(CurrentCustomer.UserID is null)
+            {
+                // this implementation is temporary 
+                // instead of this condition , create a custom attribute to solve this problem
+                return NotFound();
+            }
+
             var customerProducts = _unitOfWork.CustomerProductRepository
                 .GetAllAsNoTracking(include: i => i.Include(x => x.Category))?
                 .Select(x => new CustomerProduct

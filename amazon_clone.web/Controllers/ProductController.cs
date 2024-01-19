@@ -77,9 +77,11 @@ namespace amazon_clone.web.Controllers
                 .WishListRepository
                 .GetAsNoTracking(x => x.WishListID == CurrentCustomer.WishlistID, IncludeProperties: "Products");
 
-            ArgumentNullException.ThrowIfNull(nameof(customerWishlist));
-
-            if (customerWishlist!.Products!.Any(x => x.ProductID == ProductID))
+            if(customerWishlist is null)
+            {
+                ViewData["Wishlist-Product-Status"] = "Add";
+            }
+            else if (customerWishlist!.Products!.Any(x => x.ProductID == ProductID))
             {
                 ViewData["Wishlist-Product-Status"] = "Added";
             }
@@ -96,11 +98,12 @@ namespace amazon_clone.web.Controllers
                  .Include(x => x.ShoppingCart)
                  .ThenInclude(x => x.CartProducts));
 
-            ArgumentNullException.ThrowIfNull(nameof(targetOrderContainsTheCart));
 
-            ArgumentNullException.ThrowIfNull(nameof(targetOrderContainsTheCart.ShoppingCart));
-
-            if (targetOrderContainsTheCart!.ShoppingCart.CartProducts.Any(x => x.ProductID == ProductID))
+            if(targetOrderContainsTheCart is null) 
+            {
+                ViewData["ShoppingCart-Product-Status"] = "Add";
+            }
+            else if (targetOrderContainsTheCart!.ShoppingCart.CartProducts.Any(x => x.ProductID == ProductID))
             {
                 ViewData["ShoppingCart-Product-Status"] = "Added";
             }
@@ -133,57 +136,26 @@ namespace amazon_clone.web.Controllers
 
         public IActionResult ClothingCustomerProduct(ClothingProductDto clothingProductInfo)
         {
-            var customerProductData = _unitOfWork
-                .ProductRepository
-                .GetAllAsNoTracking(x => x.ProductID == clothingProductInfo.ProductID)?
-                .Select(p => new
-                {
-                    ProductID = p.ProductID,
-                    Name = (p.Name.Length > 25) ? p.Name.Substring(0, 25) + "..." : p.Name,
-                    Description = p.Description,
-                    Price = p.Price,
-                    Quantity = p.Quantity,
-                    // if there is no image for the product set the default product image. 
-                    ImageUrl = @"/images/products/" + p.ImageUrl ?? StaticDetails.DEFAULT_PRODUCT_IMAGE,
-                })
-                .ToList();
-
-            ArgumentNullException.ThrowIfNull(nameof(customerProductData));
-
-            var clothingProductData = _unitOfWork
+            var clothingProduct = _unitOfWork
             .ClothesProductRepository
-            .GetAllAsNoTracking(x => x.ClothingProductID == clothingProductInfo.ClothingProductID, IncludeProperties: "Sizes")?
-            .Select(c => new
+            .GetAllAsNoTracking(x => x.ProductID == clothingProductInfo.ProductID && x.ClothingProductID == clothingProductInfo.ClothingProductID,
+            IncludeProperties: "Sizes")?
+            .Select(p => new ClothingProduct
             {
-                CustomerProductID = c.CustomerProductID,
-                ClothingProductID = c.ClothingProductID,
-                Sizes = c.Sizes
+                ProductID = p.ProductID,
+                Name = (p.Name.Length > 25) ? p.Name.Substring(0, 25) + "..." : p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                Quantity = p.Quantity,
+                // if there is no image for the product set the default product image. 
+                ImageUrl = @"/images/products/" + p.ImageUrl ?? StaticDetails.DEFAULT_PRODUCT_IMAGE,
+                CustomerProductID = p.CustomerProductID,
+                ClothingProductID = p.ClothingProductID,
+                Sizes = p.Sizes
             })
-            .ToList();
+            .FirstOrDefault();
 
-            ArgumentNullException.ThrowIfNull(nameof(clothingProductData));
-
-            var clothingProduct = customerProductData!
-                .Join(
-                clothingProductData!,
-                o => clothingProductInfo.CustomerProductID,
-                i => i.CustomerProductID,
-                (o, i) => new ClothingProduct
-                {
-                    ProductID = o.ProductID,
-                    Name = o.Name,
-                    Description = o.Description,
-                    Price = o.Price,
-                    Quantity = o.Quantity,
-                    // if there is no image for the product set the default product image. 
-                    ImageUrl = o.ImageUrl,
-                    CustomerProductID = i.CustomerProductID,
-                    ClothingProductID = i.ClothingProductID,
-                    Sizes = i.Sizes
-                })
-                .FirstOrDefault();
-
-            ArgumentNullException.ThrowIfNull(nameof(clothingProduct));
+            ArgumentNullException.ThrowIfNull((clothingProduct));
 
             var ProductSizes = clothingProduct!
                 .Sizes

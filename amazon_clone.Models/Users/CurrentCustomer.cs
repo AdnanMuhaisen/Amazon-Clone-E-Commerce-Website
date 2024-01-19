@@ -14,7 +14,12 @@ namespace amazon_clone.Models.Users
         public static string PhoneNumber { get; set; } = null!;
         public static int? WishlistID { get; set; } = null!;
 
-        public static void SetValues(string UserID,string Name,string Email,string PhoneNumber,int? WishlistID)
+        [Url]
+        public static string ImageUrl { get; set; } = null!;
+
+
+
+        public static void SetValues(string UserID,string Name,string Email,string PhoneNumber,int? WishlistID,string ImageUrl)
         {
             if(CurrentCustomer.UserID is not null)
             {
@@ -26,6 +31,7 @@ namespace amazon_clone.Models.Users
             CurrentCustomer.Email = Email;
             CurrentCustomer.PhoneNumber = PhoneNumber;
             CurrentCustomer.WishlistID = WishlistID;
+            CurrentCustomer.ImageUrl = ImageUrl;
         }
 
         public static void UnsetValues()
@@ -35,6 +41,7 @@ namespace amazon_clone.Models.Users
             CurrentCustomer.Email = default!;
             CurrentCustomer.PhoneNumber = default!;
             CurrentCustomer.WishlistID = default!;
+            CurrentCustomer.ImageUrl = default!;
         }
     }
 }

@@ -8,7 +8,8 @@ namespace amazon_clone.Utility.Type_Helpers
         public static bool IsContains(Type Parent,string ChildName)
         {
             ArgumentNullException.ThrowIfNull(Parent);
-            ArgumentNullException.ThrowIfNullOrWhiteSpace(ChildName);
+
+            ArgumentNullException.ThrowIfNull(ChildName);
 
             return Parent
                 .GetProperties()

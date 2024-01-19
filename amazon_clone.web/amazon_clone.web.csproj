@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\amazon_clone.DataAccess\amazon_clone.DataAccess.csproj" />
     <ProjectReference Include="..\amazon_clone.Models\amazon_clone.Models.csproj" />
+    <ProjectReference Include="..\amazon_clone.Services\amazon_clone.Services.csproj" />
     <ProjectReference Include="..\amazon_clone.Shared_Packages\amazon_clone.Shared_Packages.csproj" />
     <ProjectReference Include="..\amazon_clone.Utility\amazon_clone.Utility.csproj" />
   </ItemGroup>

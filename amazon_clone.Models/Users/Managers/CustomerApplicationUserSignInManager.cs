@@ -7,9 +7,16 @@ using Microsoft.Extensions.Options;
 
 namespace amazon_clone.Models.Users.Managers
 {
-    public class CustomerApplicationUserSignInManager : SignInManager<CustomerApplicationUser>
+    public class CustomerApplicationUserSignInManager<T> : SignInManager<CustomerApplicationUser>
     {
-        public CustomerApplicationUserSignInManager(UserManager<CustomerApplicationUser> userManager, IHttpContextAccessor contextAccessor, IUserClaimsPrincipalFactory<CustomerApplicationUser> claimsFactory, IOptions<IdentityOptions> optionsAccessor, ILogger<SignInManager<CustomerApplicationUser>> logger, IAuthenticationSchemeProvider schemes) : base(userManager, contextAccessor, claimsFactory, optionsAccessor, logger, schemes)
+        public CustomerApplicationUserSignInManager(
+            UserManager<CustomerApplicationUser> userManager,
+            IHttpContextAccessor contextAccessor,
+            IUserClaimsPrincipalFactory<CustomerApplicationUser> claimsFactory,
+            IOptions<IdentityOptions> optionsAccessor,
+            ILogger<SignInManager<CustomerApplicationUser>> logger,
+            IAuthenticationSchemeProvider schemes) 
+            : base(userManager, contextAccessor, claimsFactory, optionsAccessor, logger, schemes)
         {
         }
     }

@@ -1,13 +1,13 @@
 using amazon_clone.DataAccess.Data;
-using amazon_clone.DataAccess.Interceptors;
 using amazon_clone.DataAccess.Repositories;
 using amazon_clone.Models.Models;
 using amazon_clone.Models.Users.Managers;
 using amazon_clone.Models.Users.Roles;
-using amazon_clone.Utility.Notifiers;
+using amazon_clone.Services.Notification_Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,7 +31,7 @@ builder.Services.AddIdentity<CustomerApplicationUser, CustomerRole>()
     .AddDefaultTokenProviders();
 
 
-builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.TryAddScoped<IEmailSender, EmailNotificationService>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

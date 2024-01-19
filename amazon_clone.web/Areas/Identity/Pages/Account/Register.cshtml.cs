@@ -4,6 +4,7 @@
 
 using amazon_clone.DataAccess.Repositories;
 using amazon_clone.Models.Models;
+using amazon_clone.Models.Users;
 using amazon_clone.Models.Users.Roles;
 using amazon_clone.Utility.App_Details;
 using Microsoft.AspNetCore.Authentication;

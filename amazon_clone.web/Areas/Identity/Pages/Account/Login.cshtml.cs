@@ -4,6 +4,8 @@
 
 using amazon_clone.Models.Models;
 using amazon_clone.Models.Users;
+using amazon_clone.Models.Users.Managers;
+using amazon_clone.Utility.App_Details;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -118,13 +120,15 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
                         .GetAwaiter()
                         .GetResult();
 
+                    
                     ArgumentNullException.ThrowIfNull(nameof(currentUser));
 
                     CurrentCustomer.SetValues(currentUser.Id,
                         currentUser.UserName.Substring(0, currentUser.UserName.IndexOf('@')),
                         currentUser.Email,
                         currentUser.PhoneNumber,
-                        currentUser.WishListID);
+                        currentUser.WishListID,
+                        currentUser.ImageUrl ?? StaticDetails.DEFAULT_USER_IMAGE_PATH);
 
                     return LocalRedirect(returnUrl);
                 }

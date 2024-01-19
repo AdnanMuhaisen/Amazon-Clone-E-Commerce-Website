@@ -35,40 +35,21 @@ namespace amazon_clone.web.Controllers
             if(customerOrder is null)
             {
                 // we need to create a new order with the processing state
-                ShoppingCart shoppingCart = new ShoppingCart
-                {
-                    PromoCodeID = null,
-                    SubTotal = 0,
-                    ActualSubTotal = 0
-                };
-                _unitOfWork.ShoppingCartRepository.Add(shoppingCart);
-                _unitOfWork.Save();
+                _CreateANewOrderWithShoppingCart();
 
-                int targetShoppingCartID = _unitOfWork
-                    .ShoppingCartRepository
-                    .GetAllAsNoTracking()!
-                    .Select(x => x.ShoppingCartID)
-                    .OrderBy(x => x)
-                    .LastOrDefault();
-
-                ArgumentNullException.ThrowIfNull(nameof(targetShoppingCartID));
-
-                customerOrder = new Order
-                {
-                    OrderDateTime = DateTime.Now,
-                    CustomerID = CurrentCustomer.UserID!,
-                    StatusID = (int)eOrderStatuses.PROCESSING,
-                    ShoppingCartID = targetShoppingCartID
-                };
-                customerOrder.Tax = StaticDetails.ORDER_TAX;
-                customerOrder.delivery = StaticDetails.ORDER_DELIVERY;
-                customerOrder.Total = customerOrder.Tax + customerOrder.delivery;
-
-                _unitOfWork.OrderRepository.Add(customerOrder);
-                _unitOfWork.Save();
+                //now get the created order with shopping cart
+                customerOrder = _unitOfWork
+                .OrderRepository
+                .GetAsNoTracking(filter: x => x.CustomerID == CurrentCustomer.UserID
+                && (x.StatusID == (int)eOrderStatuses.SHIPPED || x.StatusID == (int)eOrderStatuses.PROCESSING),
+                include: i => i
+                .Include(x => x.ShoppingCart)
+                .ThenInclude(x => x.CartProducts)
+                .Include(x => x.ShoppingCart)
+                .ThenInclude(x => x.CartPromoCode!));
             }
 
-            ArgumentNullException.ThrowIfNull(nameof(customerOrder));
+            ArgumentNullException.ThrowIfNull(customerOrder);
 
             return View(new ShoppingCartViewModel(customerOrder, string.Empty));
         }
@@ -82,7 +63,7 @@ namespace amazon_clone.web.Controllers
                 .Include(x => x.ShoppingCart)
                 .ThenInclude(x => x.CartProducts));
 
-            ArgumentNullException.ThrowIfNull(nameof(targetOrderContainsTheCart));
+            ArgumentNullException.ThrowIfNull((targetOrderContainsTheCart));
 
             if(!(targetOrderContainsTheCart!
                 .ShoppingCart
@@ -97,7 +78,7 @@ namespace amazon_clone.web.Controllers
                 .CartProducts
                 .FirstOrDefault(x => x.CustomerProductID == CustomerProductID);
 
-            ArgumentNullException.ThrowIfNull(nameof(targetProduct));
+            ArgumentNullException.ThrowIfNull((targetProduct));
 
             decimal priceToSubtract = targetProduct!.Price - (targetProduct.Price * StaticDetails.PRODUCT_DICOUNT);
 
@@ -106,7 +87,7 @@ namespace amazon_clone.web.Controllers
                 .ShoppingCartProductRepository
                 .Get(x => x.ShoppingCartID == targetOrderContainsTheCart.ShoppingCartID && x.CustomerProductID == CustomerProductID);
 
-            ArgumentNullException.ThrowIfNull(nameof(cartProduct));
+            ArgumentNullException.ThrowIfNull((cartProduct));
 
             targetOrderContainsTheCart.ShoppingCart.CartProducts.Remove(targetProduct);
 
@@ -115,17 +96,17 @@ namespace amazon_clone.web.Controllers
                 .Remove(cartProduct!);
 
             //update all the costs requirements:
-            targetOrderContainsTheCart.ShoppingCart.PromoCodeID = UpdateShoppingCartPromoCode(targetOrderContainsTheCart.ShoppingCart.CartProducts.Count());
+            targetOrderContainsTheCart.ShoppingCart.PromoCodeID = _UpdateShoppingCartPromoCode(targetOrderContainsTheCart.ShoppingCart.CartProducts.Count());
 
             if(targetOrderContainsTheCart.ShoppingCart.PromoCodeID is not null)
             {
-                CalculateSubTotalAfterApplyingPromoCodeOnShoppingCart(targetOrderContainsTheCart.ShoppingCart);
+                _CalculateSubTotalAfterApplyingPromoCodeOnShoppingCart(targetOrderContainsTheCart.ShoppingCart);
             }
 
             targetOrderContainsTheCart.ShoppingCart.SubTotal -= priceToSubtract;
             targetOrderContainsTheCart.Total -= priceToSubtract;
 
-            UpdateTheActualSubTotalOfAShoppingCart(targetOrderContainsTheCart.ShoppingCart);
+            _UpdateTheActualSubTotalOfAShoppingCart(targetOrderContainsTheCart.ShoppingCart);
 
             _unitOfWork.Save();
 
@@ -141,20 +122,38 @@ namespace amazon_clone.web.Controllers
                 .Include(x => x.ShoppingCart)
                 .ThenInclude(x => x.CartProducts));
 
-            ArgumentNullException.ThrowIfNull(nameof(targetOrderContainsTheCart));
+            if(targetOrderContainsTheCart is null)
+            {
+                // In this case, the customer is trying to add a product to the cart 
+                //And the customer does not have a shopping cart created
+
+                // we need to create a new order with the processing state
+                _CreateANewOrderWithShoppingCart();
+
+                //now get the created order with shopping cart
+                targetOrderContainsTheCart = _unitOfWork
+                .OrderRepository
+                .Get(filter: x => x.CustomerID == CurrentCustomer.UserID
+                && (x.StatusID == (int)eOrderStatuses.SHIPPED || x.StatusID == (int)eOrderStatuses.PROCESSING),
+                include: i => i
+                .Include(x => x.ShoppingCart)
+                .ThenInclude(x => x.CartProducts));
+            }
+
+            ArgumentNullException.ThrowIfNull((targetOrderContainsTheCart));
 
             var targetCustomerProductData = _unitOfWork
                 .CustomerProductRepository
                 .Get(x => x.ProductID == ProductID);
 
-            ArgumentNullException.ThrowIfNull(nameof(targetCustomerProductData));
+            ArgumentNullException.ThrowIfNull((targetCustomerProductData));
 
             if (targetOrderContainsTheCart!
                     .ShoppingCart
                     .CartProducts
                     .Any(x => x.CustomerProductID == targetCustomerProductData!.CustomerProductID))
             {
-                //do nothing
+                //do something
             }
             else
             {
@@ -168,17 +167,17 @@ namespace amazon_clone.web.Controllers
                 _unitOfWork.ShoppingCartProductRepository.Add(cartProduct);
 
                 decimal priceToAdd = targetCustomerProductData!.Price - (targetCustomerProductData.Price * StaticDetails.PRODUCT_DICOUNT);
-                targetOrderContainsTheCart.ShoppingCart.PromoCodeID = UpdateShoppingCartPromoCode(targetOrderContainsTheCart.ShoppingCart.CartProducts.Count());
+                targetOrderContainsTheCart.ShoppingCart.PromoCodeID = _UpdateShoppingCartPromoCode(targetOrderContainsTheCart.ShoppingCart.CartProducts.Count());
 
                 if (targetOrderContainsTheCart.ShoppingCart.PromoCodeID is not null)
                 {
-                    CalculateSubTotalAfterApplyingPromoCodeOnShoppingCart(targetOrderContainsTheCart.ShoppingCart);
+                    _CalculateSubTotalAfterApplyingPromoCodeOnShoppingCart(targetOrderContainsTheCart.ShoppingCart);
                 }
 
                 targetOrderContainsTheCart.ShoppingCart.SubTotal += priceToAdd;
                 targetOrderContainsTheCart.Total += priceToAdd;
 
-                UpdateTheActualSubTotalOfAShoppingCart(targetOrderContainsTheCart.ShoppingCart);
+                _UpdateTheActualSubTotalOfAShoppingCart(targetOrderContainsTheCart.ShoppingCart);
 
                 _unitOfWork.Save();
             }
@@ -186,12 +185,47 @@ namespace amazon_clone.web.Controllers
             return RedirectToAction("Index");
         }
 
+        private void _CreateANewOrderWithShoppingCart()
+        {
+            ShoppingCart shoppingCart = new ShoppingCart
+            {
+                PromoCodeID = null,
+                SubTotal = 0,
+                ActualSubTotal = 0
+            };
+            _unitOfWork.ShoppingCartRepository.Add(shoppingCart);
+            _unitOfWork.Save();
+
+            int targetShoppingCartID = _unitOfWork
+                .ShoppingCartRepository
+                .GetAllAsNoTracking()!
+                .Select(x => x.ShoppingCartID)
+                .OrderBy(x => x)
+                .LastOrDefault();
+
+            ArgumentNullException.ThrowIfNull(nameof(targetShoppingCartID));
+
+            var customerOrder = new Order
+            {
+                OrderDateTime = DateTime.Now,
+                CustomerID = CurrentCustomer.UserID!,
+                StatusID = (int)eOrderStatuses.PROCESSING,
+                ShoppingCartID = targetShoppingCartID
+            };
+            customerOrder.Tax = StaticDetails.ORDER_TAX;
+            customerOrder.delivery = StaticDetails.ORDER_DELIVERY;
+            customerOrder.Total = customerOrder.Tax + customerOrder.delivery;
+
+            _unitOfWork.OrderRepository.Add(customerOrder);
+            _unitOfWork.Save();
+        }
+
         /// <summary>
         /// return the promo code id for the correct number of the shopping cart products
         /// </summary>
         /// <param name="numberOfShoppingCartProducts"></param>
         /// <returns></returns>
-        private int? UpdateShoppingCartPromoCode(int numberOfShoppingCartProducts)
+        private int? _UpdateShoppingCartPromoCode(int numberOfShoppingCartProducts)
         {
             return numberOfShoppingCartProducts switch
             {
@@ -204,7 +238,7 @@ namespace amazon_clone.web.Controllers
             };
         }
 
-        private void CalculateSubTotalAfterApplyingPromoCodeOnShoppingCart(ShoppingCart shoppingCart)
+        private void _CalculateSubTotalAfterApplyingPromoCodeOnShoppingCart(ShoppingCart shoppingCart)
         {
             ArgumentNullException.ThrowIfNull(nameof(shoppingCart));
 
@@ -221,7 +255,7 @@ namespace amazon_clone.web.Controllers
             };
         }
 
-         private void UpdateTheActualSubTotalOfAShoppingCart(ShoppingCart shoppingCart)
+        private void _UpdateTheActualSubTotalOfAShoppingCart(ShoppingCart shoppingCart)
         {
             if (shoppingCart.IsPromoCodeApplied)
             {

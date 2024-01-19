@@ -3,6 +3,7 @@ using amazon_clone.DataAccess.Repositories;
 using amazon_clone.Models.Models;
 using amazon_clone.Utility.App_Details;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace amazon_clone.web.Controllers
 {
@@ -17,16 +18,11 @@ namespace amazon_clone.web.Controllers
 
         public IActionResult Index()
         {
-            var electronicsCategory = _unitOfWork
-                .ProductCategoryRepository
-                .GetAsNoTracking(x => x.CategoryID == (int)eProductCategories.Electronics);
-                
-            ArgumentNullException.ThrowIfNull(nameof(electronicsCategory));
-
-            var products = _unitOfWork
-                .ProductRepository
-                .GetAllAsNoTracking(filter: p => p.CategoryID == electronicsCategory!.CategoryID)?
-                .Select(p => new
+            var customerProducts = _unitOfWork
+                .CustomerProductRepository
+                .GetAllAsNoTracking(filter: x => x.CategoryID == (int)eProductCategories.Electronics,
+                include: i => i.Include(x => x.Category))?
+                .Select(p => new CustomerProduct
                 {
                     ProductID = p.ProductID,
                     Name = (p.Name.Length > 25) ? p.Name.Substring(0, 25) + "..." : p.Name,
@@ -36,44 +32,14 @@ namespace amazon_clone.web.Controllers
                     // if there is no image for the product set the default product image. 
                     ImageUrl = @"/images/products/" + p.ImageUrl ?? StaticDetails.DEFAULT_PRODUCT_IMAGE,
                     CategoryID = p.CategoryID,
-                    Category = electronicsCategory
-                });
-
-            var customerProductsData = _unitOfWork
-                .CustomerProductRepository
-                .GetAllAsNoTracking()?
-                .Select(x => new
-            {
-                ProductID = x.ProductID,
-                CustomerProductID = x.CustomerProductID
-            });
-
-            ArgumentNullException.ThrowIfNull(nameof(customerProductsData));
-
-            var electronics = products!
-                .Join(customerProductsData!,
-                o => o.ProductID,
-                i => i.ProductID,
-                (o, i) => new CustomerProduct()
-                {
-                    ProductID = o.ProductID,
-                    Name = o.Name,
-                    Description = o.Description,
-                    Price = o.Price,
-                    Quantity = o.Quantity,
-                    ImageUrl = o.ImageUrl,
-                    CategoryID = o.CategoryID,
-                    Category = o.Category!,
-                    CustomerProductID = i.CustomerProductID
+                    Category = p.Category,
+                    CustomerProductID = p.CustomerProductID
                 })
                 .ToList();
 
-            return View(electronics);
+            ArgumentNullException.ThrowIfNull(nameof(customerProducts));
+
+            return View(customerProducts);
         }
-
-
-
-
-
     }
 }

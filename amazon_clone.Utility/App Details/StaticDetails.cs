@@ -9,5 +9,6 @@
         public static readonly decimal ORDER_TAX = 10.0m;
         public static readonly decimal ORDER_DELIVERY = 2.0m;
         public static readonly decimal PRODUCT_DICOUNT = 0.6m;
+        public static readonly string DEFAULT_USER_IMAGE_PATH = @"/images/users/default.png";
     }
 }

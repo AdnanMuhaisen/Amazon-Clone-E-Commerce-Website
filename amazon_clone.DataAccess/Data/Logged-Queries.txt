@@ -1,5 +1,5 @@
-info: 1/18/2024 18:03:37.248 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
-      Executed DbCommand (41ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+info: 1/19/2024 17:27:48.190 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
       SELECT [t].[ProductID], [t].[CategoryID], [t].[DeleteDate], [t].[Description], [t].[ImageUrl], [t].[IsDeleted], [t].[Name], [t].[Price], [t].[Quantity], [t0].[CustomerProductID], [t1].[ClothingProductID], [t1].[TargetGenderID], CASE
           WHEN [t1].[ProductID] IS NOT NULL THEN N'ClothingProduct'
       END AS [Discriminator], [t].[ProductCreationDetails_CreatedAt], [t].[ProductCreationDetails_UpdatedAt], [t2].[CategoryID], [t2].[CategoryName], [t2].[CategoryCreationDetails_CreatedAt], [t2].[CategoryCreationDetails_UpdatedAt]
