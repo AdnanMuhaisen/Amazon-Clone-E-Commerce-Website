@@ -37,7 +37,7 @@ namespace amazon_clone.web.Controllers
             return View(paidCustomerOrders);
         }
 
-        public IActionResult OrderConfirmation()
+        public IActionResult OrderCheckout()
         {
             var targetOrderToPayFor = _unitOfWork
                 .OrderRepository

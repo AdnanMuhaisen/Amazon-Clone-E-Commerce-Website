@@ -200,8 +200,7 @@ namespace amazon_clone.web.Controllers
                 .ShoppingCartRepository
                 .GetAllAsNoTracking()!
                 .Select(x => x.ShoppingCartID)
-                .OrderBy(x => x)
-                .LastOrDefault();
+                .MaxBy(x => x);
 
             ArgumentNullException.ThrowIfNull(nameof(targetShoppingCartID));
 

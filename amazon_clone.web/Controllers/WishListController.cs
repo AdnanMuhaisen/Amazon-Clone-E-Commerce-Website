@@ -31,8 +31,7 @@ namespace amazon_clone.web.Controllers
                 wishList = _unitOfWork
                     .WishListRepository
                     .GetAllAsNoTracking(filter: x => x.WishListID == CurrentCustomer.WishlistID, include: i => i.Include(x => x.Products!))?
-                    .OrderBy(x => x.WishListID)
-                    .LastOrDefault();
+                    .MaxBy(x => x.WishListID);
             }
 
             foreach (var product in wishList!.Products!)
@@ -67,8 +66,7 @@ namespace amazon_clone.web.Controllers
                 customerWishlist = _unitOfWork
                     .WishListRepository
                     .GetAllAsNoTracking(include: i => i.Include(x => x.Products!))?
-                    .OrderBy(x => x.WishListID)
-                    .LastOrDefault();
+                    .MaxBy(x => x.WishListID);
 
                 ArgumentNullException.ThrowIfNull(customerWishlist);
             }
@@ -139,8 +137,7 @@ namespace amazon_clone.web.Controllers
                 .WishListRepository
                 .GetAllAsNoTracking()?
                 .Select(x => x.WishListID)
-                .OrderBy(x => x)
-                .LastOrDefault();
+                .MaxBy(x => x);
 
             ArgumentNullException.ThrowIfNull(nameof(targetWishlistID));
             currentCustomerData!.WishListID = targetWishlistID;

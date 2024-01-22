@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "amazon_clone.Utility", "ama
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "amazon_clone.Shared_Packages", "amazon_clone.Shared_Packages\amazon_clone.Shared_Packages.csproj", "{48C17315-8E96-4ED3-95CA-FF8ABD21D896}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "amazon_clone.Services", "amazon_clone.Services\amazon_clone.Services.csproj", "{8B743563-60D9-4290-86B2-C8382FB46C80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "amazon_clone.Services", "amazon_clone.Services\amazon_clone.Services.csproj", "{8B743563-60D9-4290-86B2-C8382FB46C80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "amazon_clone.Dashboard", "amazon_clone.Dashboard\amazon_clone.Dashboard.csproj", "{98B6CD4A-D88A-4415-9DB9-67E5B115CD27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{8B743563-60D9-4290-86B2-C8382FB46C80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B743563-60D9-4290-86B2-C8382FB46C80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B743563-60D9-4290-86B2-C8382FB46C80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98B6CD4A-D88A-4415-9DB9-67E5B115CD27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98B6CD4A-D88A-4415-9DB9-67E5B115CD27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98B6CD4A-D88A-4415-9DB9-67E5B115CD27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98B6CD4A-D88A-4415-9DB9-67E5B115CD27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

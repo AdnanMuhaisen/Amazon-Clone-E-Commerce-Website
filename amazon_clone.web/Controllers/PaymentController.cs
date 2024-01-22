@@ -41,7 +41,7 @@ namespace amazon_clone.web.Controllers
             }
             else if (paymentMethod == ePaymentMethods.CREDIT_OR_DEBIT_CARD.ToString())
             {
-                return RedirectToAction("OrderConfirmation", "Order");
+                return RedirectToAction("OrderCheckout", "Order");
             }
 
             return NotFound();
@@ -51,9 +51,28 @@ namespace amazon_clone.web.Controllers
         {
             var targetOrderToPayFor = _unitOfWork
                 .OrderRepository
-                .Get(x => x.CustomerID == CurrentCustomer.UserID && x.StatusID == (int)eOrderStatuses.SHIPPED);
+                .Get(filter: x => x.CustomerID == CurrentCustomer.UserID && x.StatusID == (int)eOrderStatuses.SHIPPED,
+                include: i => i
+                .Include(x => x.ShoppingCart)
+                .ThenInclude(x => x.CartProducts));
 
-            ArgumentNullException.ThrowIfNull(nameof(targetOrderToPayFor));
+            ArgumentNullException.ThrowIfNull((targetOrderToPayFor));
+
+            ArgumentNullException.ThrowIfNull(targetOrderToPayFor.ShoppingCart);
+
+            ArgumentNullException.ThrowIfNull(targetOrderToPayFor.ShoppingCart.CartProducts);
+
+            var cartProductsQuantities = _unitOfWork
+                .ShoppingCartProductRepository
+                .GetAllAsNoTracking(x => x.ShoppingCartID == targetOrderToPayFor.ShoppingCartID)?
+                .Select(x => new
+                {
+                    CustomerProductID = x.CustomerProductID,
+                    Quantity = x.Quantity
+                })
+                .ToDictionary(k => k.CustomerProductID, v => v.Quantity);
+
+            ArgumentNullException.ThrowIfNull(cartProductsQuantities);
 
             Payment payment = new Payment
             {
@@ -69,6 +88,8 @@ namespace amazon_clone.web.Controllers
 
                 _unitOfWork.PaymentRepository.Add(payment);
                 _unitOfWork.OrderRepository.Update(targetOrderToPayFor);
+
+                _DecreaseTheProductsQuantityInAShoppingCart(targetOrderToPayFor.ShoppingCart, cartProductsQuantities);
 
                 _unitOfWork.Save();
             }
@@ -88,9 +109,28 @@ namespace amazon_clone.web.Controllers
         {
             var targetOrderToPayFor = _unitOfWork
                 .OrderRepository
-                .Get(x => x.CustomerID == CurrentCustomer.UserID && x.StatusID == (int)eOrderStatuses.SHIPPED);
+                .Get(filter: x => x.CustomerID == CurrentCustomer.UserID && x.StatusID == (int)eOrderStatuses.SHIPPED,
+                 include: i => i
+                .Include(x => x.ShoppingCart)
+                .ThenInclude(x => x.CartProducts));
 
-            ArgumentNullException.ThrowIfNull(nameof(targetOrderToPayFor));
+            ArgumentNullException.ThrowIfNull((targetOrderToPayFor));
+
+            ArgumentNullException.ThrowIfNull(targetOrderToPayFor.ShoppingCart);
+
+            ArgumentNullException.ThrowIfNull(targetOrderToPayFor.ShoppingCart.CartProducts);
+
+            var cartProductsQuantities = _unitOfWork
+                .ShoppingCartProductRepository
+                .GetAllAsNoTracking(x => x.ShoppingCartID == targetOrderToPayFor.ShoppingCartID)?
+                .Select(x => new
+                {
+                    CustomerProductID = x.CustomerProductID,
+                    Quantity = x.Quantity
+                })
+                .ToDictionary(k => k.CustomerProductID, v => v.Quantity);
+
+            ArgumentNullException.ThrowIfNull(cartProductsQuantities);
 
             Payment payment = new Payment
             {
@@ -107,6 +147,8 @@ namespace amazon_clone.web.Controllers
                 _unitOfWork.PaymentRepository.Add(payment);
                 _unitOfWork.OrderRepository.Update(targetOrderToPayFor);
 
+                _DecreaseTheProductsQuantityInAShoppingCart(targetOrderToPayFor.ShoppingCart, cartProductsQuantities);
+
                 _unitOfWork.Save();
             }
             catch (Exception)
@@ -116,6 +158,25 @@ namespace amazon_clone.web.Controllers
             }
 
             return RedirectToAction("PaymentSuccessful");
+        }
+
+        private void _DecreaseTheProductsQuantityInAShoppingCart(ShoppingCart Cart,Dictionary<int,int> ProductsQuantities)
+        {
+            ArgumentNullException.ThrowIfNull(Cart);
+
+            ArgumentNullException.ThrowIfNull(Cart.CartProducts);
+
+            foreach (var product in Cart.CartProducts) 
+            {
+                if (ProductsQuantities.TryGetValue(product.ProductID, out int quantityToSubtract))
+                {
+                    product.Quantity -= quantityToSubtract;
+                }
+                else
+                {
+                    throw new InvalidOperationException("can not decrease a quantity that is greater than the product quantity");
+                }
+            }
         }
     }
 }
