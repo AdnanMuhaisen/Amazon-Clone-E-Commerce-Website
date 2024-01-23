@@ -11,9 +11,6 @@ namespace amazon_clone.DataAccess.Data.Configuration
             builder.ToTable("tbl_CustomerProducts");//.HasKey(x=>x.CustomerProductID);
 
             builder.Property(p => p.CustomerProductID).ValueGeneratedOnAdd();
-
-            builder.Property(x => x.CustomerProductID)
-                .ValueGeneratedOnAdd();
         }
     }
 

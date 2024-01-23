@@ -19,6 +19,8 @@
         public IDbSettingsRepository DbSettingsRepository { get; set; }
         public IUsersRepository UsersRepository { get; set; }
         public IPaymentRepository PaymentRepository { get; set; }
+        public IAdministratorRepository AdministratorRepository { get; set; }
+        public IAdministratorsTransactionsRepository AdministratorsTransactionsRepository { get; set; }
 
         void Save();
     }

@@ -4,6 +4,8 @@ namespace amazon_clone.DataAccess.Repositories
 {
     public interface ICustomerProductRepository : IRepository<CustomerProduct>
     {
+
         void Update(CustomerProduct entity);
+  
     }
 }

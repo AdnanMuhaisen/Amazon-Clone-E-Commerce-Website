@@ -5,7 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using amazon_clone.Models.Models;
-using amazon_clone.Models.Users;
+using amazon_clone.Models.Users.CurrentUsers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

@@ -7,10 +7,10 @@ namespace amazon_clone.DataAccess.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        public AppDbContext _context { get; set; }
+        public DbContext _context { get; set; }
         public DbSet<T> dbSet { get; set; }
 
-        public Repository(AppDbContext context)
+        public Repository(DbContext context)
         {
             _context = context;
             this.dbSet = _context.Set<T>();
@@ -23,6 +23,7 @@ namespace amazon_clone.DataAccess.Repositories
 
         public void Remove(T entity)
         {
+            dbSet.Attach(entity);
             dbSet.Remove(entity);
         }
 

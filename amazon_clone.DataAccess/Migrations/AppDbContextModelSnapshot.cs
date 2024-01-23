@@ -17,7 +17,7 @@ namespace amazon_clone.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -365,7 +365,7 @@ namespace amazon_clone.DataAccess.Migrations
                     b.Property<DateTime>("PaymentDateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 1, 18, 11, 55, 29, 925, DateTimeKind.Local).AddTicks(465));
+                        .HasDefaultValue(new DateTime(2024, 1, 23, 17, 27, 43, 871, DateTimeKind.Local).AddTicks(9702));
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()

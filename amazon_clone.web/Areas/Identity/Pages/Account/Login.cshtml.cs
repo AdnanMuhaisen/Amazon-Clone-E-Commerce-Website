@@ -3,7 +3,7 @@
 #nullable disable
 
 using amazon_clone.Models.Models;
-using amazon_clone.Models.Users;
+using amazon_clone.Models.Users.CurrentUsers;
 using amazon_clone.Models.Users.Managers;
 using amazon_clone.Utility.App_Details;
 using Microsoft.AspNetCore.Authentication;

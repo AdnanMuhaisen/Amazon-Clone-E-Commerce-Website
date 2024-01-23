@@ -1,5 +1,6 @@
 ﻿using amazon_clone.DataAccess.Data;
 using amazon_clone.Models.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace amazon_clone.DataAccess.Repositories
 {
@@ -9,7 +10,15 @@ namespace amazon_clone.DataAccess.Repositories
         
         public void Update(CustomerProduct entity)
         {
-            throw new NotImplementedException();
+            _context.Attach(entity);
+
+            _context.Entry(entity)
+                .Property(x => x.CustomerProductID)
+                .IsModified = false;      
+
+            _context.Entry(entity).State = EntityState.Modified;
+
+            _context.Update(entity);
         }
     }
 }

@@ -15,8 +15,9 @@ namespace amazon_clone.Models.Users.Managers
             IUserClaimsPrincipalFactory<CustomerApplicationUser> claimsFactory,
             IOptions<IdentityOptions> optionsAccessor,
             ILogger<SignInManager<CustomerApplicationUser>> logger,
-            IAuthenticationSchemeProvider schemes) 
-            : base(userManager, contextAccessor, claimsFactory, optionsAccessor, logger, schemes)
+            IAuthenticationSchemeProvider schemes,
+            IUserConfirmation<CustomerApplicationUser> userConfirmation) 
+            : base(userManager, contextAccessor, claimsFactory, optionsAccessor, logger, schemes, userConfirmation)
         {
         }
     }

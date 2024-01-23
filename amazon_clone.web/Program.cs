@@ -1,4 +1,5 @@
 using amazon_clone.DataAccess.Data;
+using amazon_clone.DataAccess.Interceptors;
 using amazon_clone.DataAccess.Repositories;
 using amazon_clone.Models.Models;
 using amazon_clone.Models.Users.Managers;
@@ -18,8 +19,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-    //options.AddInterceptors(new SoftDeleteInterceptor(),
-    //    new UpdateCreationDetailsInterceptor());
+    options.AddInterceptors(new SoftDeleteInterceptor());
     options.LogTo(l =>
     {
         System.IO.File.WriteAllText(@"C:\amazon_clone\amazon_clone.DataAccess\Data\Logged-Queries.txt", l);

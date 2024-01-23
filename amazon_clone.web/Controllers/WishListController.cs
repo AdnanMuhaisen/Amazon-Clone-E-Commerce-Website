@@ -1,6 +1,6 @@
 ﻿using amazon_clone.DataAccess.Repositories;
 using amazon_clone.Models.Models;
-using amazon_clone.Models.Users;
+using amazon_clone.Models.Users.CurrentUsers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

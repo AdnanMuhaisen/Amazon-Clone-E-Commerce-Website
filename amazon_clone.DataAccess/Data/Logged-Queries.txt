@@ -1,9 +1,5 @@
-info: 1/22/2024 18:43:27.906 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
-      Executed DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      SELECT [t].[ProductID], [t].[CategoryID], [t].[DeleteDate], [t].[Description], [t].[ImageUrl], [t].[IsDeleted], [t].[Name], [t].[Price], [t].[Quantity], [t0].[CustomerProductID], [t1].[ClothingProductID], [t1].[TargetGenderID], [t].[ProductCreationDetails_CreatedAt], [t].[ProductCreationDetails_UpdatedAt], [t2].[CategoryID], [t2].[CategoryName], [t2].[CategoryCreationDetails_CreatedAt], [t2].[CategoryCreationDetails_UpdatedAt], [t3].[GenderID], [t3].[Gender]
-      FROM [tbl_Products] AS [t]
-      INNER JOIN [tbl_CustomerProducts] AS [t0] ON [t].[ProductID] = [t0].[ProductID]
-      INNER JOIN [tbl_ClothesProducts] AS [t1] ON [t].[ProductID] = [t1].[ProductID]
-      LEFT JOIN [tbl_ProductCategories] AS [t2] ON [t].[CategoryID] = [t2].[CategoryID]
-      LEFT JOIN [tbl_Genders] AS [t3] ON [t1].[TargetGenderID] = [t3].[GenderID]
-      WHERE [t].[IsDeleted] = CAST(0 AS bit) AND [t1].[TargetGenderID] = 2
+info: 1/23/2024 09:40:22.241 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (5ms) [Parameters=[@__p_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[ImageUrl], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [a].[WishListID], [a].[CreationDetails_CreatedAt], [a].[CreationDetails_UpdatedAt]
+      FROM [AspNetUsers] AS [a]
+      WHERE [a].[Id] = @__p_0
