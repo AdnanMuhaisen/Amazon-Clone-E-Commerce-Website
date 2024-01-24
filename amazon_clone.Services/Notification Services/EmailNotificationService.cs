@@ -13,7 +13,7 @@ namespace amazon_clone.Services.Notification_Services
             // this email to the app outlook email 
 
             var senderEmail = @"adnanmuhaisen@outlook.com";
-            var password = "adnan12#";
+            var password = "";
 
             var smtpClient = new SmtpClient("smtp-mail.outlook.com", 587)
             {
