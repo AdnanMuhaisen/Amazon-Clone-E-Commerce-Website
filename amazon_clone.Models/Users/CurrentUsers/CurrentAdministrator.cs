@@ -20,25 +20,25 @@ namespace amazon_clone.Models.Users.CurrentUsers
 
         public static void SetValues(string UserID, string Name, string Email, string PhoneNumber, string ImageUrl)
         {
-            if (CurrentCustomer.UserID is not null)
+            if (CurrentAdministrator.UserID is not null)
             {
-                throw new InvalidOperationException("The current customer is already exist");
+                throw new InvalidOperationException("The current admin is already exist");
             }
 
-            CurrentCustomer.UserID = UserID;
-            CurrentCustomer.Name = Name;
-            CurrentCustomer.Email = Email;
-            CurrentCustomer.PhoneNumber = PhoneNumber;
-            CurrentCustomer.ImageUrl = ImageUrl;
+            CurrentAdministrator.UserID = UserID;
+            CurrentAdministrator.Name = Name;
+            CurrentAdministrator.Email = Email;
+            CurrentAdministrator.PhoneNumber = PhoneNumber;
+            CurrentAdministrator.ImageUrl = ImageUrl;
         }
 
         public static void UnsetValues()
         {
-            UserID = default!;
-            Name = default!;
-            Email = default!;
-            PhoneNumber = default!;
-            ImageUrl = default!;
+            CurrentAdministrator.UserID = default!;
+            CurrentAdministrator.Name = default!;
+            CurrentAdministrator.Email = default!;
+            CurrentAdministrator.PhoneNumber = default!;
+            CurrentAdministrator.ImageUrl = default!;
         }
     }
 }

@@ -3,6 +3,7 @@ using amazon_clone.DataAccess.Repositories;
 using amazon_clone.Models.Models;
 using amazon_clone.Models.Users.CurrentUsers;
 using amazon_clone.Models.View_Models;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stripe.Checkout;
@@ -12,10 +13,12 @@ namespace amazon_clone.web.Controllers
     public class PaymentController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailSender _emailSender;
 
-        public PaymentController(IUnitOfWork unitOfWork)
+        public PaymentController(IUnitOfWork unitOfWork,IEmailSender emailSender)
         {
             _unitOfWork = unitOfWork;
+            _emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -99,10 +102,20 @@ namespace amazon_clone.web.Controllers
                 return RedirectToAction("PaymentFailed");            
             }
 
-            return RedirectToAction("PaymentSuccessful");
+            return RedirectToAction("PaymentSuccessful", routeValues: targetOrderToPayFor.OrderID);
         }
 
-        public IActionResult PaymentSuccessful() => View("PaymentSuccessful");
+        public IActionResult PaymentSuccessful(int OrderID)
+        {
+            _emailSender.SendEmailAsync(
+                CurrentCustomer.Email,
+                "Amazon Clone Order Notifier",
+                $"You have successfully paid for the order with id {OrderID}"
+                );
+
+
+            return View("PaymentSuccessful");
+        }
         public IActionResult PaymentFailed() => View("PaymentFailed");
 
         public IActionResult PaymentSuccessfulUsingCreditOrDebitCard()
@@ -157,7 +170,7 @@ namespace amazon_clone.web.Controllers
                 return RedirectToAction("PaymentFailed");
             }
 
-            return RedirectToAction("PaymentSuccessful");
+            return RedirectToAction("PaymentSuccessful", routeValues: targetOrderToPayFor.OrderID);
         }
 
         private void _DecreaseTheProductsQuantityInAShoppingCart(ShoppingCart Cart,Dictionary<int,int> ProductsQuantities)

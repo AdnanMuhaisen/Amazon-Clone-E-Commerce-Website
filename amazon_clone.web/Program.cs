@@ -1,4 +1,5 @@
 using amazon_clone.DataAccess.Data;
+using amazon_clone.DataAccess.Data.Contexts;
 using amazon_clone.DataAccess.Interceptors;
 using amazon_clone.DataAccess.Repositories;
 using amazon_clone.Models.Models;
@@ -24,6 +25,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     {
         System.IO.File.WriteAllText(@"C:\amazon_clone\amazon_clone.DataAccess\Data\Logged-Queries.txt", l);
     }, LogLevel.Information);
+});
+
+builder.Services.AddDbContext<DashboardDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DashboardDb"));
 });
 
 builder.Services.AddIdentity<CustomerApplicationUser, CustomerRole>()

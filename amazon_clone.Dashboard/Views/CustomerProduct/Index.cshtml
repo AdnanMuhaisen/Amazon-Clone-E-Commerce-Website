@@ -49,9 +49,9 @@
                         <td>@product.Price.ToString("C2")</td>
                         <td>@product.ProductCreationDetails.CreatedAt</td>
                         <td>@product.ProductCreationDetails.UpdatedAt</td>
-                        <td>
-                            <a asp-controller="CustomerProduct" asp-action="UpsertCustomerProduct" asp-route-ProductID="@product.ProductID" class="btn btn-primary"><i class="bi bi-pencil-square"></i> Update</a>
-                            <a asp-controller="CustomerProduct" asp-action="RemoveCustomerProduct" asp-route-ProductID="@product.ProductID" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</a>
+                        <td style="width:150px">
+                            <a asp-controller="CustomerProduct" asp-action="UpsertCustomerProduct" asp-route-ProductID="@product.ProductID" class="btn btn-primary d-inline-block"><i class="bi bi-pencil-square"></i> Update</a>
+                            <a asp-controller="CustomerProduct" asp-action="RemoveCustomerProduct" asp-route-ProductID="@product.ProductID" class="btn btn-danger d-inline-block"><i class="bi bi-trash"></i> Delete</a>
                         </td>
                     </tr>
                 }

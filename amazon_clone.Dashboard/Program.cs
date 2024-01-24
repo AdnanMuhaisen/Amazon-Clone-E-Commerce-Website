@@ -1,3 +1,4 @@
+using amazon_clone.Dashboard.Controllers;
 using amazon_clone.DataAccess.Data;
 using amazon_clone.DataAccess.Data.Contexts;
 using amazon_clone.DataAccess.Repositories;
@@ -38,6 +39,8 @@ builder.Services.AddRazorPages();
 builder.Services.TryAddScoped<DbContext, DbContext>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.TryAddScoped<IAdministratorTransactionController, AdministratorTransactionController>();
 
 var app = builder.Build();
 

@@ -88,6 +88,8 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
 
+            CurrentCustomer.UnsetValues();
+
             returnUrl ??= Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process

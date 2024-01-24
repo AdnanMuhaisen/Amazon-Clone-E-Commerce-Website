@@ -1,0 +1,52 @@
+﻿@using amazon_clone.Models.Models
+@model CustomerApplicationUser
+
+<h1 style="margin-left:100px;">Delete Customer</h1>
+
+<form method="post">
+    <div class="card mt-3">
+        
+        <div class="row">
+            <div class="col input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">User Id</span>
+                <input asp-for="@Model.Id" name="CustomerID" readonly="true" type="text" class="form-control" placeholder="Customer ID" aria-describedby="basic-addon1">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">User Name</span>
+                <input asp-for="@Model.UserName" readonly="true" type="text" class="form-control" placeholder="Product Name" aria-label="Product Name" aria-describedby="basic-addon1">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Email</span>
+                <input asp-for="@Model.Email" readonly="true" type="text" class="form-control" placeholder="Email" aria-describedby="basic-addon1">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Phone Number</span>
+                <input asp-for="@Model.PhoneNumber" readonly="true" type="text" class="form-control" placeholder="PhoneNumber" aria-describedby="basic-addon1">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <input type="submit" class="btn btn-danger" value="Delete" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<style>
+    .card {
+        width: 75%;
+        margin-left: 100px;
+        padding: 15px;
+    }
+</style>

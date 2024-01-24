@@ -108,7 +108,7 @@
           <img src="@CurrentAdministrator.ImageUrl" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a asp-area="Identity" asp-page="/Account/Manage/Index"  class="d-block">Admin Profile</a>
+          <a asp-area="Identity" asp-page="/Account/Manage/Index"  class="d-block" style="margin-left:3px;">@CurrentAdministrator.Name</a>
         </div>
       </div>
 
@@ -130,7 +130,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+            <a asp-controller="Home" asp-action="Index" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -146,13 +146,32 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a asp-controller="ProductCategory" asp-action="Index" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Product Categories
               </p>
             </a>
-          </li>          
+          </li>   
+          
+          <li class="nav-item">
+            <a asp-controller="Customers" asp-action="Index" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Customers
+              </p>
+            </a>
+          </li>   
+          
+          <li class="nav-item">
+            <a asp-controller="AdministratorTransactions" asp-action="Index" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Transactions
+              </p>
+            </a>
+          </li>   
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
