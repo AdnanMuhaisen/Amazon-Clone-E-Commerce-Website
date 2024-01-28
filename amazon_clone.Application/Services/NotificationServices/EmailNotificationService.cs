@@ -13,7 +13,7 @@ namespace amazon_clone.Application.Services.NotificationServices
 
             // this must be in user-secret config file
             var senderEmail = @"adnanmuhaisen@outlook.com";
-            var password = "adnan12#";
+            var password = "";
 
             var smtpClient = new SmtpClient("smtp-mail.outlook.com", 587)
             {
