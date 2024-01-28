@@ -1,0 +1,39 @@
+﻿@using amazon_clone.Domain.Models
+@model List<CustomerApplicationUser>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Customers</h3>
+    </div>
+
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Added At</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (CustomerApplicationUser customer in Model)
+                {
+                    <tr>
+                        <td>@customer.Id</td>
+                        <td>@customer.UserName</td>
+                        <td>@customer.Email</td>
+                        <td>@customer.PhoneNumber</td>
+                        <td>@customer.CreationDetails.CreatedAt.ToString()</td>
+                        <td>
+                            @* <a asp-controller="CustomerProduct" asp-action="UpsertCustomerProduct" asp-route-ProductID="@product.ProductID" class="btn btn-primary"><i class="bi bi-pencil-square"></i> Update</a> *@
+                            <a asp-controller="Customers" asp-action="RemoveCustomer" asp-route-CustomerID="@customer.Id" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

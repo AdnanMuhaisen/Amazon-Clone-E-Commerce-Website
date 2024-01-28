@@ -1,0 +1,76 @@
+﻿@using amazon_clone.Domain.Users.CurrentUsers
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - amazon_clone.web</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/amazon_clone.web.styles.css" asp-append-version="true" />
+    <!--bootstrap icons-->
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
+            <div class="m-3">
+                <a asp-controller="Home" asp-action="Index">
+                    <img id='logo' class="navbar-brand" src="/images/UI/vecteezy_amazon-logotype-illustration-popular-online-shoping-icon_12681601.png" style="height:55px;width:150px;" />
+                </a>
+            </div>
+            <div class="container-fluid">
+                <form method="get" asp-controller="Home" asp-action="Search">
+                    <div class="input-group mb-2 w-100">
+                        <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2" name="valueToSearch">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2" style="background-color:darkorange">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="container-fluid" style="width:170px">
+                <a asp-controller="WishList" asp-action="Index" asp-route-UserID="@CurrentCustomer.UserID">
+                    <i class="bi bi-heart text-white"></i>
+                </a>
+                <a asp-controller="ShoppingCart" asp-action="Index">
+                    <i class="bi bi-cart text-white"></i>
+                </a>
+                <a asp-controller="Order" asp-action="Index">
+                    <i class="bi bi-bag text-white"></i>
+                </a>
+            </div>
+            <partial name="_LoginPartial" />
+        </nav>
+        <style>
+            nav {
+                height: 80px;
+                background-color: #1c2228;
+            }
+            body{
+                background-color: #f6f5f5;
+            }
+        </style>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <div class="row text-white text-center" style="width:100%; height:90px;background-color:#1c2228;padding-top:30px;margin-bottom:90px;">
+        <p><b>Disclaimer</b>: This Amazon clone project is a mere simulation and is not affiliated with Amazon in any way.</p>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container text-center" style="height:90px;padding-top:20px;">
+            <img src="~/images/UI/icons8-amazon-50.png" style="height:30px;width:60px;" />
+            &copy; 2024 | Developed By Adnan Muhaisen 
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

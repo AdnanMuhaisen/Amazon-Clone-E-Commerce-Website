@@ -1,0 +1,61 @@
+﻿@using amazon_clone.Domain.Models
+@model List<CustomerProduct>
+
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Customer Products List</h3>
+    </div>
+
+    @if (TempData["RemoveResult"] is not null)
+    {
+        <div class="text-danger">@TempData["RemoveResult"]</div>
+    } 
+    
+    @if (TempData["InsertNewProduct"] is not null)
+    {
+        <div class="text-danger">@TempData["InsertNewProduct"]</div>
+    }  
+    
+    @if (TempData["UpdateCustomerProduct"] is not null)
+    {
+        <div class="text-danger">@TempData["InsertNewProduct"]</div>
+    }
+    <a asp-controller="CustomerProduct" asp-action="UpsertCustomerProduct" class="btn btn-primary">New Product</a>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Customer Product ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (CustomerProduct product in Model)
+                {
+                    <tr>
+                        <td>@product.ProductID</td>
+                        <td>@product.CustomerProductID</td>
+                        <td>@product.Name</td>
+                        <td>@product.Description</td>
+                        <td>@product.Quantity.ToString()</td>
+                        <td>@product.Price.ToString("C2")</td>
+                        <td>@product.ProductCreationDetails.CreatedAt</td>
+                        <td>@product.ProductCreationDetails.UpdatedAt</td>
+                        <td style="width:150px">
+                            <a asp-controller="CustomerProduct" asp-action="UpsertCustomerProduct" asp-route-ProductID="@product.ProductID" class="btn btn-primary d-inline-block"><i class="bi bi-pencil-square"></i> Update</a>
+                            <a asp-controller="CustomerProduct" asp-action="RemoveCustomerProduct" asp-route-ProductID="@product.ProductID" class="btn btn-danger d-inline-block"><i class="bi bi-trash"></i> Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

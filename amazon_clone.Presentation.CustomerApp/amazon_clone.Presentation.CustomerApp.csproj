@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
+    <PackageReference Include="Scrutor" Version="4.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\products\" />
+    <Folder Include="wwwroot\images\UI\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\amazon_clone.Application\amazon_clone.Application.csproj" />
+    <ProjectReference Include="..\amazon_clone.Domain\amazon_clone.Domain.csproj" />
+    <ProjectReference Include="..\amazon_clone.Infrastructure\amazon_clone.Infrastructure.csproj" />
+    <ProjectReference Include="..\amazon_clone.Shared_Packages\amazon_clone.Shared_Packages.csproj" />
+    <ProjectReference Include="..\amazon_clone.Utility\amazon_clone.Utility.csproj" />
+  </ItemGroup>
+
+
+</Project>
