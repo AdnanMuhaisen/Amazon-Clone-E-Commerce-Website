@@ -1,10 +1,13 @@
 using amazon_clone.Application.Interfaces;
+using amazon_clone.Application.Services;
+using amazon_clone.Application.Services.NotificationServices;
 using amazon_clone.Domain.Models;
 using amazon_clone.Domain.Users.Roles;
 using amazon_clone.Infrastructure.DataAccess.Data.Contexts;
 using amazon_clone.Infrastructure.DataAccess.Interceptors;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
 
@@ -32,7 +35,16 @@ builder.Services.AddIdentity<CustomerApplicationUser, CustomerRole>()
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+builder.Services.AddSingleton<IEmailSender, EmailNotificationService>();
+
 var assembly = typeof(IOrderProcessingService).Assembly;
+
+builder.Services.Scan(s => s.
+        FromAssemblies(assembly)
+        .AddClasses(c => c.AssignableTo<ITransientService>())
+        .AsImplementedInterfaces()
+        .WithTransientLifetime()
+                    );
 
 builder.Services.Scan(s => s.
         FromAssemblies(assembly)
@@ -47,15 +59,6 @@ builder.Services.Scan(s => s
         .AsImplementedInterfaces()
         .WithSingletonLifetime()
                     );
-
-//builder.Services.Scan(s => s.
-//        FromAssemblies(assembly)
-//        .AddClasses(c => c.AssignableTo<ITransientService>())
-//        .AsImplementedInterfaces()
-//        .WithTransientLifetime()
-//                    );
-
-
 
 builder.Services.AddRazorPages();
 

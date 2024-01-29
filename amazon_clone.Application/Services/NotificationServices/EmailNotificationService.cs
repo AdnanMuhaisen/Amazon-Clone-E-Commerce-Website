@@ -12,21 +12,23 @@ namespace amazon_clone.Application.Services.NotificationServices
             // this email to the app outlook email 
 
             // this must be in user-secret config file
-            var senderEmail = @"adnanmuhaisen@outlook.com";
-            var password = "";
 
-            var smtpClient = new SmtpClient("smtp-mail.outlook.com", 587)
-            {
-                EnableSsl = true,
-                Credentials = new NetworkCredential(senderEmail, password)
-            };
+            //var senderEmail = @"adnanmuhaisen@outlook.com";
+            //var password = "";
 
-            return smtpClient.SendMailAsync(
-                from: senderEmail,
-                recipients: email,
-                subject: subject,
-                body: htmlMessage
-                );
+            //var smtpClient = new SmtpClient("smtp-mail.outlook.com", 587)
+            //{
+            //    EnableSsl = true,
+            //    Credentials = new NetworkCredential(senderEmail, password)
+            //};
+
+            //return smtpClient.SendMailAsync(
+            //    from: senderEmail,
+            //    recipients: email,
+            //    subject: subject,
+            //    body: htmlMessage
+            //    );
+            return Task.CompletedTask;
         }
     }
 }

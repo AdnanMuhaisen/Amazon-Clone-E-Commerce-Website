@@ -25,8 +25,6 @@ namespace amazon_clone.Application.Services
             if (string.IsNullOrWhiteSpace(PromoCodeToApply))
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(PromoCodeToApply);
-                //TempData["Invalid-PromoCode-Value"] = "Enter the correct promo code";
-                //return RedirectToAction("Index", "ShoppingCart");
             }
 
             var targetOrderContainsTheCart = _unitOfWork
@@ -88,7 +86,7 @@ namespace amazon_clone.Application.Services
         /// </summary>
         /// <param name="numberOfShoppingCartProducts"></param>
         /// <returns></returns>
-        public int? GetShoppingCartPromoCode(int numberOfShoppingCartProducts)
+        public static int? GetShoppingCartPromoCode(int numberOfShoppingCartProducts)
         {
             return numberOfShoppingCartProducts switch
             {
@@ -98,6 +96,23 @@ namespace amazon_clone.Application.Services
                 4 => (int)ePromoCodes.SHUBHO40,
                 // in case of more than 4 products in the cart
                 _ => (int)ePromoCodes.SHUBHO40
+            };
+        }
+
+        public static decimal PromoCodeValueThatAffectThePriceOfProduct(Product product,PromoCode promoCode,int numberOfProductsInTheCart)
+        {
+            ArgumentNullException.ThrowIfNull(product);
+
+            ArgumentNullException.ThrowIfNull(promoCode);
+
+            // check this calculation because i am not sure from it !
+
+            return promoCode.CodeID switch
+            {
+                (int)ePromoCodes.SHUBHO20 => product.Price * 0.2m,
+                (int)ePromoCodes.SHUBHO30 => product.Price * 0.3m,
+                (int)ePromoCodes.SHUBHO40 => product.Price * 0.4m,
+                _ => throw new PromoCodeException("Invalid PromoCode")
             };
         }
 

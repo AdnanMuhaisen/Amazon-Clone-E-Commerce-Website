@@ -54,6 +54,8 @@ namespace amazon_clone.Application.Services
                 include: i => i
                 .Include(x => x.ShoppingCart)
                 .ThenInclude(x => x.CartProducts)
+                .Include(i => i.ShoppingCart)
+                .ThenInclude(i => i.CartPromoCode)
                 .Include(x => x.ShippingDetails!))?
                 .FirstOrDefault();
 
@@ -79,6 +81,10 @@ namespace amazon_clone.Application.Services
             //provide the required url`s here
             var options = new SessionCreateOptions
             {
+                PaymentMethodTypes = new List<string>
+                {
+                    "card"
+                },
                 SuccessUrl = domain + @"Payment/PaymentSuccessfulUsingCreditOrDebitCard",
                 CancelUrl = domain + @"Payment/PaymentFailed",
                 LineItems = new List<SessionLineItemOptions>(),
@@ -92,7 +98,11 @@ namespace amazon_clone.Application.Services
                 {
                     PriceData = new SessionLineItemPriceDataOptions
                     {
-                        UnitAmount = (long)product.Price,
+                        // the UnitAmountDecimal take the amount in cents
+                        UnitAmountDecimal = (targetOrderToPayFor.ShoppingCart.CartPromoCode is null) 
+                        ? (product.Price - (product.Price * StaticDetails.PRODUCT_DICOUNT)) * 100
+                        : (product.Price - (product.Price * StaticDetails.PRODUCT_DICOUNT)) * 100
+                        ,
                         Currency = "usd",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
@@ -102,9 +112,11 @@ namespace amazon_clone.Application.Services
                     },
                     Quantity = cartProductsQuantities![product.CustomerProductID]
                 };
-
+               
                 options.LineItems.Add(sessionListItem);
             }
+
+            
 
             var service = new SessionService();
             Session session = service.Create(options);

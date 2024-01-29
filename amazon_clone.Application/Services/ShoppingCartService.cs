@@ -13,7 +13,7 @@ namespace amazon_clone.Application.Services
     public class ShoppingCartService : IShoppingCartService
     {
         private readonly IOrderProcessingService orderProcessingService;
-        private readonly IPromoCodeService promoCodeService;
+
         private readonly IShoppingCartSubTotalManager shoppingCartSubTotalManager;
 
         public IUnitOfWork _unitOfWork { get; }
@@ -21,13 +21,11 @@ namespace amazon_clone.Application.Services
         public ShoppingCartService(
             IUnitOfWork unitOfWork,
             IOrderProcessingService orderProcessingService,
-            IPromoCodeService promoCodeService,
             IShoppingCartSubTotalManager shoppingCartSubTotalManager
             )
         {
             _unitOfWork = unitOfWork;
             this.orderProcessingService = orderProcessingService;
-            this.promoCodeService = promoCodeService;
             this.shoppingCartSubTotalManager = shoppingCartSubTotalManager;
         }
 
@@ -86,17 +84,18 @@ namespace amazon_clone.Application.Services
                 _unitOfWork.ShoppingCartProductRepository.Add(cartProduct);
 
                 decimal priceToAdd = targetCustomerProductData!.Price - (targetCustomerProductData.Price * StaticDetails.PRODUCT_DICOUNT);
-                targetOrderContainsTheCart.ShoppingCart.PromoCodeID = promoCodeService.GetShoppingCartPromoCode(targetOrderContainsTheCart.ShoppingCart.CartProducts.Count());
+                targetOrderContainsTheCart.ShoppingCart.PromoCodeID = PromoCodeService.GetShoppingCartPromoCode(targetOrderContainsTheCart.ShoppingCart.CartProducts.Count());
 
-                if (targetOrderContainsTheCart.ShoppingCart.PromoCodeID is not null)
-                {
-                    shoppingCartSubTotalManager.CalculateSubTotalAfterApplyingPromoCodeOnShoppingCart(targetOrderContainsTheCart.ShoppingCart);
-                }
 
                 targetOrderContainsTheCart.ShoppingCart.SubTotal += priceToAdd;
                 targetOrderContainsTheCart.Total += priceToAdd;
 
                 shoppingCartSubTotalManager.UpdateTheActualSubTotalOfAShoppingCart(targetOrderContainsTheCart.ShoppingCart);
+
+                if (targetOrderContainsTheCart.ShoppingCart.PromoCodeID is not null)
+                {
+                    shoppingCartSubTotalManager.CalculateSubTotalAfterApplyingPromoCodeOnShoppingCart(targetOrderContainsTheCart.ShoppingCart);
+                }
 
                 _unitOfWork.Save();
             }
@@ -145,17 +144,18 @@ namespace amazon_clone.Application.Services
                 .Remove(cartProduct!);
 
             //update all the costs requirements:
-            targetOrderContainsTheCart.ShoppingCart.PromoCodeID = promoCodeService.GetShoppingCartPromoCode(targetOrderContainsTheCart.ShoppingCart.CartProducts.Count());
+            targetOrderContainsTheCart.ShoppingCart.PromoCodeID = PromoCodeService.GetShoppingCartPromoCode(targetOrderContainsTheCart.ShoppingCart.CartProducts.Count());
 
-            if (targetOrderContainsTheCart.ShoppingCart.PromoCodeID is not null)
-            {
-                shoppingCartSubTotalManager.CalculateSubTotalAfterApplyingPromoCodeOnShoppingCart(targetOrderContainsTheCart.ShoppingCart);
-            }
 
             targetOrderContainsTheCart.ShoppingCart.SubTotal -= priceToSubtract;
             targetOrderContainsTheCart.Total -= priceToSubtract;
 
             shoppingCartSubTotalManager.UpdateTheActualSubTotalOfAShoppingCart(targetOrderContainsTheCart.ShoppingCart);
+
+            if (targetOrderContainsTheCart.ShoppingCart.PromoCodeID is not null)
+            {
+                shoppingCartSubTotalManager.CalculateSubTotalAfterApplyingPromoCodeOnShoppingCart(targetOrderContainsTheCart.ShoppingCart);
+            }
 
             _unitOfWork.Save();
         }

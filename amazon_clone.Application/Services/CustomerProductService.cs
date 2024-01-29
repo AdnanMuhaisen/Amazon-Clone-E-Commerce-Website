@@ -99,7 +99,7 @@ namespace amazon_clone.Application.Services
                 electronicProducts = Enumerable.Empty<CustomerProduct>();
             }
 
-            return electronicProducts!;
+            return electronicProducts.ToList()!;
         }
 
         public IEnumerable<CustomerProduct> GetAllJewelryProducts()
@@ -126,7 +126,7 @@ namespace amazon_clone.Application.Services
                 jewelryCustomerProducts = Enumerable.Empty<CustomerProduct>();
             }
 
-            return jewelryCustomerProducts!;
+            return jewelryCustomerProducts.ToList()!;
         }
 
         public CustomerProduct GetByID(int ProductID)

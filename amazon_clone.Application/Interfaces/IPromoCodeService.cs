@@ -11,7 +11,6 @@ namespace amazon_clone.Application.Interfaces
 
         void ApplyPromoCodeOnAShoppingCart(ShoppingCart shoppingCart);
         void ApplyShoppingCartPromoCode(string PromoCodeToApply);
-        int? GetShoppingCartPromoCode(int numberOfShoppingCartProducts);
         void CancelAnAppOfPromoCode(ShoppingCart shoppingCart);
     }
 }
