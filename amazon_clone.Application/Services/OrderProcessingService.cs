@@ -99,10 +99,9 @@ namespace amazon_clone.Application.Services
                     PriceData = new SessionLineItemPriceDataOptions
                     {
                         // the UnitAmountDecimal take the amount in cents
-                        UnitAmountDecimal = (targetOrderToPayFor.ShoppingCart.CartPromoCode is null) 
-                        ? (product.Price - (product.Price * StaticDetails.PRODUCT_DICOUNT)) * 100
-                        : (product.Price - (product.Price * StaticDetails.PRODUCT_DICOUNT)) * 100
-                        ,
+
+                        UnitAmountDecimal = ProductPriceCalculator
+                        .CalculateProductPrice(targetOrderToPayFor.ShoppingCart,product),
                         Currency = "usd",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
@@ -116,7 +115,21 @@ namespace amazon_clone.Application.Services
                 options.LineItems.Add(sessionListItem);
             }
 
-            
+            options.LineItems.Add(new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    // the UnitAmountDecimal take the amount in cents
+                    UnitAmountDecimal = (StaticDetails.ORDER_DELIVERY + StaticDetails.ORDER_TAX) * 100,
+                    Currency = "usd",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = "Tax",
+                        Description = "Order Tax And Delivery Tax"
+                    }
+                },
+                Quantity = 1
+            });
 
             var service = new SessionService();
             Session session = service.Create(options);
@@ -157,7 +170,5 @@ namespace amazon_clone.Application.Services
             _unitOfWork.OrderRepository.Add(customerOrder);
             _unitOfWork.Save();
         }
-
-
     }
 }

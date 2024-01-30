@@ -1,5 +1,4 @@
 using amazon_clone.Application.Interfaces;
-using amazon_clone.Application.Services;
 using amazon_clone.Application.Services.NotificationServices;
 using amazon_clone.Domain.Models;
 using amazon_clone.Domain.Users.Roles;

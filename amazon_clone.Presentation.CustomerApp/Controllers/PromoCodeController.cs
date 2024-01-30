@@ -39,7 +39,8 @@ namespace amazon_clone.web.Controllers
         {
             var targetOrderContainsTheCart = _unitOfWork
                 .OrderRepository
-                .Get(filter: x => x.CustomerID == CurrentCustomer.UserID && x.StatusID == (int)eOrderStatuses.PROCESSING,
+                .Get(filter: x => x.CustomerID == CurrentCustomer.UserID 
+                && (x.StatusID == (int)eOrderStatuses.PROCESSING|| x.StatusID == (int)eOrderStatuses.SHIPPED),
                 include: i => i
                 .Include(x => x.ShoppingCart)
                 .ThenInclude(x => x.ShoppingCartsProducts));

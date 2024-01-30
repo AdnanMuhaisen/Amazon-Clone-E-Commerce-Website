@@ -99,19 +99,17 @@ namespace amazon_clone.Application.Services
             };
         }
 
-        public static decimal PromoCodeValueThatAffectThePriceOfProduct(Product product,PromoCode promoCode,int numberOfProductsInTheCart)
+        public static decimal PromoCodeValueThatAffectThePriceOfProduct(decimal ProductPrice,PromoCode promoCode)
         {
-            ArgumentNullException.ThrowIfNull(product);
-
             ArgumentNullException.ThrowIfNull(promoCode);
 
             // check this calculation because i am not sure from it !
-
+            
             return promoCode.CodeID switch
             {
-                (int)ePromoCodes.SHUBHO20 => product.Price * 0.2m,
-                (int)ePromoCodes.SHUBHO30 => product.Price * 0.3m,
-                (int)ePromoCodes.SHUBHO40 => product.Price * 0.4m,
+                (int)ePromoCodes.SHUBHO20 => ProductPrice * 0.2m,
+                (int)ePromoCodes.SHUBHO30 => ProductPrice * 0.3m,
+                (int)ePromoCodes.SHUBHO40 => ProductPrice * 0.4m,
                 _ => throw new PromoCodeException("Invalid PromoCode")
             };
         }
