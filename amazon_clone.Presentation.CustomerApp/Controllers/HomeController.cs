@@ -1,6 +1,8 @@
 using amazon_clone.Application.Interfaces;
-using amazon_clone.Domain.Users.CurrentUsers;
+using amazon_clone.Presentation.CustomerApp.Filters;
 using Microsoft.AspNetCore.Mvc;
+
+
 
 namespace amazon_clone.web.Controllers
 {
@@ -25,16 +27,8 @@ namespace amazon_clone.web.Controllers
         
         public IActionResult Index()
         {
-            if(CurrentCustomer.UserID is null)
-            {
-                // create an authentication middleware
-                // this implementation is temporary 
-                // instead of this condition , create a custom attribute to solve this problem
-                return NotFound();
-            }
-
             var customerProducts = customerProductService.GetAllCustomerProducts();
-           
+
             return View(customerProducts);
         }
 

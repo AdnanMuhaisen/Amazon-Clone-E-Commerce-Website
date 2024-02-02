@@ -1,3 +1,4 @@
+using amazon_clone.Application.Interfaces;
 using amazon_clone.Domain.Models;
 using amazon_clone.Domain.Users.Managers;
 using amazon_clone.Domain.Users.Roles;
@@ -26,6 +27,30 @@ builder.Services.AddIdentity<Administrator, AdministratorRole>()
     .AddEntityFrameworkStores<DashboardDbContext>()
     .AddSignInManager<AdministratorSignInManager>()
     .AddDefaultTokenProviders();
+
+
+var assembly = typeof(IDashboardHomePageInformationManager).Assembly;
+
+builder.Services.Scan(s => s.
+        FromAssemblies(assembly)
+        .AddClasses(c => c.AssignableTo<ITransientService>())
+        .AsImplementedInterfaces()
+        .WithTransientLifetime()
+                    );
+
+builder.Services.Scan(s => s.
+        FromAssemblies(assembly)
+        .AddClasses(c => c.AssignableTo<IScopedService>())
+        .AsImplementedInterfaces()
+        .WithScopedLifetime()
+                    );
+
+builder.Services.Scan(s => s
+        .FromAssemblies(assembly)
+        .AddClasses(c => c.AssignableTo<ISingletonService>())
+        .AsImplementedInterfaces()
+        .WithSingletonLifetime()
+                    );
 
 
 //builder.Services.TryAddSingleton<IEmailSender, EmailNotificationService>();

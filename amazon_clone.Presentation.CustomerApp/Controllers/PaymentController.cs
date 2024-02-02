@@ -3,6 +3,7 @@ using amazon_clone.Domain.Enums;
 using amazon_clone.Domain.Users.CurrentUsers;
 using amazon_clone.Domain.View_Models;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
+using amazon_clone.Presentation.CustomerApp.Filters;
 using amazon_clone.Utility.Exceptions;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -15,19 +16,19 @@ namespace amazon_clone.web.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPaymentProcessingService paymentProcessingService;
         private readonly IOrderProcessingService orderProcessingService;
-        private readonly IEmailSender _emailSender;
+        //private readonly IEmailSender _emailSender;
 
         public PaymentController(
             IUnitOfWork unitOfWork,
             IPaymentProcessingService paymentProcessingService,
-            IOrderProcessingService orderProcessingService,
-            IEmailSender emailSender
+            IOrderProcessingService orderProcessingService
+            //IEmailSender emailSender
             )
         {
             _unitOfWork = unitOfWork;
             this.paymentProcessingService = paymentProcessingService;
             this.orderProcessingService = orderProcessingService;
-            _emailSender = emailSender;
+            //_emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -88,11 +89,11 @@ namespace amazon_clone.web.Controllers
 
         public IActionResult PaymentSuccessful(int OrderID)
         {
-            _emailSender.SendEmailAsync(
-                CurrentCustomer.Email,
-                "Amazon Clone Order Notifier",
-                $"You have successfully paid for the order with id {OrderID}"
-                );
+            //_emailSender.SendEmailAsync(
+            //    CurrentCustomer.Email,
+            //    "Amazon Clone Order Notifier",
+            //    $"You have successfully paid for the order with id {OrderID}"
+            //    );
 
 
             return View("PaymentSuccessful");

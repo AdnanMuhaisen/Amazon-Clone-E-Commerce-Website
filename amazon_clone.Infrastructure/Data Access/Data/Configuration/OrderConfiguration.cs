@@ -17,17 +17,23 @@ namespace amazon_clone.DataAccess.Data.Configuration
             builder.HasOne(x => x.Customer)
                 .WithMany(x => x.Orders)
                 .HasForeignKey(x => x.CustomerID)
-                .IsRequired(false);
+                .IsRequired(true);
 
             builder.HasOne(x => x.ShoppingCart)
                 .WithOne(x => x.Order)
                 .HasForeignKey<Order>(x => x.ShoppingCartID)
-                .IsRequired();
+                .IsRequired(true);
 
             builder.HasOne(x => x.OrderStatus)
                 .WithMany(x => x.Orders)
                 .HasForeignKey(x => x.StatusID)
-                .IsRequired();
+                .IsRequired(true);
+
+            builder.HasOne(x => x.ShippingDetails)
+                .WithOne(x => x.Order)
+                .HasForeignKey<Order>(x => x.ShippingDetailsID)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

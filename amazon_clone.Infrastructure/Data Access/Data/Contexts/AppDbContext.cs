@@ -43,7 +43,7 @@ namespace amazon_clone.Infrastructure.DataAccess.Data.Contexts
 
             modelBuilder.Ignore<Administrator>();
             modelBuilder.Ignore<AdministratorRole>();
-            modelBuilder.Ignore<AdministratorTransaction>();
+            modelBuilder.Ignore<AdministratorOperation>();
         }
     }
 }

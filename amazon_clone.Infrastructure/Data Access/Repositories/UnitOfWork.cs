@@ -1,4 +1,5 @@
-﻿using amazon_clone.Infrastructure.DataAccess.Data.Contexts;
+﻿using amazon_clone.Infrastructure.Data_Access.Repositories;
+using amazon_clone.Infrastructure.DataAccess.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace amazon_clone.Infrastructure.DataAccess.Repositories
@@ -25,7 +26,9 @@ namespace amazon_clone.Infrastructure.DataAccess.Repositories
         public IUsersRepository UsersRepository { get; set; } = new UsersRepository(_appDbContext);
         public IPaymentRepository PaymentRepository { get; set; } = new PaymentRepository(_appDbContext);
         public IAdministratorRepository AdministratorRepository { get; set; } = new AdministratorRepository(_dashboardDbContext);
-        //public IAdministratorsTransactionsRepository AdministratorsTransactionsRepository { get; set; } = new AdministratorsTransactionsRepository(_dashboardDbContext);
+        public IAdministratorsOperationsRepository AdministratorsOperationsRepository { get; set; } = new AdministratorsOperationsRepository(_dashboardDbContext);
+
+
 
         public void Save()
         {

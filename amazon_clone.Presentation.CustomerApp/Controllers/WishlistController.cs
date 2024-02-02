@@ -1,6 +1,7 @@
 ﻿using amazon_clone.Application.Interfaces;
 using amazon_clone.Domain.Users.CurrentUsers;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
+using amazon_clone.Presentation.CustomerApp.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

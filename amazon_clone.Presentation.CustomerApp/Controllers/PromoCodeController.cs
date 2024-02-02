@@ -2,6 +2,7 @@
 using amazon_clone.Domain.Enums;
 using amazon_clone.Domain.Users.CurrentUsers;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
+using amazon_clone.Presentation.CustomerApp.Filters;
 using amazon_clone.Utility.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

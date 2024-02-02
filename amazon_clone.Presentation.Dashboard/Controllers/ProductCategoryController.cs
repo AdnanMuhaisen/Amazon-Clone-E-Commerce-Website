@@ -1,5 +1,5 @@
-﻿using amazon_clone.Domain.Models;
-using amazon_clone.Domain.Users.CurrentUsers;
+﻿using amazon_clone.Application.Interfaces;
+using amazon_clone.Domain.Models;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -9,15 +9,12 @@ namespace amazon_clone.Dashboard.Controllers
     public class ProductCategoryController : Controller
     {
         private readonly IUnitOfWork unitOfWork;
-        //private readonly IAdministratorTransactionController administratorTransactionController;
+        private readonly IProductCategoryManager productCategoryManager;
 
-        public ProductCategoryController(
-            IUnitOfWork unitOfWork
-            //IAdministratorTransactionController administratorTransactionController
-            )
+        public ProductCategoryController(IUnitOfWork unitOfWork,IProductCategoryManager productCategoryManager)
         {
             this.unitOfWork = unitOfWork;
-            //this.administratorTransactionController = administratorTransactionController;
+            this.productCategoryManager = productCategoryManager;
         }
 
         public IActionResult Index()
@@ -60,54 +57,7 @@ namespace amazon_clone.Dashboard.Controllers
 
             if (ModelState.IsValid)
             {
-                if(productCategory.CategoryID == 0)
-                {
-                    //insert
-                    try
-                    {
-                        unitOfWork.ProductCategoryRepository.Add(productCategory);
-
-                        //administratorTransactionController.AddNewAdministratorTransaction(
-                        //    unitOfWork,
-                        //    CurrentAdministrator.UserID!,
-                        //    $"The product category : Category Name : {productCategory.CategoryName} is added");
-
-                        unitOfWork.Save();
-                    }
-                    catch (Exception) 
-                    {
-                        //administratorTransactionController.AddNewAdministratorTransaction(
-                        //    unitOfWork,
-                        //    CurrentAdministrator.UserID!,
-                        //    $"Try to add the product category : Category Name : {productCategory.CategoryName}");
-
-                        unitOfWork.Save();
-                    }
-                }
-                else
-                {
-                    //update
-                    try
-                    {
-                        unitOfWork.ProductCategoryRepository.Update(productCategory);
-
-                        //administratorTransactionController.AddNewAdministratorTransaction(
-                        //    unitOfWork,
-                        //    CurrentAdministrator.UserID!,
-                        //    $"Update the product category : Category Name : {productCategory.CategoryName}");
-
-                        unitOfWork.Save();
-                    }
-                    catch(Exception)
-                    {
-                        //administratorTransactionController.AddNewAdministratorTransaction(
-                        //    unitOfWork,
-                        //    CurrentAdministrator.UserID!,
-                        //    $"Try to update the product category : Category Name : {productCategory.CategoryName}");
-
-                        unitOfWork.Save();
-                    }
-                }
+                productCategoryManager.UpsertProductCategory(productCategory);
             }
 
             return RedirectToAction("Index");
@@ -115,32 +65,7 @@ namespace amazon_clone.Dashboard.Controllers
 
         public IActionResult RemoveProductCategory(int CategoryID)
         {
-            var targetCategoryToDelete = unitOfWork
-                .ProductCategoryRepository
-                .Get(x => x.CategoryID == CategoryID);
-
-            ArgumentNullException.ThrowIfNull(targetCategoryToDelete);
-
-            try
-            {
-                unitOfWork.ProductCategoryRepository.Remove(targetCategoryToDelete);
-
-                //administratorTransactionController.AddNewAdministratorTransaction(
-                //    unitOfWork,
-                //    CurrentAdministrator.UserID!,
-                //    $"Delete the product category : Category Name : {targetCategoryToDelete.CategoryName}");
-
-                unitOfWork.Save();
-            }
-            catch(Exception)
-            {
-                //administratorTransactionController.AddNewAdministratorTransaction(
-                //    unitOfWork,
-                //    CurrentAdministrator.UserID!,
-                //    $"Try to delete the product category : Category Name : {targetCategoryToDelete.CategoryName}");
-
-                unitOfWork.Save();
-            }
+            productCategoryManager.RemoveProductCategory(CategoryID);
 
             return RedirectToAction("Index");
         }

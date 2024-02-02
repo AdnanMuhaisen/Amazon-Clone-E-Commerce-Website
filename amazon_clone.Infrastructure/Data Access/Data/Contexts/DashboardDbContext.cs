@@ -9,11 +9,18 @@ namespace amazon_clone.Infrastructure.DataAccess.Data.Contexts
     {
         public DbSet<Administrator> Administrators { get; set; }
         public DbSet<AdministratorRole> ApplicationUserRoles { get; set; }
-        public DbSet<AdministratorTransaction> AdministratorTransactions { get; set; }
+        public DbSet<AdministratorOperation> AdministratorOperations { get; set; }
 
 
         public DashboardDbContext() { }
         public DashboardDbContext(DbContextOptions<DashboardDbContext> dbContextOptions) : base(dbContextOptions) { }
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlServer("Server = .; Database = amazon_clone_dashboard; Integrated Security = SSPI; TrustServerCertificate = True;");
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -43,6 +50,8 @@ namespace amazon_clone.Infrastructure.DataAccess.Data.Contexts
             builder.Ignore<CreationDetails>();
             builder.Ignore<ClothingProduct>();
             builder.Ignore<ClothesSizes>();
+
+            
         }
     }
 }

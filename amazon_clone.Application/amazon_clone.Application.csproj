@@ -7,10 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.3.0" />
+    <PackageReference Include="MimeKit" Version="4.3.0" />
+    <PackageReference Include="SendGrid" Version="9.29.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\amazon_clone.Domain\amazon_clone.Domain.csproj" />
     <ProjectReference Include="..\amazon_clone.Infrastructure\amazon_clone.Infrastructure.csproj" />
     <ProjectReference Include="..\amazon_clone.Shared_Packages\amazon_clone.Shared_Packages.csproj" />
     <ProjectReference Include="..\amazon_clone.Utility\amazon_clone.Utility.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\NotificationServices\" />
   </ItemGroup>
 
 </Project>

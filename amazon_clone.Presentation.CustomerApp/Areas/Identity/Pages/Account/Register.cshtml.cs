@@ -24,7 +24,7 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
         private readonly IUserStore<CustomerApplicationUser> _userStore;
         private readonly IUserEmailStore<CustomerApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        //private readonly IEmailSender _emailSender;
         private readonly RoleManager<CustomerRole> _roleManager;
         private readonly IUnitOfWork _unitOfWork;
 
@@ -34,7 +34,7 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
             IUserStore<CustomerApplicationUser> userStore,
             SignInManager<CustomerApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender,
+            //IEmailSender emailSender,
             RoleManager<CustomerRole> roleManager,
             IUnitOfWork unitOfWork)
         {
@@ -43,7 +43,7 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
+            //_emailSender = emailSender;
             _roleManager = roleManager;
             _unitOfWork = unitOfWork;
         }

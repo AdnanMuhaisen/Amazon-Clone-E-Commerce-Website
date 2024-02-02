@@ -1,4 +1,6 @@
-﻿namespace amazon_clone.Infrastructure.DataAccess.Repositories
+﻿using amazon_clone.Infrastructure.Data_Access.Repositories;
+
+namespace amazon_clone.Infrastructure.DataAccess.Repositories
 {
     public interface IUnitOfWork
     {
@@ -19,7 +21,10 @@
         public IUsersRepository UsersRepository { get; set; }
         public IPaymentRepository PaymentRepository { get; set; }
         public IAdministratorRepository AdministratorRepository { get; set; }
-        //public IAdministratorsTransactionsRepository AdministratorsTransactionsRepository { get; set; }
+        public IAdministratorsOperationsRepository AdministratorsOperationsRepository { get; set; }
+
+
+
 
         void Save();
     }

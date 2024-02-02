@@ -5,12 +5,15 @@
 using amazon_clone.Domain.Models;
 using amazon_clone.Domain.Users.CurrentUsers;
 using amazon_clone.Domain.Users.Managers;
+using amazon_clone.Presentation.CustomerApp.Filters;
 using amazon_clone.Utility.App_Details;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace amazon_clone.web.Areas.Identity.Pages.Account
 {
@@ -94,6 +97,7 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
@@ -131,6 +135,26 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
                         currentUser.PhoneNumber,
                         currentUser.WishListID,
                         currentUser.ImageUrl ?? StaticDetails.DEFAULT_USER_IMAGE_PATH);
+
+                    //var claims = new List<Claim>
+                    //{
+                    //    new Claim(ClaimTypes.NameIdentifier,currentUser.Id),
+                    //    new Claim(ClaimTypes.Email,currentUser.Email)
+                    //};
+
+                    //var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    //AuthenticationProperties properties = new AuthenticationProperties
+                    //{
+                    //    AllowRefresh = true,
+                    //    IsPersistent = true
+                    //};
+
+                    //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), properties);
+
+                    //var user = HttpContext.User;
+
+                    //HttpContext.Response.Headers.Append("Authorization", $"Basic {CurrentCustomer.UserID}:{CurrentCustomer.Email}");
 
                     return LocalRedirect(returnUrl);
                 }

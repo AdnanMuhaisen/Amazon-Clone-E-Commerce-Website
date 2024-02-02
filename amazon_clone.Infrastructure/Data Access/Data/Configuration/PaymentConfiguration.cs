@@ -15,12 +15,13 @@ namespace amazon_clone.DataAccess.Data.Configuration
             builder.HasOne(x => x.Customer)
                 .WithMany(x => x.CustomerPayments)
                 .HasForeignKey(x => x.CustomerID)
-                .IsRequired(false);
+                .IsRequired(true);
 
             builder.HasOne(x => x.Order)
                 .WithOne(x => x.Payment)
                 .HasForeignKey<Payment>(x => x.OrderID)
-                .IsRequired(false);
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

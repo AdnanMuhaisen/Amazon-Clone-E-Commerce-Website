@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using amazon_clone.Infrastructure.DataAccess.Data.Contexts;
 
@@ -11,9 +12,11 @@ using amazon_clone.Infrastructure.DataAccess.Data.Contexts;
 namespace amazon_clone.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240202121833_Update_Relationships_1")]
+    partial class Update_Relationships_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -354,7 +357,7 @@ namespace amazon_clone.Infrastructure.Migrations
                     b.Property<DateTime>("PaymentDateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 2, 15, 40, 21, 824, DateTimeKind.Local).AddTicks(7806));
+                        .HasDefaultValue(new DateTime(2024, 2, 2, 15, 18, 32, 470, DateTimeKind.Local).AddTicks(1017));
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
@@ -854,8 +857,7 @@ namespace amazon_clone.Infrastructure.Migrations
 
                     b.HasOne("amazon_clone.Domain.Models.Order", "Order")
                         .WithOne("Payment")
-                        .HasForeignKey("amazon_clone.Domain.Models.Payment", "OrderID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("amazon_clone.Domain.Models.Payment", "OrderID");
 
                     b.Navigation("Customer");
 

@@ -1,4 +1,5 @@
-﻿using amazon_clone.Domain.Users.CurrentUsers;
+﻿using amazon_clone.Application.Interfaces;
+using amazon_clone.Domain.Users.CurrentUsers;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,15 +8,12 @@ namespace amazon_clone.Dashboard.Controllers
     public class CustomersController : Controller
     {
         private readonly IUnitOfWork unitOfWork;
-        //private readonly IAdministratorTransactionController administratorTransactionController;
+        private readonly ICustomerManager customerManager;
 
-        public CustomersController(
-            IUnitOfWork unitOfWork
-           // IAdministratorTransactionController administratorTransactionController
-            )
+        public CustomersController(IUnitOfWork unitOfWork,ICustomerManager customerManager)
         {
             this.unitOfWork = unitOfWork;
-            //this.administratorTransactionController = administratorTransactionController;
+            this.customerManager = customerManager;
         }
 
         public IActionResult Index()
@@ -55,36 +53,7 @@ namespace amazon_clone.Dashboard.Controllers
                 return NotFound();
             }
 
-            var targetCustomerToDelete = unitOfWork
-                .UsersRepository
-                .Get(x => x.Id == CustomerID);
-
-            ArgumentNullException.ThrowIfNull(targetCustomerToDelete);
-
-            try
-            {
-                unitOfWork.UsersRepository.Remove(targetCustomerToDelete);
-
-                //administratorTransactionController.AddNewAdministratorTransaction(
-                //    unitOfWork,
-                //    CurrentAdministrator.UserID!,
-                //    $"Delete the customer : Customer Name : {targetCustomerToDelete.UserName}",
-                //    DateTime.Now
-                //    );
-
-                unitOfWork.Save();
-            }
-            catch (Exception) 
-            {
-                //administratorTransactionController.AddNewAdministratorTransaction(
-                //    unitOfWork,
-                //    CurrentAdministrator.UserID!,
-                //    $"Try to delete the customer : Customer Name : {targetCustomerToDelete.UserName}",
-                //    DateTime.Now
-                //    );
-
-                unitOfWork.Save();
-            }
+            customerManager.RemoveCustomer(CustomerID);
 
             return RedirectToAction("Index");
         }

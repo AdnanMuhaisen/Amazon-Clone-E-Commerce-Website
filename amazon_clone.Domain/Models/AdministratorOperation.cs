@@ -2,12 +2,12 @@
 
 namespace amazon_clone.Domain.Models
 {
-    public class AdministratorTransaction
+    public class AdministratorOperation
     {
         [Key]
-        public int TransactionID { get; set; }
-        public DateTime TransactionDateTime { get; set; }
-        public string TransactionLog { get; set; } = null!;
+        public int OperationID { get; set; }
+        public DateTime OperationDateTime { get; set; }
+        public string OperationLog { get; set; } = null!;
         public string? AdditionalNotes { get; set; } = null!;
 
         // relationships

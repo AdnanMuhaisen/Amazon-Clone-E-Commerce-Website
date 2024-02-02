@@ -1,10 +1,10 @@
 ﻿@using amazon_clone.Domain.Models
-@model List<AdministratorTransaction>
+@model List<AdministratorOperation>
 
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Transactions</h3>
+        <h3 class="card-title">Operations</h3>
     </div>
 
     <!-- /.card-header -->
@@ -12,20 +12,20 @@
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Transaction ID</th>
-                    <th>Transaction Log</th>
+                    <th>Operation ID</th>
+                    <th>Operation Log</th>
                     <th>Done By (Admin ID)</th>
                     <th>Done At</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (AdministratorTransaction transaction in Model)
+                @foreach (AdministratorOperation operation in Model)
                 {
                     <tr>
-                        <td>@transaction.TransactionID</td>
-                        <td>@transaction.TransactionLog</td>
-                        <td>@transaction.AdministratorID</td>
-                        <td>@transaction.TransactionDateTime.ToString()</td>
+                        <td>@operation.OperationID</td>
+                        <td>@operation.OperationLog</td>
+                        <td>@operation.AdministratorID</td>
+                        <td>@operation.OperationDateTime.ToString()</td>
                     </tr>
                 }
             </tbody>

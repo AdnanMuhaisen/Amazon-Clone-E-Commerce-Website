@@ -1,19 +1,27 @@
 ﻿using amazon_clone.Application.Interfaces;
 using amazon_clone.Domain.Enums;
 using amazon_clone.Domain.Models;
+using amazon_clone.Domain.Users.CurrentUsers;
+using amazon_clone.Domain.View_Models;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
 using amazon_clone.Utility.App_Details;
+using amazon_clone.Utility.Helpers;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace amazon_clone.Application.Services
 {
     public class CustomerProductService : ICustomerProductService
     {
+        private readonly IAdministratorOperationService administratorOperationService;
+
         public IUnitOfWork _unitOfWork { get; }
 
-        public CustomerProductService(IUnitOfWork unitOfWork)
+        public CustomerProductService(IUnitOfWork unitOfWork,IAdministratorOperationService administratorOperationService)
         {
             _unitOfWork = unitOfWork;
+            this.administratorOperationService = administratorOperationService;
         }
 
         public IEnumerable<CustomerProduct> GetAllCustomerProducts()
@@ -143,5 +151,145 @@ namespace amazon_clone.Application.Services
 
             return customerProduct;
         }
+
+        public IEnumerable<CustomerProduct> GetAllCustomerProductsWithAllDetails()
+        {
+            var customerProducts = _unitOfWork
+                    .CustomerProductRepository
+                    .GetAllAsNoTracking()?
+                    .Select(x => new CustomerProduct
+                    {
+                        ProductID = x.ProductID,
+                        CustomerProductID = x.CustomerProductID,
+                        Name = (x.Name.Length > 20) ? x.Name.Substring(0, 20) + "..." : x.Name,
+                        Description = (x.Description.Length > 20) ? x.Description.Substring(0, 20) + "..." : x.Description,
+                        Price = x.Price,
+                        ImageUrl = x.ImageUrl,
+                        Quantity = x.Quantity,
+                        IsDeleted = x.IsDeleted,
+                        DeleteDate = x.DeleteDate,
+                        ProductCreationDetails = x.ProductCreationDetails
+                    });
+
+            if (customerProducts is null)
+            {
+                customerProducts = Enumerable.Empty<CustomerProduct>();
+            }
+
+            return customerProducts.ToList();
+        }
+
+        public CustomerProductViewModel GetCustomerProductForUpsert(int? ProductID)
+        {
+            var productCategories = _unitOfWork
+                .ProductCategoryRepository
+                .GetAllAsNoTracking()?
+                .Select(x => new SelectListItem
+                {
+                    Text = x.CategoryName,
+                    Value = x.CategoryID.ToString()
+                });
+
+            ArgumentNullException.ThrowIfNull(productCategories);
+
+            if (!productCategories.Any())
+            {
+                productCategories = Enumerable.Empty<SelectListItem>();
+            }
+
+            CustomerProductViewModel customerProductViewModel;
+            if (ProductID is not null)
+            {
+                var targetProductToUpdate = _unitOfWork
+                    .CustomerProductRepository
+                    .Get(x => x.ProductID == ProductID);
+
+                ArgumentNullException.ThrowIfNull(targetProductToUpdate);
+
+                customerProductViewModel = new CustomerProductViewModel(productCategories, targetProductToUpdate);
+            }
+            else
+            {
+                customerProductViewModel = new CustomerProductViewModel(productCategories, default!);
+            }
+
+            return customerProductViewModel;
+        }
+
+        public void UpsertCustomerProduct(CustomerProduct customerProduct, IFormFile formFile)
+        {
+            if (formFile is not null)
+            {
+                // because of when we need to decode this we need the actual name of the file to add it to the wwwroot folder
+                customerProduct.ImageUrl = formFile.FileName.ToBase64String();
+            }
+
+            if (customerProduct.ProductID == 0)
+            {
+                // insert
+
+                int lastCustomerProductID = _unitOfWork
+                    .CustomerProductRepository
+                    .GetAllAsNoTracking()!
+                    .Select(x => x.CustomerProductID)
+                    .MaxBy(x => x);
+
+                customerProduct.CustomerProductID = ++lastCustomerProductID;
+                _unitOfWork.CustomerProductRepository.Add(customerProduct);
+
+                administratorOperationService.AddNewAdministratorOperation(_unitOfWork,
+                        CurrentAdministrator.UserID!,
+                        DateTime.Now,
+                        $"Add the product : product name is {customerProduct.Name}");
+
+                _unitOfWork.CustomerProductRepository.Add(customerProduct);
+
+                _unitOfWork.Save();
+            }
+            else
+            {
+                //update
+                var targetCustomerProductToUpdate = _unitOfWork
+                    .CustomerProductRepository
+                    .Get(x => x.ProductID == customerProduct.ProductID);
+
+                ArgumentNullException.ThrowIfNull(targetCustomerProductToUpdate);
+
+                //manual update
+                targetCustomerProductToUpdate.Name = customerProduct.Name;
+                targetCustomerProductToUpdate.Description = customerProduct.Description;
+                targetCustomerProductToUpdate.Price = customerProduct.Price;
+                targetCustomerProductToUpdate.Quantity = customerProduct.Quantity;
+                targetCustomerProductToUpdate.ImageUrl = customerProduct.ImageUrl;
+                targetCustomerProductToUpdate.CategoryID = customerProduct.CategoryID;
+
+                administratorOperationService.AddNewAdministratorOperation(_unitOfWork,
+                        CurrentAdministrator.UserID!,
+                        DateTime.Now,
+                         $"Update the product : product name is {customerProduct.Name}");
+
+                _unitOfWork.Save();
+            }
+        }
+
+        public void RemoveCustomerProduct(int ProductID)
+        {
+            var targetProductToDelete = _unitOfWork
+                .CustomerProductRepository
+                .Get(filter: x => x.ProductID == ProductID);
+
+            ArgumentNullException.ThrowIfNull(targetProductToDelete);
+
+            _unitOfWork.ProductRepository.Remove((Product)targetProductToDelete);
+
+            administratorOperationService.AddNewAdministratorOperation(_unitOfWork,
+                CurrentAdministrator.UserID!,
+                DateTime.Now,
+                $"Delete the product : Product ID {targetProductToDelete.ProductID} ,Name : {targetProductToDelete.Name}");
+
+            //in case of any exception occur while saving the data , non of those will be executed.
+            _unitOfWork.Save();
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using amazon_clone.Infrastructure.DataAccess.Data.Contexts;
 
@@ -11,9 +12,11 @@ using amazon_clone.Infrastructure.DataAccess.Data.Contexts;
 namespace amazon_clone.Infrastructure.Migrations.DashboardDb
 {
     [DbContext(typeof(DashboardDbContext))]
-    partial class DashboardDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240202081324_Update_The_Administrator_Operation_Entity")]
+    partial class Update_The_Administrator_Operation_Entity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

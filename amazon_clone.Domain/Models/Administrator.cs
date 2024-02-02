@@ -10,6 +10,6 @@ namespace amazon_clone.Domain.Models
         public string ImageUrl { get; set; } = StaticDetails.DEFAULT_USER_IMAGE_PATH;
 
 
-        public ICollection<AdministratorTransaction>? AdministratorTransactions { get; set; } = new List<AdministratorTransaction>();
+        public ICollection<AdministratorOperation>? AdministratorTransactions { get; set; } = new List<AdministratorOperation>();
     }
 }
