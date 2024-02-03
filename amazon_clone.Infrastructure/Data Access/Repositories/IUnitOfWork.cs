@@ -25,7 +25,6 @@ namespace amazon_clone.Infrastructure.DataAccess.Repositories
 
 
 
-
         void Save();
     }
 }

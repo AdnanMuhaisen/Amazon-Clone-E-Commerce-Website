@@ -41,10 +41,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.AddInterceptors(new SoftDeleteInterceptor());
 });
 
-builder.Services.AddDbContext<DashboardDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DashboardDb"));
-});
+//builder.Services.AddDbContext<DashboardDbContext>(options =>
+//{
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DashboardDb"));
+//});
+
+builder.Services.AddScoped<DbContext, AppDbContext>();
 
 builder.Services.AddIdentity<CustomerApplicationUser, CustomerRole>()
     .AddEntityFrameworkStores<AppDbContext>()

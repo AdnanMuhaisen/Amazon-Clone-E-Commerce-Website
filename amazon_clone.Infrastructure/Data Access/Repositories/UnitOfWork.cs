@@ -4,38 +4,35 @@ using Microsoft.EntityFrameworkCore;
 
 namespace amazon_clone.Infrastructure.DataAccess.Repositories
 {
-    public class UnitOfWork(AppDbContext _appDbContext, DashboardDbContext _dashboardDbContext) : IUnitOfWork
+    public class UnitOfWork(DbContext context) : IUnitOfWork
     {
-        public DbContext appDbContext { get; set; } = _appDbContext;
-        public DashboardDbContext dashboardDbContext { get; set; } = _dashboardDbContext;
 
-        public IProductRepository ProductRepository { get; set; } = new ProductRepository(_appDbContext);
-        public ICustomerProductRepository CustomerProductRepository { get; set; } = new CustomerProductRepository(_appDbContext);
-        public IClothesProductRepository ClothesProductRepository { get; set; } = new ClothesProductRepository(_appDbContext);
-        public IPersonGenderRepository PersonGenderRepository { get; set; } = new PersonGenderRepository(_appDbContext);
-        public IClothSizeRepository ClothSizeRepository { get; set; } = new ClothSizeRepository(_appDbContext);
-        public IProductCategoryRepository ProductCategoryRepository { get; set; } = new ProductCategoryRepository(_appDbContext);
-        public IWishListRepository WishListRepository { get; set; } = new WishListRepository((AppDbContext)_appDbContext);
-        public IWishListProductRepository WishListProductRepository { get; set; } = new WishListProductRepository(_appDbContext);
-        public IOrderRepository OrderRepository { get; set; } = new OrderRepository((AppDbContext)_appDbContext);
-        public IOrderStatusRepository OrderStatusRepository { get; set; } = new OrderStatusRepository(_appDbContext);
-        public IPromoCodeRepository PromoCodeRepository { get; set; } = new PromoCodeRepository(_appDbContext);
-        public IShippingDetailRepository ShippingDetailRepository { get; set; } = new ShippingDetailRepository(_appDbContext);
-        public IShoppingCartRepository ShoppingCartRepository { get; set; } = new ShoppingCartRepository(_appDbContext);
-        public IShoppingCartProductRepository ShoppingCartProductRepository { get; set; } = new ShoppingCartProductRepository(_appDbContext);
-        public IUsersRepository UsersRepository { get; set; } = new UsersRepository(_appDbContext);
-        public IPaymentRepository PaymentRepository { get; set; } = new PaymentRepository(_appDbContext);
-        public IAdministratorRepository AdministratorRepository { get; set; } = new AdministratorRepository(_dashboardDbContext);
-        public IAdministratorsOperationsRepository AdministratorsOperationsRepository { get; set; } = new AdministratorsOperationsRepository(_dashboardDbContext);
+        public IProductRepository ProductRepository { get; set; } = new ProductRepository((AppDbContext)context);
+        public ICustomerProductRepository CustomerProductRepository { get; set; } = new CustomerProductRepository((AppDbContext)context);
+        public IClothesProductRepository ClothesProductRepository { get; set; } = new ClothesProductRepository((AppDbContext)context);
+        public IPersonGenderRepository PersonGenderRepository { get; set; } = new PersonGenderRepository((AppDbContext)context);
+        public IClothSizeRepository ClothSizeRepository { get; set; } = new ClothSizeRepository((AppDbContext)context);
+        public IProductCategoryRepository ProductCategoryRepository { get; set; } = new ProductCategoryRepository((AppDbContext)context);
+        public IWishListRepository WishListRepository { get; set; } = new WishListRepository((AppDbContext)context);
+        public IWishListProductRepository WishListProductRepository { get; set; } = new WishListProductRepository((AppDbContext)context);
+        public IOrderRepository OrderRepository { get; set; } = new OrderRepository((AppDbContext)context);
+        public IOrderStatusRepository OrderStatusRepository { get; set; } = new OrderStatusRepository((AppDbContext)context);
+        public IPromoCodeRepository PromoCodeRepository { get; set; } = new PromoCodeRepository((AppDbContext)context);
+        public IShippingDetailRepository ShippingDetailRepository { get; set; } = new ShippingDetailRepository((AppDbContext)context);
+        public IShoppingCartRepository ShoppingCartRepository { get; set; } = new ShoppingCartRepository((AppDbContext)context);
+        public IShoppingCartProductRepository ShoppingCartProductRepository { get; set; } = new ShoppingCartProductRepository((AppDbContext)context);
+        public IUsersRepository UsersRepository { get; set; } = new UsersRepository((AppDbContext)context);
+        public IPaymentRepository PaymentRepository { get; set; } = new PaymentRepository((AppDbContext)context);
 
+
+        public IAdministratorRepository AdministratorRepository { get; set; } = (context is DashboardDbContext) ? new AdministratorRepository((DashboardDbContext)context) : null!;
+        public IAdministratorsOperationsRepository AdministratorsOperationsRepository { get; set; } = (context is DashboardDbContext) ? new AdministratorsOperationsRepository((DashboardDbContext)context) : null!;
 
 
         public void Save()
         {
             //transaction and logging here
-
-            dashboardDbContext.SaveChanges();
-            appDbContext.SaveChanges();
+            context.SaveChanges();
         }
     }
 }

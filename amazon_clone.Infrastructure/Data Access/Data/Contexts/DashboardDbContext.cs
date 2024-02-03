@@ -1,5 +1,6 @@
 ﻿using amazon_clone.Domain.Models;
 using amazon_clone.Domain.Users.Roles;
+using amazon_clone.Infrastructure.DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

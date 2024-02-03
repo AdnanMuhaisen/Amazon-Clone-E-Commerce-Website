@@ -1,5 +1,6 @@
 ﻿using amazon_clone.Domain.Models;
 using amazon_clone.Infrastructure.DataAccess.Data.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace amazon_clone.Infrastructure.DataAccess.Repositories
 {
