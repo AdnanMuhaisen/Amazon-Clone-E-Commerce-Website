@@ -9,11 +9,11 @@ using amazon_clone.Infrastructure.DataAccess.Data.Contexts;
 
 #nullable disable
 
-namespace amazon_clone.Infrastructure.Migrations
+namespace amazon_clone.Infrastructure.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240202124025_Cascade_Order_Payments")]
-    partial class Cascade_Order_Payments
+    [Migration("20240203045557_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -357,7 +357,7 @@ namespace amazon_clone.Infrastructure.Migrations
                     b.Property<DateTime>("PaymentDateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 2, 15, 40, 21, 824, DateTimeKind.Local).AddTicks(7806));
+                        .HasDefaultValue(new DateTime(2024, 2, 3, 7, 55, 55, 547, DateTimeKind.Local).AddTicks(2340));
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()

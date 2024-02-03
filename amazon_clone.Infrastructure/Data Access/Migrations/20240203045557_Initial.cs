@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace amazon_clone.Infrastructure.Migrations
+namespace amazon_clone.Infrastructure.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -357,7 +357,7 @@ namespace amazon_clone.Infrastructure.Migrations
                     StatusID = table.Column<int>(type: "int", nullable: false),
                     CreationDetails_CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreationDetails_UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CustomerID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CustomerID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ShoppingCartID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -367,7 +367,8 @@ namespace amazon_clone.Infrastructure.Migrations
                         name: "FK_tbl_Orders_AspNetUsers_CustomerID",
                         column: x => x.CustomerID,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tbl_Orders_tbl_OrderStatuses_StatusID",
                         column: x => x.StatusID,
@@ -378,7 +379,8 @@ namespace amazon_clone.Infrastructure.Migrations
                         name: "FK_tbl_Orders_tbl_ShippingDetails_ShippingDetailsID",
                         column: x => x.ShippingDetailsID,
                         principalTable: "tbl_ShippingDetails",
-                        principalColumn: "ID");
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_tbl_Orders_tbl_ShoppingCarts_ShoppingCartID",
                         column: x => x.ShoppingCartID,
@@ -470,9 +472,9 @@ namespace amazon_clone.Infrastructure.Migrations
                     PaymentID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PaymentMethod = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    PaymentDateTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 1, 28, 15, 9, 30, 485, DateTimeKind.Local).AddTicks(2378)),
+                    PaymentDateTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 3, 7, 55, 55, 547, DateTimeKind.Local).AddTicks(2340)),
                     TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CustomerID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CustomerID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     OrderID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -482,12 +484,14 @@ namespace amazon_clone.Infrastructure.Migrations
                         name: "FK_tbl_Payments_AspNetUsers_CustomerID",
                         column: x => x.CustomerID,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tbl_Payments_tbl_Orders_OrderID",
                         column: x => x.OrderID,
                         principalTable: "tbl_Orders",
-                        principalColumn: "OrderID");
+                        principalColumn: "OrderID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

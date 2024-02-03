@@ -8,7 +8,7 @@ using amazon_clone.Infrastructure.DataAccess.Data.Contexts;
 
 #nullable disable
 
-namespace amazon_clone.Infrastructure.Migrations.DashboardDb
+namespace amazon_clone.Infrastructure.DataAccess.Migrations.DashboardDbContextMigrations
 {
     [DbContext(typeof(DashboardDbContext))]
     partial class DashboardDbContextModelSnapshot : ModelSnapshot
@@ -251,7 +251,7 @@ namespace amazon_clone.Infrastructure.Migrations.DashboardDb
                     b.Property<DateTime>("OperationDateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 2, 8, 13, 22, 595, DateTimeKind.Utc).AddTicks(6655));
+                        .HasDefaultValue(new DateTime(2024, 2, 3, 5, 2, 10, 433, DateTimeKind.Utc).AddTicks(509));
 
                     b.Property<string>("OperationLog")
                         .IsRequired()

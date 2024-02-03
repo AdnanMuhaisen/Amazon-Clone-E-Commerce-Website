@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace amazon_clone.Infrastructure.Migrations.DashboardDb
+namespace amazon_clone.Infrastructure.DataAccess.Migrations.DashboardDbContextMigrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -69,28 +69,6 @@ namespace amazon_clone.Infrastructure.Migrations.DashboardDb
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AdministratorTransactions",
-                columns: table => new
-                {
-                    TransactionID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TransactionDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TransactionLog = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AdditionalNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AdministratorID = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AdministratorTransactions", x => x.TransactionID);
-                    table.ForeignKey(
-                        name: "FK_AdministratorTransactions_AspNetUsers_AdministratorID",
-                        column: x => x.AdministratorID,
-                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -180,10 +158,27 @@ namespace amazon_clone.Infrastructure.Migrations.DashboardDb
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_AdministratorTransactions_AdministratorID",
-                table: "AdministratorTransactions",
-                column: "AdministratorID");
+            migrationBuilder.CreateTable(
+                name: "tbl_AdministratorOperations",
+                columns: table => new
+                {
+                    OperationID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OperationDateTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 3, 5, 2, 10, 433, DateTimeKind.Utc).AddTicks(509)),
+                    OperationLog = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AdditionalNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AdministratorID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_AdministratorOperations", x => x.OperationID);
+                    table.ForeignKey(
+                        name: "FK_tbl_AdministratorOperations_AspNetUsers_AdministratorID",
+                        column: x => x.AdministratorID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -223,14 +218,16 @@ namespace amazon_clone.Infrastructure.Migrations.DashboardDb
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_AdministratorOperations_AdministratorID",
+                table: "tbl_AdministratorOperations",
+                column: "AdministratorID");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AdministratorTransactions");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -245,6 +242,9 @@ namespace amazon_clone.Infrastructure.Migrations.DashboardDb
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "tbl_AdministratorOperations");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

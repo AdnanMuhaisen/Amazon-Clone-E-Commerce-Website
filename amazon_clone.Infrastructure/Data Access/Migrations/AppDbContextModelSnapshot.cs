@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using amazon_clone.Infrastructure.DataAccess.Data.Contexts;
 
 #nullable disable
 
-namespace amazon_clone.Infrastructure.Migrations
+namespace amazon_clone.Infrastructure.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240128120931_Initial")]
-    partial class Initial
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -282,6 +279,7 @@ namespace amazon_clone.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
 
                     b.Property<string>("CustomerID")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("OrderDateTime")
@@ -347,6 +345,7 @@ namespace amazon_clone.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentID"));
 
                     b.Property<string>("CustomerID")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("OrderID")
@@ -355,7 +354,7 @@ namespace amazon_clone.Infrastructure.Migrations
                     b.Property<DateTime>("PaymentDateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 1, 28, 15, 9, 30, 485, DateTimeKind.Local).AddTicks(2378));
+                        .HasDefaultValue(new DateTime(2024, 2, 3, 7, 55, 55, 547, DateTimeKind.Local).AddTicks(2340));
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
@@ -768,11 +767,14 @@ namespace amazon_clone.Infrastructure.Migrations
                 {
                     b.HasOne("amazon_clone.Domain.Models.CustomerApplicationUser", "Customer")
                         .WithMany("Orders")
-                        .HasForeignKey("CustomerID");
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("amazon_clone.Domain.Models.ShippingDetail", "ShippingDetails")
                         .WithOne("Order")
-                        .HasForeignKey("amazon_clone.Domain.Models.Order", "ShippingDetailsID");
+                        .HasForeignKey("amazon_clone.Domain.Models.Order", "ShippingDetailsID")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("amazon_clone.Domain.Models.ShoppingCart", "ShoppingCart")
                         .WithOne("Order")
@@ -846,11 +848,14 @@ namespace amazon_clone.Infrastructure.Migrations
                 {
                     b.HasOne("amazon_clone.Domain.Models.CustomerApplicationUser", "Customer")
                         .WithMany("CustomerPayments")
-                        .HasForeignKey("CustomerID");
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("amazon_clone.Domain.Models.Order", "Order")
                         .WithOne("Payment")
-                        .HasForeignKey("amazon_clone.Domain.Models.Payment", "OrderID");
+                        .HasForeignKey("amazon_clone.Domain.Models.Payment", "OrderID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Customer");
 
