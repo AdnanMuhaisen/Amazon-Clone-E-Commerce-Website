@@ -8,9 +8,9 @@ namespace amazon_clone.Application.Managers
 {
     public class ShoppingCartCostsManager : IShoppingCartCostsManager
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IAppUnitOfWork _unitOfWork;
 
-        public ShoppingCartCostsManager(IUnitOfWork unitOfWork)
+        public ShoppingCartCostsManager(IAppUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
         }

@@ -7,7 +7,7 @@ namespace amazon_clone.Application.Interfaces
 {
     public interface IOrderProcessingService : IScopedService
     {
-        IUnitOfWork _unitOfWork { get; }
+        IAppUnitOfWork _unitOfWork { get; }
 
         void CreateANewOrderWithShoppingCart();
         IEnumerable<Order> GetAllPaidOrders();

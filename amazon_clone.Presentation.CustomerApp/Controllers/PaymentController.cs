@@ -3,9 +3,7 @@ using amazon_clone.Domain.Enums;
 using amazon_clone.Domain.Users.CurrentUsers;
 using amazon_clone.Domain.View_Models;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
-using amazon_clone.Presentation.CustomerApp.Filters;
 using amazon_clone.Utility.Exceptions;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,13 +11,13 @@ namespace amazon_clone.web.Controllers
 {
     public class PaymentController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IAppUnitOfWork _unitOfWork;
         private readonly IPaymentProcessingService paymentProcessingService;
         private readonly IOrderProcessingService orderProcessingService;
         //private readonly IEmailSender _emailSender;
 
         public PaymentController(
-            IUnitOfWork unitOfWork,
+            IAppUnitOfWork unitOfWork,
             IPaymentProcessingService paymentProcessingService,
             IOrderProcessingService orderProcessingService
             //IEmailSender emailSender

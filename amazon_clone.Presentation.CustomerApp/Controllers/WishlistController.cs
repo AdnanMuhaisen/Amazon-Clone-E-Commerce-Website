@@ -1,7 +1,6 @@
 ﻿using amazon_clone.Application.Interfaces;
 using amazon_clone.Domain.Users.CurrentUsers;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
-using amazon_clone.Presentation.CustomerApp.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,10 +8,10 @@ namespace amazon_clone.web.Controllers
 {
     public class WishListController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IAppUnitOfWork _unitOfWork;
         private readonly IWishListService wishListService;
 
-        public WishListController(IUnitOfWork unitOfWork,IWishListService wishListService)
+        public WishListController(IAppUnitOfWork unitOfWork,IWishListService wishListService)
         {
             _unitOfWork = unitOfWork;
             this.wishListService = wishListService;

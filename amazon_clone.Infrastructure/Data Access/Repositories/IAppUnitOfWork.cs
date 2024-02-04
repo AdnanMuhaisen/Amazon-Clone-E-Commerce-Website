@@ -2,7 +2,7 @@
 
 namespace amazon_clone.Infrastructure.DataAccess.Repositories
 {
-    public interface IUnitOfWork
+    public interface IAppUnitOfWork
     {
         public IProductRepository ProductRepository { get; set; }
         public ICustomerProductRepository CustomerProductRepository { get; set; }
@@ -20,10 +20,6 @@ namespace amazon_clone.Infrastructure.DataAccess.Repositories
         public IShoppingCartProductRepository ShoppingCartProductRepository { get; set; }
         public IUsersRepository UsersRepository { get; set; }
         public IPaymentRepository PaymentRepository { get; set; }
-        public IAdministratorRepository AdministratorRepository { get; set; }
-        public IAdministratorsOperationsRepository AdministratorsOperationsRepository { get; set; }
-
-
 
         void Save();
     }

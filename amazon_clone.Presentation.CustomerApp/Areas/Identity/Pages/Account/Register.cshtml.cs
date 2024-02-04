@@ -26,7 +26,7 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         //private readonly IEmailSender _emailSender;
         private readonly RoleManager<CustomerRole> _roleManager;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IAppUnitOfWork _unitOfWork;
 
 
         public RegisterModel(
@@ -36,7 +36,7 @@ namespace amazon_clone.web.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
             //IEmailSender emailSender,
             RoleManager<CustomerRole> roleManager,
-            IUnitOfWork unitOfWork)
+            IAppUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _userStore = userStore;

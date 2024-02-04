@@ -4,7 +4,7 @@ namespace amazon_clone.Application.Interfaces
 {
     public interface IWishListService : IScopedService
     {
-        IUnitOfWork _unitOfWork { get; }
+        IAppUnitOfWork _unitOfWork { get; }
 
         void AddProductToWishList(int ProductID);
         void CreateACustomerWishList();

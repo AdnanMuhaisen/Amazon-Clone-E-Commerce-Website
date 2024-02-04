@@ -2,7 +2,6 @@
 using amazon_clone.Domain.Enums;
 using amazon_clone.Domain.Users.CurrentUsers;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
-using amazon_clone.Presentation.CustomerApp.Filters;
 using amazon_clone.Utility.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +10,10 @@ namespace amazon_clone.web.Controllers
 {
     public class PromoCodeController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IAppUnitOfWork _unitOfWork;
         private readonly IPromoCodeService promoCodeService;
 
-        public PromoCodeController(IUnitOfWork unitOfWork, IPromoCodeService promoCodeService)
+        public PromoCodeController(IAppUnitOfWork unitOfWork, IPromoCodeService promoCodeService)
         {
             _unitOfWork = unitOfWork;
             this.promoCodeService = promoCodeService;

@@ -8,9 +8,9 @@ namespace amazon_clone.Application.Managers
 {
     public class DashboardHomePageInformationManager : IDashboardHomePageInformationManager
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IAppUnitOfWork unitOfWork;
 
-        public DashboardHomePageInformationManager(IUnitOfWork unitOfWork)
+        public DashboardHomePageInformationManager(IAppUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }

@@ -1,6 +1,7 @@
 using amazon_clone.Application.Interfaces;
 using amazon_clone.Domain.Models;
 using amazon_clone.Domain.Users.Roles;
+using amazon_clone.Infrastructure.Data_Access.Repositories;
 using amazon_clone.Infrastructure.DataAccess.Data.Contexts;
 using amazon_clone.Infrastructure.DataAccess.Interceptors;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
@@ -14,37 +15,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-
-//builder.Services.AddAuthentication()
-//    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
-
-//builder.Services
-//    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-//    .AddCookie(options =>
-//    {
-//        options.LoginPath = "/LoginAndRegister/Index";
-//        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-//        options.AccessDeniedPath = "/";
-//    });
-
-//builder.Services.AddAuthorization(options =>
-//{
-//    options.AddPolicy("Cookies", policy =>
-//    {
-//        policy.RequireAuthenticatedUser();
-//    });
-//});
-
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
     options.AddInterceptors(new SoftDeleteInterceptor());
 });
 
-//builder.Services.AddDbContext<DashboardDbContext>(options =>
-//{
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("DashboardDb"));
-//});
+builder.Services.AddDbContext<DashboardDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DashboardDb"));
+});
 
 builder.Services.AddScoped<DbContext, AppDbContext>();
 
@@ -52,7 +32,8 @@ builder.Services.AddIdentity<CustomerApplicationUser, CustomerRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IAppUnitOfWork, AppUnitOfWork>();
+builder.Services.AddScoped<IDashboardUnitOfWork, DashboardUnitOfWork>();
 
 //builder.Services.AddSingleton<IEmailSender, EmailNotificationService>();
 

@@ -3,7 +3,6 @@ using amazon_clone.Domain.Enums;
 using amazon_clone.Domain.Users.CurrentUsers;
 using amazon_clone.Domain.View_Models;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
-using amazon_clone.Presentation.CustomerApp.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,12 +11,12 @@ namespace amazon_clone.web.Controllers
 {
     public class ShoppingCartController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IAppUnitOfWork _unitOfWork;
         private readonly IShoppingCartService shoppingCartService;
         private readonly IOrderProcessingService orderProcessingService;
 
         public ShoppingCartController(
-            IUnitOfWork unitOfWork,
+            IAppUnitOfWork unitOfWork,
             IShoppingCartService shoppingCartService,
             IOrderProcessingService orderProcessingService
             )

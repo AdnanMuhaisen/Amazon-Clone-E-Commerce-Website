@@ -12,10 +12,10 @@ namespace amazon_clone.Dashboard.Controllers
 {
     public class CustomerProductController : Controller
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IAppUnitOfWork unitOfWork;
         private readonly ICustomerProductService customerProductService;
 
-        public CustomerProductController(IUnitOfWork unitOfWork,ICustomerProductService customerProductService)
+        public CustomerProductController(IAppUnitOfWork unitOfWork,ICustomerProductService customerProductService)
         {
             this.unitOfWork = unitOfWork;
             this.customerProductService = customerProductService;

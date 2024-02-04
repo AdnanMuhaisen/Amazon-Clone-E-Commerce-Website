@@ -5,7 +5,7 @@ namespace amazon_clone.Application.Interfaces
 {
     public interface IShippingDetailService : IScopedService
     {
-        IUnitOfWork _unitOfWork { get; }
+        IAppUnitOfWork _unitOfWork { get; }
 
         void AddNewShippingDetail(Order targetOrder, ShippingDetail shippingDetail);
     }

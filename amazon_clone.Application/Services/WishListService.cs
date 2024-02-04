@@ -8,9 +8,9 @@ namespace amazon_clone.Application.Services
 {
     public class WishListService : IWishListService
     {
-        public IUnitOfWork _unitOfWork { get; }
+        public IAppUnitOfWork _unitOfWork { get; }
 
-        public WishListService(IUnitOfWork unitOfWork)
+        public WishListService(IAppUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

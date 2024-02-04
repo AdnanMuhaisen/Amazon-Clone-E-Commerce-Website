@@ -3,7 +3,6 @@ using amazon_clone.Domain.Enums;
 using amazon_clone.Domain.Users.CurrentUsers;
 using amazon_clone.Domain.View_Models;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
-using amazon_clone.Presentation.CustomerApp.Filters;
 using amazon_clone.Utility.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -14,13 +13,13 @@ namespace amazon_clone.web.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IAppUnitOfWork _unitOfWork;
         private readonly ICustomerProductService customerProductService;
         private readonly IProductExistenceChecker productExistenceChecker;
         private readonly IClothingCustomerProductService clothingCustomerProductService;
 
         public ProductController(
-            IUnitOfWork unitOfWork,
+            IAppUnitOfWork unitOfWork,
             ICustomerProductService customerProductService,
             IProductExistenceChecker productExistenceChecker,
             IClothingCustomerProductService clothingCustomerProductService

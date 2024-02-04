@@ -5,7 +5,7 @@ namespace amazon_clone.Application.Interfaces
 {
     public interface IClothingCustomerProductService : IScopedService
     {
-        IUnitOfWork _unitOfWork { get; }
+        IAppUnitOfWork _unitOfWork { get; }
 
         ClothingProduct? Get(int ProductID, int ClothingProductID);
         IEnumerable<ClothingProduct> GetAllMenClothingProducts();

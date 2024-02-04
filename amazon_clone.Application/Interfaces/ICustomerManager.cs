@@ -5,7 +5,7 @@ namespace amazon_clone.Application.Interfaces
 {
     public interface ICustomerManager : IScopedService
     {
-        IUnitOfWork UnitOfWork { get; }
+        IAppUnitOfWork UnitOfWork { get; }
 
         IEnumerable<CustomerApplicationUser> GetAllCustomers();
         void RemoveCustomer(string CustomerID);

@@ -11,10 +11,10 @@ namespace amazon_clone.Application.Services
 {
     public class PromoCodeService : IPromoCodeService
     {
-        public IUnitOfWork _unitOfWork { get; }
+        public IAppUnitOfWork _unitOfWork { get; }
         public IShoppingCartCostsManager ShoppingCartCostsManager { get; }
 
-        public PromoCodeService(IUnitOfWork unitOfWork, IShoppingCartCostsManager shoppingCartCostsManager)
+        public PromoCodeService(IAppUnitOfWork unitOfWork, IShoppingCartCostsManager shoppingCartCostsManager)
         {
             _unitOfWork = unitOfWork;
             ShoppingCartCostsManager = shoppingCartCostsManager;

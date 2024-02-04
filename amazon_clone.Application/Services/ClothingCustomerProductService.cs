@@ -9,8 +9,8 @@ namespace amazon_clone.Application.Services
 {
     public class ClothingCustomerProductService : IClothingCustomerProductService
     {
-        public IUnitOfWork _unitOfWork { get; }
-        public ClothingCustomerProductService(IUnitOfWork unitOfWork)
+        public IAppUnitOfWork _unitOfWork { get; }
+        public ClothingCustomerProductService(IAppUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

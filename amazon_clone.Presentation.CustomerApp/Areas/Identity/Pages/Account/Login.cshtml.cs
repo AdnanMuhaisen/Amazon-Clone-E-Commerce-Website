@@ -4,16 +4,12 @@
 
 using amazon_clone.Domain.Models;
 using amazon_clone.Domain.Users.CurrentUsers;
-using amazon_clone.Domain.Users.Managers;
-using amazon_clone.Presentation.CustomerApp.Filters;
 using amazon_clone.Utility.App_Details;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 
 namespace amazon_clone.web.Areas.Identity.Pages.Account
 {

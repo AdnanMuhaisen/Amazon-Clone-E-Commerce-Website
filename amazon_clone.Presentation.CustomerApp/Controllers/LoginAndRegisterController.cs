@@ -1,5 +1,4 @@
-﻿using amazon_clone.Presentation.CustomerApp.Filters;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace amazon_clone.web.Controllers
 {

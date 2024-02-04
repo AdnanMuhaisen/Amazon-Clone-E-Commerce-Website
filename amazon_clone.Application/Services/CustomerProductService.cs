@@ -3,6 +3,7 @@ using amazon_clone.Domain.Enums;
 using amazon_clone.Domain.Models;
 using amazon_clone.Domain.Users.CurrentUsers;
 using amazon_clone.Domain.View_Models;
+using amazon_clone.Infrastructure.Data_Access.Repositories;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
 using amazon_clone.Utility.App_Details;
 using amazon_clone.Utility.Helpers;
@@ -15,13 +16,15 @@ namespace amazon_clone.Application.Services
     public class CustomerProductService : ICustomerProductService
     {
         private readonly IAdministratorOperationService administratorOperationService;
+        private readonly IDashboardUnitOfWork dashboardUnitOfWork;
 
-        public IUnitOfWork _unitOfWork { get; }
+        public IAppUnitOfWork _unitOfWork { get; }
 
-        public CustomerProductService(IUnitOfWork unitOfWork,IAdministratorOperationService administratorOperationService)
+        public CustomerProductService(IAppUnitOfWork unitOfWork,IAdministratorOperationService administratorOperationService,IDashboardUnitOfWork dashboardUnitOfWork)
         {
             _unitOfWork = unitOfWork;
             this.administratorOperationService = administratorOperationService;
+            this.dashboardUnitOfWork = dashboardUnitOfWork;
         }
 
         public IEnumerable<CustomerProduct> GetAllCustomerProducts()
@@ -237,7 +240,7 @@ namespace amazon_clone.Application.Services
                 customerProduct.CustomerProductID = ++lastCustomerProductID;
                 _unitOfWork.CustomerProductRepository.Add(customerProduct);
 
-                administratorOperationService.AddNewAdministratorOperation(_unitOfWork,
+                administratorOperationService.AddNewAdministratorOperation(dashboardUnitOfWork,
                         CurrentAdministrator.UserID!,
                         DateTime.Now,
                         $"Add the product : product name is {customerProduct.Name}");
@@ -245,6 +248,7 @@ namespace amazon_clone.Application.Services
                 _unitOfWork.CustomerProductRepository.Add(customerProduct);
 
                 _unitOfWork.Save();
+                dashboardUnitOfWork.Save();
             }
             else
             {
@@ -263,12 +267,13 @@ namespace amazon_clone.Application.Services
                 targetCustomerProductToUpdate.ImageUrl = customerProduct.ImageUrl;
                 targetCustomerProductToUpdate.CategoryID = customerProduct.CategoryID;
 
-                administratorOperationService.AddNewAdministratorOperation(_unitOfWork,
+                administratorOperationService.AddNewAdministratorOperation(dashboardUnitOfWork,
                         CurrentAdministrator.UserID!,
                         DateTime.Now,
                          $"Update the product : product name is {customerProduct.Name}");
 
                 _unitOfWork.Save();
+                dashboardUnitOfWork.Save();
             }
         }
 
@@ -282,13 +287,14 @@ namespace amazon_clone.Application.Services
 
             _unitOfWork.ProductRepository.Remove((Product)targetProductToDelete);
 
-            administratorOperationService.AddNewAdministratorOperation(_unitOfWork,
+            administratorOperationService.AddNewAdministratorOperation(dashboardUnitOfWork,
                 CurrentAdministrator.UserID!,
                 DateTime.Now,
                 $"Delete the product : Product ID {targetProductToDelete.ProductID} ,Name : {targetProductToDelete.Name}");
 
             //in case of any exception occur while saving the data , non of those will be executed.
             _unitOfWork.Save();
+            dashboardUnitOfWork.Save();
         }
 
     }

@@ -2,7 +2,9 @@ using amazon_clone.Application.Interfaces;
 using amazon_clone.Domain.Models;
 using amazon_clone.Domain.Users.Managers;
 using amazon_clone.Domain.Users.Roles;
+using amazon_clone.Infrastructure.Data_Access.Repositories;
 using amazon_clone.Infrastructure.DataAccess.Data.Contexts;
+using amazon_clone.Infrastructure.DataAccess.Interceptors;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,14 +22,14 @@ builder.Services.AddDbContext<DashboardDbContext>(options =>
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AppDb"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.AddInterceptors(new SoftDeleteInterceptor());
 });
 
 builder.Services.AddIdentity<Administrator, AdministratorRole>()
     .AddEntityFrameworkStores<DashboardDbContext>()
     .AddSignInManager<AdministratorSignInManager>()
     .AddDefaultTokenProviders();
-
 
 var assembly = typeof(IDashboardHomePageInformationManager).Assembly;
 
@@ -53,13 +55,12 @@ builder.Services.Scan(s => s
                     );
 
 
-//builder.Services.TryAddSingleton<IEmailSender, EmailNotificationService>();
-
 builder.Services.AddRazorPages();
 
 builder.Services.TryAddScoped<DbContext, DbContext>();
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IAppUnitOfWork, AppUnitOfWork>();
+builder.Services.AddScoped<IDashboardUnitOfWork, DashboardUnitOfWork>();
 
 var app = builder.Build();
 

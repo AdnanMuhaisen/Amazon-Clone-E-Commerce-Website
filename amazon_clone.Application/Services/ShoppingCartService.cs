@@ -16,10 +16,10 @@ namespace amazon_clone.Application.Services
 
         private readonly IShoppingCartSubTotalManager shoppingCartSubTotalManager;
 
-        public IUnitOfWork _unitOfWork { get; }
+        public IAppUnitOfWork _unitOfWork { get; }
 
         public ShoppingCartService(
-            IUnitOfWork unitOfWork,
+            IAppUnitOfWork unitOfWork,
             IOrderProcessingService orderProcessingService,
             IShoppingCartSubTotalManager shoppingCartSubTotalManager
             )

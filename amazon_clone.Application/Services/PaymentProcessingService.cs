@@ -10,10 +10,10 @@ namespace amazon_clone.Application.Services
 {
     public class PaymentProcessingService : IPaymentProcessingService
     {
-        public IUnitOfWork _unitOfWork { get; }
+        public IAppUnitOfWork _unitOfWork { get; }
         public IProductQuantityManager ProductQuantityManager { get; }
 
-        public PaymentProcessingService(IUnitOfWork unitOfWork, IProductQuantityManager productQuantityManager)
+        public PaymentProcessingService(IAppUnitOfWork unitOfWork, IProductQuantityManager productQuantityManager)
         {
             _unitOfWork = unitOfWork;
             ProductQuantityManager = productQuantityManager;

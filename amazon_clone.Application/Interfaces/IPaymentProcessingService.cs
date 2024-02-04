@@ -6,7 +6,7 @@ namespace amazon_clone.Application.Interfaces
 {
     public interface IPaymentProcessingService : IScopedService
     {
-        IUnitOfWork _unitOfWork { get; }
+        IAppUnitOfWork _unitOfWork { get; }
         IProductQuantityManager ProductQuantityManager { get; }
 
         void PayByCashOnDelivery(Order order);

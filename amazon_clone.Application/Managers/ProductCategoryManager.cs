@@ -1,6 +1,7 @@
 ﻿using amazon_clone.Application.Interfaces;
 using amazon_clone.Domain.Models;
 using amazon_clone.Domain.Users.CurrentUsers;
+using amazon_clone.Infrastructure.Data_Access.Repositories;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
 
 namespace amazon_clone.Application.Managers
@@ -8,12 +9,14 @@ namespace amazon_clone.Application.Managers
     public class ProductCategoryManager : IProductCategoryManager
     {
         private readonly IAdministratorOperationService administratorOperationService;
+        private readonly IDashboardUnitOfWork dashboardUnitOfWork;
 
-        public IUnitOfWork UnitOfWork { get; }
-        public ProductCategoryManager(IUnitOfWork unitOfWork, IAdministratorOperationService administratorOperationService)
+        public IAppUnitOfWork UnitOfWork { get; }
+        public ProductCategoryManager(IAppUnitOfWork unitOfWork, IAdministratorOperationService administratorOperationService,IDashboardUnitOfWork dashboardUnitOfWork)
         {
             UnitOfWork = unitOfWork;
             this.administratorOperationService = administratorOperationService;
+            this.dashboardUnitOfWork = dashboardUnitOfWork;
         }
 
 
@@ -38,24 +41,26 @@ namespace amazon_clone.Application.Managers
                 //insert
                 UnitOfWork.ProductCategoryRepository.Add(productCategory);
 
-                administratorOperationService.AddNewAdministratorOperation(UnitOfWork,
+                administratorOperationService.AddNewAdministratorOperation(dashboardUnitOfWork,
                     CurrentAdministrator.UserID!,
                     DateTime.Now,
                     $"The product category : Category Name : {productCategory.CategoryName} is added");
 
                 UnitOfWork.Save();
+                dashboardUnitOfWork.Save();
             }
             else
             {
                 //update
                 UnitOfWork.ProductCategoryRepository.Update(productCategory);
 
-                administratorOperationService.AddNewAdministratorOperation(UnitOfWork,
+                administratorOperationService.AddNewAdministratorOperation(dashboardUnitOfWork,
                         CurrentAdministrator.UserID!,
                         DateTime.Now,
                         $"Update the product category : Category Name : {productCategory.CategoryName}");
 
                 UnitOfWork.Save();
+                dashboardUnitOfWork.Save();
             }
         }
 
@@ -69,12 +74,13 @@ namespace amazon_clone.Application.Managers
 
             UnitOfWork.ProductCategoryRepository.Remove(targetCategoryToDelete);
 
-            administratorOperationService.AddNewAdministratorOperation(UnitOfWork,
+            administratorOperationService.AddNewAdministratorOperation(dashboardUnitOfWork,
                 CurrentAdministrator.UserID!,
                 DateTime.Now,
                 $"Delete the product category : Category Name : {targetCategoryToDelete.CategoryName}");
 
             UnitOfWork.Save();
+            dashboardUnitOfWork.Save();
         }
 
     }

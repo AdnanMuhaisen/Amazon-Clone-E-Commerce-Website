@@ -8,10 +8,10 @@ namespace amazon_clone.Dashboard.Controllers
 {
     public class ProductCategoryController : Controller
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IAppUnitOfWork unitOfWork;
         private readonly IProductCategoryManager productCategoryManager;
 
-        public ProductCategoryController(IUnitOfWork unitOfWork,IProductCategoryManager productCategoryManager)
+        public ProductCategoryController(IAppUnitOfWork unitOfWork,IProductCategoryManager productCategoryManager)
         {
             this.unitOfWork = unitOfWork;
             this.productCategoryManager = productCategoryManager;

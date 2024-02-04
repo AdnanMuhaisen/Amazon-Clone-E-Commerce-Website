@@ -1,16 +1,17 @@
 ﻿using amazon_clone.Application.Interfaces;
 using amazon_clone.Domain.Models;
+using amazon_clone.Infrastructure.Data_Access.Repositories;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
 
 namespace amazon_clone.Application.Services
 {
     public class AdministratorOperationService : IAdministratorOperationService
     {
-        public IUnitOfWork _unitOfWork { get; }
+        public IDashboardUnitOfWork _unitOfWork { get; }
 
-        public AdministratorOperationService(IUnitOfWork unitOfWork)
+        public AdministratorOperationService(IDashboardUnitOfWork dashboardUnitOfWork)
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWork = dashboardUnitOfWork;
         }
 
         public IEnumerable<AdministratorOperation> GetAllAdministratorOperations()
@@ -27,7 +28,7 @@ namespace amazon_clone.Application.Services
             return adminsOperations.ToList();
         }
 
-        public void AddNewAdministratorOperation(IUnitOfWork unitOfWork, string administratorID, DateTime operationDateTime, string operationLog)
+        public void AddNewAdministratorOperation(IDashboardUnitOfWork unitOfWork, string administratorID, DateTime operationDateTime, string operationLog)
         {
             var operation = new AdministratorOperation
             {

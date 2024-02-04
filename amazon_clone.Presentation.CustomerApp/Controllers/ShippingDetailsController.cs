@@ -4,17 +4,16 @@ using amazon_clone.Domain.Models;
 using amazon_clone.Domain.Users.CurrentUsers;
 using amazon_clone.Domain.View_Models;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
-using amazon_clone.Presentation.CustomerApp.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace amazon_clone.web.Controllers
 {
     public class ShippingDetailsController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IAppUnitOfWork _unitOfWork;
         private readonly IShippingDetailService shippingDetailService;
 
-        public ShippingDetailsController(IUnitOfWork unitOfWork,IShippingDetailService shippingDetailService)
+        public ShippingDetailsController(IAppUnitOfWork unitOfWork,IShippingDetailService shippingDetailService)
         {
             _unitOfWork = unitOfWork;
             this.shippingDetailService = shippingDetailService;

@@ -12,8 +12,8 @@ namespace amazon_clone.Application.Services
 {
     public class OrderProcessingService : IOrderProcessingService
     {
-        public IUnitOfWork _unitOfWork { get; }
-        public OrderProcessingService(IUnitOfWork unitOfWork)
+        public IAppUnitOfWork _unitOfWork { get; }
+        public OrderProcessingService(IAppUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

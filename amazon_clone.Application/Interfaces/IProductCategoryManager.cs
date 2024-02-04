@@ -5,7 +5,7 @@ namespace amazon_clone.Application.Interfaces
 {
     public interface IProductCategoryManager : IScopedService
     {
-        IUnitOfWork UnitOfWork { get; }
+        IAppUnitOfWork UnitOfWork { get; }
 
         IEnumerable<ProductCategory> GetAllCategories();
         void RemoveProductCategory(int CategoryID);

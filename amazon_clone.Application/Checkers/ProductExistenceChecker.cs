@@ -8,9 +8,9 @@ namespace amazon_clone.Application.Checkers
 {
     public class ProductExistenceChecker : IProductExistenceChecker
     {
-        public IUnitOfWork _unitOfWork { get; }
+        public IAppUnitOfWork _unitOfWork { get; }
 
-        public ProductExistenceChecker(IUnitOfWork unitOfWork)
+        public ProductExistenceChecker(IAppUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

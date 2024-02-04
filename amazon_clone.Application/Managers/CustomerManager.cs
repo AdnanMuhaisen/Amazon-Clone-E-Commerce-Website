@@ -1,6 +1,7 @@
 ﻿using amazon_clone.Application.Interfaces;
 using amazon_clone.Domain.Models;
 using amazon_clone.Domain.Users.CurrentUsers;
+using amazon_clone.Infrastructure.Data_Access.Repositories;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
 
 namespace amazon_clone.Application.Managers
@@ -8,13 +9,16 @@ namespace amazon_clone.Application.Managers
     public class CustomerManager : ICustomerManager
     {
         private readonly IAdministratorOperationService administratorOperationService;
+        private readonly IDashboardUnitOfWork dashboardUnitOfWork;
 
-        public IUnitOfWork UnitOfWork { get; }
+        public IAppUnitOfWork UnitOfWork { get; }
 
-        public CustomerManager(IUnitOfWork unitOfWork, IAdministratorOperationService administratorOperationService)
+
+        public CustomerManager(IAppUnitOfWork unitOfWork, IAdministratorOperationService administratorOperationService,IDashboardUnitOfWork dashboardUnitOfWork)
         {
             UnitOfWork = unitOfWork;
             this.administratorOperationService = administratorOperationService;
+            this.dashboardUnitOfWork = dashboardUnitOfWork;
         }
 
         public IEnumerable<CustomerApplicationUser> GetAllCustomers()
@@ -43,12 +47,13 @@ namespace amazon_clone.Application.Managers
             UnitOfWork.UsersRepository.Remove(targetCustomerToDelete);
 
             administratorOperationService.AddNewAdministratorOperation(
-                UnitOfWork,
+                dashboardUnitOfWork,
                 CurrentAdministrator.UserID!,
                 DateTime.Now,
                 $"Delete the customer : Customer Name : {targetCustomerToDelete.UserName}");
 
             UnitOfWork.Save();
+            dashboardUnitOfWork.Save();
         }
 
     }

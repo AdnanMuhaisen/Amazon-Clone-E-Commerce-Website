@@ -1,5 +1,4 @@
 ﻿using amazon_clone.Application.Interfaces;
-using amazon_clone.Presentation.CustomerApp.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
 

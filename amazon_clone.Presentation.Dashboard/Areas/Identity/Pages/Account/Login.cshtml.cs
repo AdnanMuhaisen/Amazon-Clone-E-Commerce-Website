@@ -4,6 +4,7 @@
 
 using amazon_clone.Domain.Models;
 using amazon_clone.Domain.Users.CurrentUsers;
+using amazon_clone.Infrastructure.Data_Access.Repositories;
 using amazon_clone.Infrastructure.DataAccess.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -17,13 +18,13 @@ namespace amazon_clone.Dashboard.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<Administrator> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IDashboardUnitOfWork _dashboardUnitOfWork;
 
-        public LoginModel(SignInManager<Administrator> signInManager, ILogger<LoginModel> logger,IUnitOfWork unitOfWork)
+        public LoginModel(SignInManager<Administrator> signInManager, ILogger<LoginModel> logger,IDashboardUnitOfWork dashboardUnitOfWork)
         {
             _signInManager = signInManager;
             _logger = logger;
-            _unitOfWork = unitOfWork;
+            _dashboardUnitOfWork = dashboardUnitOfWork;
         }
 
         /// <summary>
@@ -112,7 +113,7 @@ namespace amazon_clone.Dashboard.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    var currentAdmin = _unitOfWork
+                    var currentAdmin = _dashboardUnitOfWork
                         .AdministratorRepository
                         .GetAsNoTracking(filter: x => x.Email == Input.Email);
 

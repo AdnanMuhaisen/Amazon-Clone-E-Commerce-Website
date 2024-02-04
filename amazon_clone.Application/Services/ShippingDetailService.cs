@@ -7,9 +7,9 @@ namespace amazon_clone.Application.Services
 {
     public class ShippingDetailService : IShippingDetailService
     {
-        public IUnitOfWork _unitOfWork { get; }
+        public IAppUnitOfWork _unitOfWork { get; }
 
-        public ShippingDetailService(IUnitOfWork unitOfWork)
+        public ShippingDetailService(IAppUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

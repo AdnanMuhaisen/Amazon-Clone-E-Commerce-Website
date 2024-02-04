@@ -6,7 +6,7 @@ namespace amazon_clone.Application.Interfaces
 {
     public interface IPromoCodeService : IScopedService
     {
-        IUnitOfWork _unitOfWork { get; }
+        IAppUnitOfWork _unitOfWork { get; }
         IShoppingCartCostsManager ShoppingCartCostsManager { get; }
 
         void ApplyPromoCodeOnAShoppingCart(ShoppingCart shoppingCart);
