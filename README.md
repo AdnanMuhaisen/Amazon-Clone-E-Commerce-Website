@@ -35,4 +35,4 @@ Entity Framework Core ORM: Simplifying database interactions and enhancing data 
 Stripe (for .NET): Seamless integration for secure and efficient payment processing.
 IIS (Web Server): Deployed on IIS for a reliable and performant web hosting solution.
 HTML, CSS, JS, Bootstrap, jQuery: Creating a visually stunning and responsive front-end with the latest web technologies.
-Git & GitHub: Collaborative version control to manage and track changes efficiently.![image](https://github.com/AdnanMuhaisen/amazon_clone/assets/124369987/20a0a3b4-3f90-4662-b926-a48268b4b82d)
+Git & GitHub: Collaborative version control to manage and track changes efficiently.
